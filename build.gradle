@@ -1,0 +1,22 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+group = 'fr.aresrpg'
+version = System.getenv("BUILD_NUMBER") == null ? '0.5' : System.getenv("BUILD_NUMBER");
+
+compileJava.options.encoding = 'UTF-8'
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {}
+
+task shaded(type: Jar) {
+    classifier = 'shaded'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
