@@ -24,6 +24,7 @@ targetCompatibility = 1.8
 
 TimeUnit randomizeDictionaryUnit = TimeUnit.DAYS;
 long randomizeDictionaryValue = 7;
+long randomizeRandomNumber = 5658914;
 
 sourceSets {
     jmh
@@ -82,7 +83,7 @@ task randomizeDictionary(){
     File inf = new File("proguard.dictionary");
     onlyIf{!out.exists()}
     doLast {
-        Random rdm = new Random(((long)(System.currentTimeMillis()/randomizeDictionaryUnit.toMillis(randomizeDictionaryValue)))*485214720/*time/unit*stupid number*/);
+        Random rdm = new Random(((long)(System.currentTimeMillis()/randomizeDictionaryUnit.toMillis(randomizeDictionaryValue)))*randomizeRandomNumber/*time/unit*stupid number*/);
         File file = new File("proguard.dictionary");
         List<String> lines = file.readLines();
         def linesMap = [:]
