@@ -1,105 +1,101 @@
 package fr.aresrpg.commons.condition;
 
-import fr.aresrpg.commons.condition.functional.TryCallable;
-import fr.aresrpg.commons.condition.functional.TryRunnable;
-
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public interface Try<T> extends RawOption<T , Try<T>> {
+import fr.aresrpg.commons.condition.functional.TryCallable;
+import fr.aresrpg.commons.condition.functional.TryRunnable;
 
-    static Try<Object> test(TryRunnable runnable){
-        try {
-            runnable.run();
-            return new Ok<>(null);
-        }catch (Throwable t){
-            return new Error(t);
-        }
-    }
+public interface Try<T> extends RawOption<T, Try<T>> {
 
-    @SuppressWarnings("unchecked")
-    static <T> Try<T> test(TryCallable<T> callable){
-        try {
-            return new Ok<>(callable.call());
-        }catch (Throwable t){
-            return (Try<T>) new Error(t);
-        }
-    }
+	static Try<Object> test(TryRunnable runnable) {
+		try {
+			runnable.run();
+			return new Ok<>(null);
+		} catch (Throwable t) {
+			return new Error(t);
+		}
+	}
 
-    static <T> Try<T> of(T value){
-        return new Ok<>(value);
-    }
+	@SuppressWarnings("unchecked")
+	static <T> Try<T> test(TryCallable<T> callable) {
+		try {
+			return new Ok<>(callable.call());
+		} catch (Throwable t) {
+			return (Try<T>) new Error(t);
+		}
+	}
 
-    @SuppressWarnings("unchecked")
-    static <T> Try<T> of(Throwable value){
-        return (Try<T>) new Error(value);
-    }
+	static <T> Try<T> of(T value) {
+		return new Ok<>(value);
+	}
 
-    @Override
-    default <R> Try<R> transform(Function<T, R> function){
-        if(!isEmpty())
-            return of(function.apply(get()));
-        else
-            return of(getError());
-    }
+	@SuppressWarnings("unchecked")
+	static <T> Try<T> of(Throwable value) {
+		return (Try<T>) new Error(value);
+	}
 
-    <E extends Throwable> Try<T> catchEx(Class<E> clazz , Consumer<E> consumer);
+	@Override
+	default <R> Try<R> transform(Function<T, R> function) {
+		if (!isEmpty()) return of(function.apply(get()));
+		else return of(getError());
+	}
 
-    default Try<T> catchEx(Consumer<Throwable> consumer){
-        return catchEx(Throwable.class , consumer);
-    }
+	<E extends Throwable> Try<T> catchEx(Class<E> clazz, Consumer<E> consumer);
 
-    T getRaw() throws Throwable;
+	default Try<T> catchEx(Consumer<Throwable> consumer) {
+		return catchEx(Throwable.class, consumer);
+	}
 
-    Throwable getError();
+	T getRaw() throws Throwable;
 
+	Throwable getError();
 
-    class Ok<T> extends Some<T , Try<T>> implements Try<T>{
+	class Ok<T> extends Some<T, Try<T>> implements Try<T> {
 
-        public Ok(T value) {
-            super(value);
-        }
+		public Ok(T value) {
+			super(value);
+		}
 
-        @Override
-        public <E extends Throwable> Try<T> catchEx(Class<E> clazz, Consumer<E> consumer) {
-            return this;
-        }
+		@Override
+		public <E extends Throwable> Try<T> catchEx(Class<E> clazz, Consumer<E> consumer) {
+			return this;
+		}
 
-        @Override
-        public T getRaw() throws Throwable {
-            return get();
-        }
+		@Override
+		public T getRaw() throws Throwable {
+			return get();
+		}
 
-        @Override
-        public Throwable getError() {
-            return null;
-        }
-    }
+		@Override
+		public Throwable getError() {
+			return null;
+		}
+	}
 
-    class Error extends None<Try<Object>> implements Try<Object>{
-        private final Throwable value;
+	class Error extends None<Try<Object>> implements Try<Object> {
+		private final Throwable value;
 
-        public Error(Throwable value) {
-            this.value = value;
-        }
+		public Error(Throwable value) {
+			this.value = value;
+		}
 
-        @SuppressWarnings("unchecked")
-        @Override
-        public <E extends Throwable> Try<Object> catchEx(Class<E> clazz, Consumer<E> consumer) {
-            if(clazz.isInstance(value))
-                consumer.accept((E) value);
-            return this;
-        }
+		@SuppressWarnings("unchecked")
+		@Override
+		public <E extends Throwable> Try<Object> catchEx(Class<E> clazz, Consumer<E> consumer) {
+			if (clazz.isInstance(value)) consumer.accept((E) value);
+			return this;
+		}
 
-        @Override
-        public Object getRaw() throws Throwable {
-            throw value;
-        }
+		@Override
+		public Object getRaw() throws Throwable {
+			throw value;
+		}
 
-        @Override
-        public Throwable getError() {
-            return value;
-        }
-    }
+		@Override
+		public Throwable getError() {
+			return value;
+		}
+	}
 
 }
