@@ -1,0 +1,75 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+group = 'fr.aresrpg'
+version = System.getenv("BUILD_NUMBER") == null ? '0.5' : System.getenv("BUILD_NUMBER");
+
+compileJava.options.encoding = 'UTF-8'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+sourceSets {
+    jmh
+    shared //Shared between test and jmh
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+
+    testCompile sourceSets.shared.output
+    testCompile 'junit:junit:4.12'
+
+    jmhCompile sourceSets.main.output
+    jmhCompile sourceSets.shared.output
+    jmhCompile 'org.openjdk.jmh:jmh-core:1.12'
+    jmhCompile 'org.openjdk.jmh:jmh-generator-annprocess:1.12'
+}
+
+task jmh(type:JavaExec) {
+    description 'Execute jmh on this project'
+    main 'org.openjdk.jmh.Main'
+    classpath = sourceSets.jmh.runtimeClasspath
+}
+
+task jmhJar(type: Jar) {
+    classifier = "jmh"
+
+    manifest {
+        attributes 'Implementation-Title': 'JMH FastReflection Benchmark',
+                'Implementation-Version': version,
+                'Main-Class': 'org.openjdk.jmh.Main'
+    }
+
+    from configurations.jmhCompile.collect {
+        it.mkdirs();
+        it.isDirectory() ?
+                it :
+                zipTree(it)
+    }
+
+    from sourceSets.jmh.output
+}
+
+task shaded(type: Jar) {
+    classifier = 'shaded'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+idea {
+    module {
+        scopes.PROVIDED.plus  += [configurations.jmhCompile , configurations.sharedCompile]
+    }
+}
+
+eclipse {
+    classpath {
+        plusConfigurations += [configurations.jmhCompile , configurations.sharedCompile]
+    }
+}
