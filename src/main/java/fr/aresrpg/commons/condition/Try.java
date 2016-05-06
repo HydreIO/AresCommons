@@ -1,7 +1,7 @@
 package fr.aresrpg.commons.condition;
 
-import fr.aresrpg.commons.condition.lambda.TryCallable;
-import fr.aresrpg.commons.condition.lambda.TryRunnable;
+import fr.aresrpg.commons.condition.functional.TryCallable;
+import fr.aresrpg.commons.condition.functional.TryRunnable;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -101,4 +101,5 @@ public interface Try<T> extends RawOption<T , Try<T>> {
             return value;
         }
     }
+
 }

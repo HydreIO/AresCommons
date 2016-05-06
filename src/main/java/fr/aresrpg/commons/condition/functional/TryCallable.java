@@ -1,4 +1,4 @@
-package fr.aresrpg.commons.condition.lambda;
+package fr.aresrpg.commons.condition.functional;
 
 @FunctionalInterface
 public interface TryCallable<T> {
