@@ -1,8 +1,8 @@
 package fr.aresrpg.commons;
 
+import fr.aresrpg.commons.condition.functional.consumer.PentaConsumer;
 import fr.aresrpg.commons.condition.functional.consumer.TetraConsumer;
 import fr.aresrpg.commons.condition.functional.consumer.TriConsumer;
-import fr.aresrpg.commons.util.function.Function;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -22,7 +22,7 @@ public class Consumers {
         return d -> f.accept(a, b, c, d);
     }
 
-    public static <A, B, C, D, E> Consumer<E> from(Function.PentaConsumer<A, B, C, D, E> f, A a, B b, C c, D d) {
+    public static <A, B, C, D, E> Consumer<E> from(PentaConsumer<A, B, C, D, E> f, A a, B b, C c, D d) {
         return e -> f.accept(a, b, c, d, e);
     }
 }

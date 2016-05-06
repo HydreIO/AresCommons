@@ -1,3 +1,6 @@
+proguard.map
+proguard.dictionary.random
+
 # Created by .ignore support plugin (hsz.mobi)
 ### Maven template
 target/
