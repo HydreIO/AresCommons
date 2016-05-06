@@ -10,6 +10,7 @@ buildscript {
         classpath 'net.sf.proguard:proguard-gradle:5.2.1'
     }
 }
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
@@ -84,18 +85,12 @@ task randomizeDictionary(){
     onlyIf{!out.exists()}
     doLast {
         Random rdm = new Random(((long)(System.currentTimeMillis()/randomizeDictionaryUnit.toMillis(randomizeDictionaryValue)))*randomizeRandomNumber/*time/unit*stupid number*/);
-        File file = new File("proguard.dictionary");
-        List<String> lines = file.readLines();
+        List<String> lines = inf.readLines();
         def linesMap = [:]
         lines.each { line ->
             linesMap.put(line , rdm.nextInt(Integer.MAX_VALUE))
         };
-        lines.sort(new Comparator<String>() {
-            @Override
-            int compare(String s1, String s2) {
-                return Integer.compare(linesMap[s1],linesMap[s2])
-            }
-        });
+        lines.sort{a,b -> linesMap[a] <=> linesMap[b]}
         if(out.exists())
             out.setText("");
         else
@@ -105,11 +100,11 @@ task randomizeDictionary(){
     }
 }
 
-task obfuscate(type: ProGuardTask , dependsOn:[jar,randomizeDictionary]){
+task obfuscate(type: ProGuardTask , dependsOn:[jar, randomizeDictionary]){
     configuration 'proguard.conf'
 
     injars jar.archivePath.getPath()
-    outjars jar.destinationDir.getPath() + "/" + jar.baseName + "-obfuscate.jar"
+    outjars (jar.destinationDir.getPath() + "/" + jar.baseName + "-" + jar.version + "-obfuscate.jar")
 }
 
 idea {
