@@ -12,7 +12,8 @@ public class Iterators {
         return (Iterator<T>) EMPTY_ITERATOR;
     }
 
-    public static <T> Iterator<T> of(T ... values){
+	@SafeVarargs
+	public static <T> Iterator<T> of(T ... values){
         return new ArrayIterator<>(values);
     }
 

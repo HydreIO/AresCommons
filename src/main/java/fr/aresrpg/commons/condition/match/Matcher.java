@@ -1,57 +1,57 @@
 package fr.aresrpg.commons.condition.match;
 
-import fr.aresrpg.commons.Predicates;
-
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class Matcher<T ,R> {
-    private Case<T , R>[] cases;
+import fr.aresrpg.commons.Predicates;
 
-    private Matcher(Case<T , R>[] cases) {
-        this.cases = cases;
-    }
+public class Matcher<T, R> {
+	private Case<T, R>[] cases;
 
-    public R match(T value){
-        return match(value , cases);
-    }
+	private Matcher(Case<T, R>[] cases) {
+		this.cases = cases;
+	}
 
-    public static <T , R> Matcher<T , R> matcher(Case<T , R> ... cases){
-        return new Matcher<>(cases);
-    }
+	public R match(T value) {
+		return match(value, cases);
+	}
 
-    public static <T , R> R match(T value ,Case<T , R> ... cases){
-        for(Case<T , R> c : cases){
-            if(c.tester.test(value))
-                return c.function.apply(value);
-        }
-        throw new IllegalStateException("No def case");
-    }
+	@SafeVarargs
+	public static <T, R> Matcher<T, R> matcher(Case<T, R>... cases) {
+		return new Matcher<>(cases);
+	}
 
-    public static <T , R> Case<T , R> when(Predicate<T> tester, Function<T, R> function){
-        return new Case<>(tester , function);
-    }
+	@SafeVarargs
+	public static <T, R> R match(T value, Case<T, R>... cases) {
+		for (Case<T, R> c : cases) {
+			if (c.tester.test(value)) return c.function.apply(value);
+		}
+		throw new IllegalStateException("No def case");
+	}
 
-    public static <T , R> Case<T , R> when(Predicate<T> tester, R result){
-        return new Case<>(tester , t -> result);
-    }
+	public static <T, R> Case<T, R> when(Predicate<T> tester, Function<T, R> function) {
+		return new Case<T, R>(tester, function);
+	}
 
-    public static <T , R> Case<T , R> def(Function<T, R> function){
-        return when(Predicates.alwaysTrue(), function);
-    }
+	public static <T, R> Case<T, R> when(Predicate<T> tester, R result) {
+		return new Case<T, R>(tester, t -> result);
+	}
 
-    public static <T , R> Case<T , R> def(R result){
-        return when(Predicates.alwaysTrue(), result);
-    }
+	public static <T, R> Case<T, R> def(Function<T, R> function) {
+		return when(Predicates.<T> alwaysTrue(), function);
+	}
 
+	public static <T, R> Case<T, R> def(R result) {
+		return when(Predicates.alwaysTrue(), result);
+	}
 
-    public static class Case<T , R>{
-        private Predicate<T> tester;
-        private Function<T , R> function;
+	public static class Case<T, R> {
+		private Predicate<T> tester;
+		private Function<T, R> function;
 
-        Case(Predicate<T> tester, Function<T, R> function) {
-            this.tester = tester;
-            this.function = function;
-        }
-    }
+		Case(Predicate<T> tester, Function<T, R> function) {
+			this.tester = tester;
+			this.function = function;
+		}
+	}
 }
