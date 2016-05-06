@@ -2,8 +2,6 @@ package fr.aresrpg.commons.util.concurrent;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import fr.aresrpg.commons.lang.Joiner;
-
 @FunctionalInterface
 public interface ThreadFactory {
 
@@ -14,11 +12,11 @@ public interface ThreadFactory {
 			final AtomicInteger count = new AtomicInteger(0);
 
 			@Override
-			public java.lang.Thread newThread(Runnable r) {
+			public Thread newThread(Runnable r) {
 				String name = named();
 				int var = count.incrementAndGet();
-				if (!name.contains("$d")) name = Joiner.of(name).append(" $d");
-				java.lang.Thread thread = new java.lang.Thread(r, name.replace("$d", String.valueOf(var)));
+				if (!name.contains("$d")) name += " $d";
+				Thread thread = new Thread(r, name.replace("$d", String.valueOf(var)));
 				if (daemon) thread.setDaemon(true);
 				return thread;
 			}

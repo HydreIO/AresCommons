@@ -4,11 +4,11 @@ import java.util.concurrent.TimeUnit;
 
 import fr.aresrpg.commons.log.Log;
 
-public interface Thread {
+public final class Threads {
 
 	public static void sleep(int i, TimeUnit unit) {
 		try {
-			java.lang.Thread.sleep(unit.toMillis(i));
+			Thread.sleep(unit.toMillis(i));
 		} catch (InterruptedException e) {
 			Log.trace(e);
 		}
