@@ -1,4 +1,4 @@
-package fr.aresrpg.commons.condition.functional;
+package fr.aresrpg.commons.util.function;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;

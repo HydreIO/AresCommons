@@ -21,6 +21,7 @@ public class Matcher<T, R> {
 		return new Matcher<>(cases);
 	}
 
+	@SafeVarargs
 	public static <T, R> R match(T value, Case<T, R>... cases) {
 		for (Case<T, R> c : cases) {
 			if (c.tester.test(value)) return c.function.apply(value);
