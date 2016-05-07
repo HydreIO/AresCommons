@@ -125,6 +125,11 @@ task obfuscate(type: ProGuardTask , dependsOn:[jar, randomizeDictionary]){
     outjars obfuscationOut
 }
 
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
 publish.dependsOn obfuscate
 
 publishing {
@@ -173,6 +178,7 @@ publishing {
 
         lib(MavenPublication) {
             artifact jar
+            artifact javadocJar
             ext.repo = "libraries"
         }
 
