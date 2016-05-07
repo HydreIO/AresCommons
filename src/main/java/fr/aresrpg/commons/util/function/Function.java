@@ -136,7 +136,11 @@ public interface Function<λ> {
 	 * @return
 	 */
 	public static <λ> Function<λ> ofVoid(Runnable r) {
-		r.run();
+		return ofVoid(r, true);
+	}
+
+	public static <λ> Function<λ> ofVoid(Runnable r, boolean condition) {
+		if (condition) r.run();
 		return empty();
 	}
 
