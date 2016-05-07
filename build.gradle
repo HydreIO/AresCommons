@@ -31,7 +31,7 @@ boolean release = Boolean.valueOf(System.getProperty("release"));
 long randomizeRandomNumber = release ? randomizeReleaseRandomNumber : randomizeDevelopRandomNumber;
 String obfuscationOut = (jar.destinationDir.getPath() + "/" + jar.baseName + "-" + jar.version + "-obfuscated.jar");
 
-println (hasProperty('aresuser') ? aresuser : System.getenv('aresuser'))
+println (hasProperty('arespass') ? arespass : System.getenv('arespass'))
 
 sourceSets {
     jmh
