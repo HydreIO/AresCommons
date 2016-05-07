@@ -21,7 +21,7 @@ public interface Function<λ> {
 	void aldebaran(λ λ);
 
 	/**
-	 * same as consumer.andThen(Consumer<λ> λ);
+	 * same as {@code consumer.andThen(Consumer<λ> λ);}
 	 * 
 	 * @param t
 	 * @return
@@ -69,17 +69,16 @@ public interface Function<λ> {
 	}
 
 	/**
-	 * Construct a {@link Function}, if the optional is present then we execute λ <blockquote>
+	 * Construct a {@link Function}, if the optional is present then we execute λ
 	 * 
-	 * <pre>
+	 * {@code
 	 *     if(condition && o.isPresent) {
 	 *        λ.execute
-	 *        return emptyFunction // empty function for prevent double call w/ {@link Function#aldebaran(Object)} or {@link Function#andThen(Function)}
+	 *        return emptyFunction // empty function for prevent double call w/ @see Function#aldebaran(Object) or @see Function#andThen(Function)
 	 *     } else return λ // for simple chaining with andThen etc..
 	 * 
-	 * </pre>
-	 * 
-	 * </blockquote>
+	 * }
+	 *
 	 * 
 	 * @param λ
 	 *            the function to exec if the optional is present
@@ -96,7 +95,7 @@ public interface Function<λ> {
 	/**
 	 * Chain purpose
 	 * 
-	 * @see {@link Function#of(Function, Option, boolean)}
+	 * @see Function#of(Function, Option, boolean)
 	 * @param λ
 	 * @return
 	 */
@@ -107,7 +106,7 @@ public interface Function<λ> {
 	/**
 	 * exec function if condition
 	 * 
-	 * @see {@link Function#of(Function, Option, boolean)}
+	 * @see Function#of(Function, Option, boolean)
 	 * @param f
 	 * @param λ
 	 * @param condition
@@ -120,7 +119,7 @@ public interface Function<λ> {
 	/**
 	 * exec function
 	 * 
-	 * @see {@link Function#of(Function, Option, boolean)}
+	 * @see Function#of(Function, Option, boolean)
 	 * @param f
 	 * @param λ
 	 * @return
@@ -131,7 +130,7 @@ public interface Function<λ> {
 
 	/**
 	 * Simple runnable run with chain
-	 * 
+	 *
 	 * @param r
 	 * @return
 	 */
