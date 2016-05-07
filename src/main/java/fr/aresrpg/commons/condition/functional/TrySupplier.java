@@ -1,6 +1,6 @@
 package fr.aresrpg.commons.condition.functional;
 
 @FunctionalInterface
-public interface TryCallable<T> {
+public interface TrySupplier<T> {
     T call() throws Throwable;
 }

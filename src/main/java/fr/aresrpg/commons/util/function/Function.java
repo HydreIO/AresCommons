@@ -1,6 +1,5 @@
 package fr.aresrpg.commons.util.function;
 
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import fr.aresrpg.commons.condition.Option;
@@ -137,71 +136,12 @@ public interface Function<λ> {
 	 * @return
 	 */
 	public static <λ> Function<λ> ofVoid(Runnable r) {
-		r.run();
+		return ofVoid(r, true);
+	}
+
+	public static <λ> Function<λ> ofVoid(Runnable r, boolean condition) {
+		if (condition) r.run();
 		return empty();
-	}
-
-	/**
-	 * Compact a BiConsumer into a consumer!
-	 * 
-	 * @param f
-	 * @param a
-	 * @return
-	 */
-	public static <A, B> Consumer<B> with(BiConsumer<A, B> f, A a) { // Carrefull ! the returned consumer must be the type of the last args (for logical purpose)
-		return (b) -> f.accept(a, b);
-	}
-
-	public static <A, B, C> Consumer<C> with(TriConsumer<A, B, C> f, A a, B b) {
-		return (c) -> f.accept(a, b, c);
-	}
-
-	public static <A, B, C, D> Consumer<D> with(TetraConsumer<A, B, C, D> f, A a, B b, C c) {
-		return (d) -> f.accept(a, b, c, d);
-	}
-
-	public static <A, B, C, D, E> Consumer<E> with(PentaConsumer<A, B, C, D, E> f, A a, B b, C c, D d) {
-		return (e) -> f.accept(a, b, c, d, e);
-	}
-
-	@FunctionalInterface
-	interface TriConsumer<A, B, C> {
-		void accept(A a, B b, C c);
-	}
-
-	@FunctionalInterface
-	interface TetraConsumer<A, B, C, D> {
-		void accept(A a, B b, C c, D d);
-	}
-
-	@FunctionalInterface
-	interface PentaConsumer<A, B, C, D, E> {
-		void accept(A a, B b, C c, D d, E e);
-	}
-
-	@FunctionalInterface
-	interface HexaConsumer<A, B, C, D, E, F> {
-		void accept(A a, B b, C c, D d, E e, F f);
-	}
-
-	@FunctionalInterface
-	interface HeptaConsumer<A, B, C, D, E, F, G> {
-		void accept(A a, B b, C c, D d, E e, F f, G g);
-	}
-
-	@FunctionalInterface
-	interface OctaConsumer<A, B, C, D, E, F, G, H> {
-		void accept(A a, B b, C c, D d, E e, F f, G g, H h);
-	}
-
-	@FunctionalInterface
-	interface EnneaConsumer<A, B, C, D, E, F, G, H, I> {
-		void accept(A a, B b, C c, D d, E e, F f, G g, H h, I i);
-	}
-
-	@FunctionalInterface
-	interface DecaConsumer<A, B, C, D, E, F, G, H, I, J> {
-		void accept(A a, B b, C c, D d, E e, F f, G g, H h, I i, J j);
 	}
 
 }
