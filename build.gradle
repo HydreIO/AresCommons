@@ -132,9 +132,9 @@ publishing {
         maven {
             name 'main'
             if(release)
-                url 'https://artifactory.aresrpg.fr/release';
+                url 'http://artifactory.aresrpg.fr/release';
             else
-                url 'https://artifactory.aresrpg.fr/develop';
+                url 'http://artifactory.aresrpg.fr/develop';
             credentials {
                 username project.hasProperty('aresuser') ? aresuser : System.getenv('aresuser')
                 password project.hasProperty('arespass') ? arespass : System.getenv('arespass')
@@ -144,9 +144,9 @@ publishing {
         maven {
             name 'mapping'
             if(release)
-                url 'https://artifactory.aresrpg.fr/mappings';
+                url 'http://artifactory.aresrpg.fr/mappings';
             else
-                url 'https://artifactory.aresrpg.fr/developmappings';
+                url 'http://artifactory.aresrpg.fr/developmappings';
 
             credentials {
                 username project.hasProperty('aresuser') ? aresuser : System.getenv('aresuser')
@@ -155,7 +155,7 @@ publishing {
         }
         maven {
             name 'libraries'
-            url 'https://artifactory.aresrpg.fr/libraries'
+            url 'http://artifactory.aresrpg.fr/libraries'
 
             credentials {
                 username project.hasProperty('aresuser') ? aresuser : System.getenv('aresuser')
