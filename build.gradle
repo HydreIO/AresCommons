@@ -1,3 +1,16 @@
+import proguard.gradle.ProGuardTask
+
+import java.util.concurrent.TimeUnit
+
+buildscript {
+    repositories(){
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'net.sf.proguard:proguard-gradle:5.2.1'
+    }
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
@@ -9,6 +22,10 @@ compileJava.options.encoding = 'UTF-8'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
+TimeUnit randomizeDictionaryUnit = TimeUnit.DAYS;
+long randomizeDictionaryValue = 7;
+long randomizeRandomNumber = 5658914;
 
 sourceSets {
     jmh
@@ -60,6 +77,34 @@ task shaded(type: Jar) {
     classifier = 'shaded'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
+}
+
+task randomizeDictionary(){
+    File out = new File("proguard.dictionary.random");
+    File inf = new File("proguard.dictionary");
+    onlyIf{!out.exists()}
+    doLast {
+        Random rdm = new Random(((long)(System.currentTimeMillis()/randomizeDictionaryUnit.toMillis(randomizeDictionaryValue)))*randomizeRandomNumber/*time/unit*stupid number*/);
+        List<String> lines = inf.readLines();
+        def linesMap = [:]
+        lines.each { line ->
+            linesMap.put(line , rdm.nextInt(Integer.MAX_VALUE))
+        };
+        lines.sort{a,b -> linesMap[a] <=> linesMap[b]}
+        if(out.exists())
+            out.setText("");
+        else
+            out.createNewFile();
+        for(String line : lines)
+            out.append(line + '\n');
+    }
+}
+
+task obfuscate(type: ProGuardTask , dependsOn:[jar, randomizeDictionary]){
+    configuration 'proguard.conf'
+
+    injars jar.archivePath.getPath()
+    outjars (jar.destinationDir.getPath() + "/" + jar.baseName + "-" + jar.version + "-obfuscate.jar")
 }
 
 idea {
