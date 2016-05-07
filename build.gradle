@@ -7,7 +7,6 @@ buildscript {
     }
     dependencies {
         classpath 'net.sf.proguard:proguard-gradle:5.2.1'
-        classpath 'org.apache.maven.wagon:wagon-http:2.2'
     }
 }
 
@@ -133,47 +132,34 @@ publishing {
         maven {
             name 'main'
             if(release)
-                url 'http://artifactory.aresrpg.fr/release'
+                url 'https://artifactory.aresrpg.fr/release';
             else
-                url 'http://artifactory.aresrpg.fr/develop'
+                url 'https://artifactory.aresrpg.fr/develop';
             credentials {
-                username hasProperty('aresuser') ? aresuser : System.getenv('aresuser')
-                password hasProperty('arespass') ? arespass : System.getenv('arespass')
+                username project.hasProperty('aresuser') ? aresuser : System.getenv('aresuser')
+                password project.hasProperty('arespass') ? arespass : System.getenv('arespass')
             }
         }
 
         maven {
             name 'mapping'
             if(release)
-                url 'http://artifactory.aresrpg.fr/mappings'
+                url 'https://artifactory.aresrpg.fr/mappings';
             else
-                url 'http://artifactory.aresrpg.fr/developmappings'
+                url 'https://artifactory.aresrpg.fr/developmappings';
 
             credentials {
-                username hasProperty('aresuser') ? aresuser : System.getenv('aresuser')
-                password hasProperty('arespass') ? arespass : System.getenv('arespass')
-            }
-        }
-        maven {
-            name 'mapping'
-            if(release)
-                url 'http://artifactory.aresrpg.fr/mappings'
-            else
-                url 'http://artifactory.aresrpg.fr/developmappings'
-
-            credentials {
-                username hasProperty('aresuser') ? aresuser : System.getenv('aresuser')
-                password hasProperty('arespass') ? arespass : System.getenv('arespass')
+                username project.hasProperty('aresuser') ? aresuser : System.getenv('aresuser')
+                password project.hasProperty('arespass') ? arespass : System.getenv('arespass')
             }
         }
         maven {
             name 'libraries'
-
-            url 'http://artifactory.aresrpg.fr/libraries'
+            url 'https://artifactory.aresrpg.fr/libraries'
 
             credentials {
-                username hasProperty('aresuser') ? aresuser : System.getenv('aresuser')
-                password hasProperty('arespass') ? arespass : System.getenv('arespass')
+                username project.hasProperty('aresuser') ? aresuser : System.getenv('aresuser')
+                password project.hasProperty('arespass') ? arespass : System.getenv('arespass')
             }
         }
 
@@ -185,7 +171,7 @@ publishing {
             ext.repo = 'main'
         }
 
-        api(MavenPublication) {
+        lib(MavenPublication) {
             artifact jar
             ext.repo = "libraries"
         }
