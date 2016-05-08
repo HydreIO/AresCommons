@@ -5,10 +5,11 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.ANNOTATION_TYPE)
 public @interface LangAnnotation {
-    String EMPTY = "";
+	String EMPTY = "";
 
+	String language();
 
-    String language();
-    String country() default EMPTY;
-    String variant() default EMPTY;
+	String country() default EMPTY;
+
+	String variant() default EMPTY;
 }

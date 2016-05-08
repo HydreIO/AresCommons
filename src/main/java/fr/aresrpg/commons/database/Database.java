@@ -1,26 +1,41 @@
 package fr.aresrpg.commons.database;
 
-import fr.aresrpg.commons.Iterators;
-import fr.aresrpg.commons.Value;
-
 import java.io.Closeable;
 import java.util.Iterator;
 
-public interface Database extends Closeable , Value<Collection> {
+import fr.aresrpg.commons.Iterators;
+import fr.aresrpg.commons.Value;
+import fr.aresrpg.commons.database.user.Credential;
 
-    void connect(String host , int port , String user , String password);
+@SuppressWarnings("rawtypes")
+public interface Database extends Closeable, Value<Collection> {
 
-    void drop(Collection<?> collection);
+	/**
+	 * Connect to db
+	 * 
+	 * @param host
+	 * @param port
+	 * @param user
+	 * @param password
+	 * 
+	 * @deprecated use {@link Database#connect(Credential)} instead
+	 */
+	@Deprecated
+	void connect(String host, int port, String user, String password);
 
-    <T> Collection<T> create(String id , Class<T> clazz);
+	void connect(Credential cred);
 
-    Collection[] getCollections();
+	void drop(Collection<?> collection);
 
-    <T> Collection<T> get(String id);
+	<T> Collection<T> create(String id, Class<T> clazz);
 
-    @Override
-    default Iterator<Collection> iterator(){
-        return Iterators.of(getCollections());
-    }
+	<T> Collection<T>[] getCollections();
+
+	<T> Collection<T> get(String id);
+
+	@Override
+	default Iterator<Collection> iterator() {
+		return Iterators.of(getCollections());
+	}
 
 }
