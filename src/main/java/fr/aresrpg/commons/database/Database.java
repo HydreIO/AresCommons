@@ -5,11 +5,25 @@ import java.util.Iterator;
 
 import fr.aresrpg.commons.Iterators;
 import fr.aresrpg.commons.Value;
+import fr.aresrpg.commons.database.user.Credential;
 
 @SuppressWarnings("rawtypes")
 public interface Database extends Closeable, Value<Collection> {
 
+	/**
+	 * Connect to db
+	 * 
+	 * @param host
+	 * @param port
+	 * @param user
+	 * @param password
+	 * 
+	 * @deprecated use {@link Database#connect(Credential)} instead
+	 */
+	@Deprecated
 	void connect(String host, int port, String user, String password);
+
+	void connect(Credential cred);
 
 	void drop(Collection<?> collection);
 
