@@ -149,9 +149,9 @@ publishing {
         maven {
             name 'mapping'
             if(release)
-                url 'https://artifactory.aresrpg.fr/mappings';
+                url 'https://artifactory.aresrpg.fr/release-mappings';
             else
-                url 'https://artifactory.aresrpg.fr/developmappings';
+                url 'https://artifactory.aresrpg.fr/develop-mappings';
 
             credentials {
                 username project.hasProperty('aresuser') ? aresuser : System.getenv('aresuser')
