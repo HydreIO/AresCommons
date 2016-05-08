@@ -17,13 +17,13 @@ public interface Database extends Closeable, Value<Collection> {
 	 * @param port
 	 * @param user
 	 * @param password
-	 * 
-	 * @deprecated use {@link Database#connect(Credential)} instead
+	 *
 	 */
-	@Deprecated
 	void connect(String host, int port, String user, String password);
 
-	void connect(Credential cred);
+	default void connect(Credential credential){
+		connect(credential.getHostAdress() , credential.getPort() , credential.getUser() , credential.getPass());
+	}
 
 	void drop(Collection<?> collection);
 
