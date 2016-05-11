@@ -52,6 +52,10 @@ public class Matcher<T, R> {
 		return when(Predicates.alwaysTrue(), result);
 	}
 
+	public static <T, R> Case<T, R> def(Runnable r) {
+		return when(Predicates.alwaysTrue(), () -> r.run());
+	}
+
 	public static class Case<T, R> {
 		private Predicate<T> tester;
 		private Function<T, R> function;
