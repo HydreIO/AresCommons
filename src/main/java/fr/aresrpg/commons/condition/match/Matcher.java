@@ -30,11 +30,18 @@ public class Matcher<T, R> {
 	}
 
 	public static <T, R> Case<T, R> when(Predicate<T> tester, Function<T, R> function) {
-		return new Case<T, R>(tester, function);
+		return new Case<>(tester, function);
 	}
 
 	public static <T, R> Case<T, R> when(Predicate<T> tester, R result) {
-		return new Case<T, R>(tester, t -> result);
+		return new Case<>(tester, t -> result);
+	}
+
+	public static <T, R> Case<T, R> when(Predicate<T> tester, Runnable r) {
+		return new Case<>(tester, t -> {
+			r.run();
+			return null;
+		});
 	}
 
 	public static <T, R> Case<T, R> def(Function<T, R> function) {
