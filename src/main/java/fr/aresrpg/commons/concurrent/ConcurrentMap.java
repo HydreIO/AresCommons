@@ -10,6 +10,24 @@ public interface ConcurrentMap<K, V> extends java.util.concurrent.ConcurrentMap<
 	@Override
 	public boolean remove(Object key, Object value);
 
+	@Deprecated
+	@Override
+	public V get(Object key);
+
+	@Deprecated
+	@Override
+	public default V getOrDefault(Object key, V defaultValue) {
+		return java.util.concurrent.ConcurrentMap.super.getOrDefault(key, defaultValue);
+	}
+
+	default V safeGetOrDefault(K key, V defaultValue) {
+		return getOrDefault(key, defaultValue);
+	}
+
+	default V safeGet(K key) {
+		return get(key);
+	}
+
 	default V safeRemove(K key) {
 		return remove(key);
 	}
