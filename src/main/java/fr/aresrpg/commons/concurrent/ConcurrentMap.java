@@ -1,4 +1,4 @@
-package fr.aresrpg.commons.util.map;
+package fr.aresrpg.commons.concurrent;
 
 public interface ConcurrentMap<K, V> extends java.util.concurrent.ConcurrentMap<K, V> {
 
