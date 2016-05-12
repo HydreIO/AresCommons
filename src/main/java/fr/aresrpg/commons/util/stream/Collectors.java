@@ -9,9 +9,11 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 
+import fr.aresrpg.commons.util.collection.UnmodifiableCollection;
+
 public class Collectors {
 
-	static final Set<Collector.Characteristics> CH_UNORDERED_ID = new fr.aresrpg.commons.util.collection.HashSet.UnmodifiableSet<>(EnumSet.of(Collector.Characteristics.UNORDERED,
+	static final Set<Collector.Characteristics> CH_UNORDERED_ID = new UnmodifiableCollection.UnmodifiableSet<>(EnumSet.of(Collector.Characteristics.UNORDERED,
 			Collector.Characteristics.IDENTITY_FINISH));
 
 	public static <T> Collector<T, ?, fr.aresrpg.commons.util.collection.Set<T>> toSet() {
