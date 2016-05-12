@@ -36,8 +36,14 @@ public class Collectors {
 		};
 	}
 
-	public static <T, K, U> Collector<T, ?, Map<K, U>> toMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends U> valueMapper, BinaryOperator<U> mergeFunction) {
-		return toMap(keyMapper, valueMapper, mergeFunction, HashMap::new);
+	private static <T> BinaryOperator<T> throwingMerger() {
+		return (u, v) -> {
+			throw new IllegalStateException(String.format("Duplicate key %s", u));
+		};
+	}
+
+	public static <T, K, U> Collector<T, ?, Map<K, U>> toMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends U> valueMapper) {
+		return toMap(keyMapper, valueMapper, throwingMerger(), HashMap::new);
 	}
 
 	public static <T, K, U, M extends Map<K, U>> Collector<T, ?, M> toMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends U> valueMapper, BinaryOperator<U> mergeFunction,
