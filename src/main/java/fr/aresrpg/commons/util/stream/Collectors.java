@@ -11,6 +11,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collector;
 
 import fr.aresrpg.commons.util.collection.UnmodifiableCollection;
+import fr.aresrpg.commons.util.map.HashMap;
 import fr.aresrpg.commons.util.map.Map;
 
 public class Collectors {
@@ -33,6 +34,10 @@ public class Collectors {
 				m1.merge(e.getKey(), e.getValue(), mergeFunction);
 			return m1;
 		};
+	}
+
+	public static <T, K, U> Collector<T, ?, Map<K, U>> toMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends U> valueMapper, BinaryOperator<U> mergeFunction) {
+		return toMap(keyMapper, valueMapper, mergeFunction, HashMap::new);
 	}
 
 	public static <T, K, U, M extends Map<K, U>> Collector<T, ?, M> toMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends U> valueMapper, BinaryOperator<U> mergeFunction,
