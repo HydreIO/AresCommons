@@ -11,7 +11,7 @@ public interface ExecutiveConsumer<T> {
 		return none();
 	}
 
-	default <U, A> ExecutiveConsumer<A> then(Consumer<U> other, U u) {
+	default <U, A> ExecutiveConsumer<A> thenCommon(Consumer<U> other, U u) {
 		other.accept(u);
 		return none();
 	}
