@@ -11,6 +11,7 @@ import fr.aresrpg.commons.condition.functional.consumer.PentaConsumer;
 import fr.aresrpg.commons.condition.functional.consumer.TetraConsumer;
 import fr.aresrpg.commons.condition.functional.consumer.TriConsumer;
 
+@SuppressWarnings("unchecked")
 public class Consumers {
 	private Consumers() {
 	}
