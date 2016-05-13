@@ -16,42 +16,42 @@ public class Consumers {
 	private Consumers() {
 	}
 
-	public static <T> ExecutiveConsumer<T> execute(java.util.function.Consumer<T> T, T t, boolean condition) {
+	public static <T> ExecutiveConsumer<T> executeNative(java.util.function.Consumer<T> T, T t, boolean condition) {
 		if (condition) T.accept(t);
 		return ExecutiveConsumer.none();
 	}
 
-	public static <T, R> ExecutiveConsumer<T> execute(java.util.function.Consumer<T> T, T t, Predicate<R> pr, R r) {
+	public static <T, R> ExecutiveConsumer<T> executeNative(java.util.function.Consumer<T> T, T t, Predicate<R> pr, R r) {
 		if (pr.test(r)) T.accept(t);
 		return ExecutiveConsumer.none();
 	}
 
-	public static <T, R> ExecutiveConsumer<T> execute(java.util.function.Consumer<T> T, T t, Predicate<T> p) {
+	public static <T, R> ExecutiveConsumer<T> executeNative(java.util.function.Consumer<T> T, T t, Predicate<T> p) {
 		if (p.test(t)) T.accept(t);
 		return ExecutiveConsumer.none();
 	}
 
-	public static <T> ExecutiveConsumer<T> execute(java.util.function.Consumer<T> e, T t) {
-		return execute(e, t, true);
+	public static <T> ExecutiveConsumer<T> executeNative(java.util.function.Consumer<T> e, T t) {
+		return executeNative(e, t, true);
 	}
 
-	public static <T> ExecutiveConsumer<T> execute(Consumer<T> T, T t, boolean condition) {
+	public static <T> ExecutiveConsumer<T> executeCommon(Consumer<T> T, T t, boolean condition) {
 		if (condition) T.accept(t);
 		return ExecutiveConsumer.none();
 	}
 
-	public static <T, R> ExecutiveConsumer<T> execute(Consumer<T> T, T t, Predicate<R> pr, R r) {
+	public static <T, R> ExecutiveConsumer<T> executeCommon(Consumer<T> T, T t, Predicate<R> pr, R r) {
 		if (pr.test(r)) T.accept(t);
 		return ExecutiveConsumer.none();
 	}
 
-	public static <T, R> ExecutiveConsumer<T> execute(Consumer<T> T, T t, Predicate<T> pr) {
+	public static <T, R> ExecutiveConsumer<T> executeCommon(Consumer<T> T, T t, Predicate<T> pr) {
 		if (pr.test(t)) T.accept(t);
 		return ExecutiveConsumer.none();
 	}
 
-	public static <T> ExecutiveConsumer<T> execute(Consumer<T> e, T t) {
-		return execute(e, t, true);
+	public static <T> ExecutiveConsumer<T> executeCommon(Consumer<T> e, T t) {
+		return executeCommon(e, t, true);
 	}
 
 	public static <T> ExecutiveConsumer<T> execute(ExecutiveConsumer<T> T, T t, boolean condition) {
