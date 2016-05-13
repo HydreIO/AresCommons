@@ -11,6 +11,11 @@ public interface ExecutiveConsumer<T> {
 		return none();
 	}
 
+	default <U, A> ExecutiveConsumer<A> then(Consumer<U> other, U u) {
+		other.accept(u);
+		return none();
+	}
+
 	default <U, A> ExecutiveConsumer<A> thenNative(java.util.function.Consumer<U> other, U u) {
 		other.accept(u);
 		return none();
