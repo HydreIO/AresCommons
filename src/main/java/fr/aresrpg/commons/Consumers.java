@@ -16,6 +16,34 @@ public class Consumers {
 	private Consumers() {
 	}
 
+	public static <T> ExecutiveConsumer<T> execute(java.util.function.Consumer<T> T, T t, boolean condition) {
+		if (condition) T.accept(t);
+		return ExecutiveConsumer.none();
+	}
+
+	public static <T, R> ExecutiveConsumer<T> execute(java.util.function.Consumer<T> T, T t, Predicate<R> pr, R r) {
+		if (pr.test(r)) T.accept(t);
+		return ExecutiveConsumer.none();
+	}
+
+	public static <T> ExecutiveConsumer<T> execute(java.util.function.Consumer<T> e, T t) {
+		return execute(e, t, true);
+	}
+
+	public static <T> ExecutiveConsumer<T> execute(Consumer<T> T, T t, boolean condition) {
+		if (condition) T.accept(t);
+		return ExecutiveConsumer.none();
+	}
+
+	public static <T, R> ExecutiveConsumer<T> execute(Consumer<T> T, T t, Predicate<R> pr, R r) {
+		if (pr.test(r)) T.accept(t);
+		return ExecutiveConsumer.none();
+	}
+
+	public static <T> ExecutiveConsumer<T> execute(Consumer<T> e, T t) {
+		return execute(e, t, true);
+	}
+
 	public static <T> ExecutiveConsumer<T> execute(ExecutiveConsumer<T> T, T t, boolean condition) {
 		if (condition) T.accept(t);
 		return ExecutiveConsumer.none();
