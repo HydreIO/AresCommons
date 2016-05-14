@@ -6,6 +6,7 @@ import java.util.function.Function;
 
 import fr.aresrpg.commons.Iterators;
 import fr.aresrpg.commons.Value;
+import fr.aresrpg.commons.condition.functional.Executable;
 
 public interface RawOption<T, O extends RawOption<T, ?>> extends Value<T> {
 
@@ -16,12 +17,12 @@ public interface RawOption<T, O extends RawOption<T, ?>> extends Value<T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	default O orRun(Runnable runnable) {
-		if (isEmpty()) runnable.run();
+	default O orRun(Executable executable) {
+		if (isEmpty()) executable.execute();
 		return (O) this;
 	}
 
-	<R> RawOption<R, ?> transform(Function<T, R> function);
+	<R> RawOption transform(Function<T, R> function);
 
 	abstract class None<O extends RawOption<Object, ?>> implements RawOption<Object, O> {
 
