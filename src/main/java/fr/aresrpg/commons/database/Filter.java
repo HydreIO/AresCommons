@@ -2,8 +2,6 @@ package fr.aresrpg.commons.database;
 
 public class Filter {
 	public enum Type {
-		FIRST(Filter[].class, false),
-		ANY(Filter[].class, false),
 		AND(Filter[].class, false),
 		OR(Filter[].class, false),
 		NOR(Filter[].class, false),
@@ -60,21 +58,6 @@ public class Filter {
 		return value;
 	}
 
-	/**
-	 * 
-	 * @return return the first element of a collection
-	 */
-	public static Filter first() {
-		return new Filter(null, Type.FIRST, null);
-	}
-
-	/**
-	 * 
-	 * @return a random element of the collection
-	 */
-	public static Filter any() {
-		return new Filter(null, Type.ANY, null);
-	}
 
 	public static Filter and(Filter... filters) {
 		return new Filter(null, Type.AND, filters);

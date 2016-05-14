@@ -1,11 +1,11 @@
 package fr.aresrpg.commons.database;
 
 public interface Collection<T> {
-	T put(T value);
+	void put(T value);
 
-	T update(Filter filter, T value);
+	void update(Filter filter, T value);
 
-	T putOrUpdate(Filter filter, T value);
+	void putOrUpdate(Filter filter, T value);
 
 	T[] find(Filter filter, int max);
 

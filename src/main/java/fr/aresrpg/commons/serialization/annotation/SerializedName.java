@@ -1,4 +1,4 @@
-package fr.aresrpg.commons.database;
+package fr.aresrpg.commons.serialization.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
