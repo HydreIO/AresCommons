@@ -13,6 +13,10 @@ public interface Collection<T> {
 		return find(filter, Integer.MAX_VALUE);
 	}
 
+	default T findFirst(Filter filter) {
+		return find(filter)[0];
+	}
+
 	int remove(Filter filter, int removed);
 
 	default int remove(Filter filter) {
