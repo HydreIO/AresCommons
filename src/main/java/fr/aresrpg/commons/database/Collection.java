@@ -7,6 +7,10 @@ public interface Collection<T> {
 
 	void putOrUpdate(Filter filter, T value);
 
+	void updateAll(Filter filter, T value);
+
+	void putOrUpdateAll(Filter filter, T value);
+
 	T[] find(Filter filter, int max);
 
 	default T[] find(Filter filter) {
