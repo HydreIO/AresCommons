@@ -30,11 +30,18 @@ public class Matcher<T, R> {
 	}
 
 	public static <T, R> Case<T, R> when(Predicate<T> tester, Function<T, R> function) {
-		return new Case<T, R>(tester, function);
+		return new Case<>(tester, function);
 	}
 
 	public static <T, R> Case<T, R> when(Predicate<T> tester, R result) {
-		return new Case<T, R>(tester, t -> result);
+		return new Case<>(tester, t -> result);
+	}
+
+	public static <T, R> Case<T, R> when(Predicate<T> tester, Runnable r) {
+		return new Case<>(tester, t -> {
+			r.run();
+			return null;
+		});
 	}
 
 	public static <T, R> Case<T, R> def(Function<T, R> function) {
@@ -43,6 +50,10 @@ public class Matcher<T, R> {
 
 	public static <T, R> Case<T, R> def(R result) {
 		return when(Predicates.alwaysTrue(), result);
+	}
+
+	public static <T, R> Case<T, R> def(Runnable r) {
+		return when(Predicates.alwaysTrue(), () -> r.run());
 	}
 
 	public static class Case<T, R> {

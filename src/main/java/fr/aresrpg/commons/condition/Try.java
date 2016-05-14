@@ -3,8 +3,8 @@ package fr.aresrpg.commons.condition;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import fr.aresrpg.commons.condition.functional.TrySupplier;
 import fr.aresrpg.commons.condition.functional.TryRunnable;
+import fr.aresrpg.commons.condition.functional.TrySupplier;
 
 public interface Try<T> extends RawOption<T, Try<T>> {
 
@@ -18,9 +18,9 @@ public interface Try<T> extends RawOption<T, Try<T>> {
 	}
 
 	@SuppressWarnings("unchecked")
-	static <T> Try<T> test(TrySupplier<T> callable) {
+	static <T> Try<T> test(TrySupplier<T> suplier) {
 		try {
-			return new Ok<>(callable.call());
+			return new Ok<>(suplier.get());
 		} catch (Throwable t) {
 			return (Try<T>) new Error(t);
 		}
