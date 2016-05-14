@@ -1,5 +1,6 @@
 package fr.aresrpg.commons.database;
 
+import java.io.Closeable;
 import java.util.Iterator;
 
 import fr.aresrpg.commons.Iterators;
@@ -7,7 +8,7 @@ import fr.aresrpg.commons.Value;
 import fr.aresrpg.commons.database.user.Credential;
 
 @SuppressWarnings("rawtypes")
-public interface Database extends Value<Collection> {
+public interface Database extends Value<Collection> , Closeable{
 
 	/**
 	 * Connect to db
@@ -23,8 +24,6 @@ public interface Database extends Value<Collection> {
 	default void connect(Credential credential) {
 		connect(credential.getHostAdress(), credential.getPort(), credential.getUser(), credential.getPass());
 	}
-
-	void close();
 
 	void drop(Collection<?> collection);
 
