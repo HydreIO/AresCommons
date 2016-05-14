@@ -14,7 +14,11 @@ public interface Collection<T> {
 	}
 
 	default T findFirst(Filter filter) {
-		return find(filter)[0];
+		T[] found = find(filter , 1);
+		if(found.length >= 1)
+			return found[0];
+		else
+			return null;
 	}
 
 	int remove(Filter filter, int removed);
