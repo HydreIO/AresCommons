@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -43,6 +44,11 @@ public enum Hash {
 
 	public String toString(File input) {
 		ByteBuffer buffer = ByteBuffer.wrap(checksum(input));
+		return IntStream.generate(buffer::get).limit(buffer.remaining()).mapToObj(String::valueOf).collect(Collectors.joining());
+	}
+
+	public String toString(Supplier<File> supplier) {
+		ByteBuffer buffer = ByteBuffer.wrap(checksum(supplier.get()));
 		return IntStream.generate(buffer::get).limit(buffer.remaining()).mapToObj(String::valueOf).collect(Collectors.joining());
 	}
 
