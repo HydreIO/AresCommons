@@ -11,85 +11,97 @@ import java.util.stream.Stream;
 public class UnmodifiableCollection<E> implements Collection<E>, Serializable {
 	private static final long serialVersionUID = 1820017752578914078L;
 
-	final Collection<? extends E> c;
+	protected final transient Collection<E> delegate;
 
-	public UnmodifiableCollection(Collection<? extends E> c) {
-		if (c == null) throw new NullPointerException();
-		this.c = c;
+	public UnmodifiableCollection(Collection<E> delegate) {
+		if (delegate == null) throw new NullPointerException();
+		this.delegate = delegate;
 	}
 
+	@Override
 	public int size() {
-		return c.size();
+		return delegate.size();
 	}
 
+	@Override
 	public boolean isEmpty() {
-		return c.isEmpty();
+		return delegate.isEmpty();
 	}
 
+	@Override
 	public boolean contains(Object o) {
-		return c.contains(o);
+		return delegate.contains(o);
 	}
 
+	@Override
 	public Object[] toArray() {
-		return c.toArray();
+		return delegate.toArray();
 	}
 
+	@Override
 	public <T> T[] toArray(T[] a) {
-		return c.toArray(a);
+		return delegate.toArray(a);
 	}
 
+	@Override
 	public String toString() {
-		return c.toString();
+		return delegate.toString();
 	}
 
+	@Override
 	public Iterator<E> iterator() {
 		return new Iterator<E>() {
-			private final Iterator<? extends E> i = c.iterator();
+			private final Iterator<? extends E> i = delegate.iterator();
 
-			public boolean hasNext() {
+			@Override public boolean hasNext() {
 				return i.hasNext();
 			}
 
-			public E next() {
+			@Override public E next() {
 				return i.next();
 			}
 
-			public void remove() {
+			@Override public void remove() {
 				throw new UnsupportedOperationException();
 			}
 
 			@Override
 			public void forEachRemaining(Consumer<? super E> action) {
-				// Use backing collection version
-				i.forEachRemaining(action);
+				i.forEachRemaining(action);// Use backing collection version
 			}
 		};
 	}
-
+	@Override
 	public boolean add(E e) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public boolean remove(Object o) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public boolean containsAll(Collection<?> coll) {
-		return c.containsAll(coll);
+		return delegate.containsAll(coll);
 	}
 
+	@Override
 	public boolean addAll(Collection<? extends E> coll) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public boolean removeAll(Collection<?> coll) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public boolean retainAll(Collection<?> coll) {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void clear() {
 		throw new UnsupportedOperationException();
 	}
@@ -97,7 +109,7 @@ public class UnmodifiableCollection<E> implements Collection<E>, Serializable {
 	// Override default methods in Collection
 	@Override
 	public void forEach(Consumer<? super E> action) {
-		c.forEach(action);
+		delegate.forEach(action);
 	}
 
 	@Override
@@ -108,35 +120,37 @@ public class UnmodifiableCollection<E> implements Collection<E>, Serializable {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Spliterator<E> spliterator() {
-		return (Spliterator<E>) c.spliterator();
+		return delegate.spliterator();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Stream<E> stream() {
-		return (Stream<E>) c.stream();
+		return delegate.stream();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Stream<E> parallelStream() {
-		return (Stream<E>) c.parallelStream();
+		return delegate.parallelStream();
 	}
 
 	public static class UnmodifiableSet<E> extends UnmodifiableCollection<E> implements java.util.Set<E>, Serializable {
 
-		public UnmodifiableSet(java.util.Set<? extends E> c) {
-			super(c);
-		}
-
 		private static final long serialVersionUID = -9215047833775013803L;
 
-		public boolean equals(Object o) {
-			return o == this || c.equals(o);
+		public UnmodifiableSet(java.util.Set<E> delegate) {
+			super(delegate);
 		}
 
+		@Override
+		public boolean equals(Object o) {
+			return o == this || delegate.equals(o);
+		}
+
+		@Override
 		public int hashCode() {
-			return c.hashCode();
+			return delegate.hashCode();
 		}
 	}
 }

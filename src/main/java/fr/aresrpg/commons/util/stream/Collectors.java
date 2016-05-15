@@ -16,10 +16,12 @@ import fr.aresrpg.commons.util.map.Map;
 
 public class Collectors {
 
-	static final Set<Collector.Characteristics> CH_UNORDERED_ID = new UnmodifiableCollection.UnmodifiableSet<>(EnumSet.of(Collector.Characteristics.UNORDERED,
+	private static final Set<Collector.Characteristics> CH_UNORDERED_ID = new UnmodifiableCollection.UnmodifiableSet<>(EnumSet.of(Collector.Characteristics.UNORDERED,
 			Collector.Characteristics.IDENTITY_FINISH));
 
-	static final Set<Collector.Characteristics> CH_ID = Collections.unmodifiableSet(EnumSet.of(Collector.Characteristics.IDENTITY_FINISH));
+	private static final Set<Collector.Characteristics> CH_ID = Collections.unmodifiableSet(EnumSet.of(Collector.Characteristics.IDENTITY_FINISH));
+
+	private Collectors(){}
 
 	public static <T> Collector<T, ?, fr.aresrpg.commons.util.collection.Set<T>> toSet() {
 		return new CollectorImpl<>((Supplier<Set<T>>) HashSet::new, Set<T>::add, (left, right) -> {
@@ -42,7 +44,7 @@ public class Collectors {
 		};
 	}
 
-	public static <T, K, U> Collector<T, ?, Map<K, U>> toMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends U> valueMapper) {
+	public static <T,  K, U> Collector<T, ? , Map<K, U>> toMap(Function<? super T, ? extends K> keyMapper, Function<? super T, ? extends U> valueMapper) {
 		return toMap(keyMapper, valueMapper, throwingMerger(), HashMap::new);
 	}
 

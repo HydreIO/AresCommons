@@ -2,6 +2,7 @@ package fr.aresrpg.commons;
 
 import java.util.function.Predicate;
 
+import fr.aresrpg.commons.condition.functional.Executable;
 import fr.aresrpg.commons.condition.functional.consumer.BiConsumer;
 import fr.aresrpg.commons.condition.functional.consumer.Consumer;
 import fr.aresrpg.commons.condition.functional.consumer.ExecutiveConsumer;
@@ -16,37 +17,37 @@ public class Consumers {
 	private Consumers() {
 	}
 
-	public static <T> ExecutiveConsumer<T> executeNative(java.util.function.Consumer<T> T, T t, boolean condition) {
-		if (condition) T.accept(t);
+	public static <T> ExecutiveConsumer<T> executeNative(java.util.function.Consumer<T> consumer, T t, boolean condition) {
+		if (condition) consumer.accept(t);
 		return ExecutiveConsumer.none();
 	}
 
-	public static <T, R> ExecutiveConsumer<T> executeNative(java.util.function.Consumer<T> T, T t, Predicate<R> pr, R r) {
-		if (pr.test(r)) T.accept(t);
+	public static <T, R> ExecutiveConsumer<T> executeNative(java.util.function.Consumer<T> consumer, T t, Predicate<R> pr, R r) {
+		if (pr.test(r)) consumer.accept(t);
 		return ExecutiveConsumer.none();
 	}
 
-	public static <T, R> ExecutiveConsumer<T> executeNative(java.util.function.Consumer<T> T, T t, Predicate<T> p) {
-		if (p.test(t)) T.accept(t);
+	public static <T> ExecutiveConsumer<T> executeNative(java.util.function.Consumer<T> consumer, T t, Predicate<T> p) {
+		if (p.test(t)) consumer.accept(t);
 		return ExecutiveConsumer.none();
 	}
 
-	public static <T> ExecutiveConsumer<T> executeNative(java.util.function.Consumer<T> e, T t) {
-		return executeNative(e, t, true);
+	public static <T> ExecutiveConsumer<T> executeNative(java.util.function.Consumer<T> consumer, T t) {
+		return executeNative(consumer, t, true);
 	}
 
-	public static <T> ExecutiveConsumer<T> executeCommon(Consumer<T> T, T t, boolean condition) {
-		if (condition) T.accept(t);
+	public static <T> ExecutiveConsumer<T> executeCommon(Consumer<T> consumer, T t, boolean condition) {
+		if (condition) consumer.accept(t);
 		return ExecutiveConsumer.none();
 	}
 
-	public static <T, R> ExecutiveConsumer<T> executeCommon(Consumer<T> T, T t, Predicate<R> pr, R r) {
-		if (pr.test(r)) T.accept(t);
+	public static <T, R> ExecutiveConsumer<T> executeCommon(Consumer<T> consumer, T t, Predicate<R> pr, R r) {
+		if (pr.test(r)) consumer.accept(t);
 		return ExecutiveConsumer.none();
 	}
 
-	public static <T, R> ExecutiveConsumer<T> executeCommon(Consumer<T> T, T t, Predicate<T> pr) {
-		if (pr.test(t)) T.accept(t);
+	public static <T> ExecutiveConsumer<T> executeCommon(Consumer<T> consumer, T t, Predicate<T> pr) {
+		if (pr.test(t)) consumer.accept(t);
 		return ExecutiveConsumer.none();
 	}
 
@@ -54,37 +55,37 @@ public class Consumers {
 		return executeCommon(e, t, true);
 	}
 
-	public static <T> ExecutiveConsumer<T> execute(ExecutiveConsumer<T> T, T t, boolean condition) {
-		if (condition) T.accept(t);
+	public static <T> ExecutiveConsumer<T> execute(ExecutiveConsumer<T> consumer, T t, boolean condition) {
+		if (condition) consumer.accept(t);
 		return ExecutiveConsumer.none();
 	}
 
-	public static <T, R> ExecutiveConsumer<T> execute(ExecutiveConsumer<T> T, T t, Predicate<R> pr, R r) {
-		if (pr.test(r)) T.accept(t);
+	public static <T, R> ExecutiveConsumer<T> execute(ExecutiveConsumer<T> consumer, T t, Predicate<R> pr, R r) {
+		if (pr.test(r)) consumer.accept(t);
 		return ExecutiveConsumer.none();
 	}
 
-	public static <T, R> ExecutiveConsumer<T> execute(ExecutiveConsumer<T> T, T t, Predicate<T> pr) {
-		if (pr.test(t)) T.accept(t);
+	public static <T> ExecutiveConsumer<T> execute(ExecutiveConsumer<T> consumer, T t, Predicate<T> pr) {
+		if (pr.test(t)) consumer.accept(t);
 		return ExecutiveConsumer.none();
 	}
 
-	public static <T> ExecutiveConsumer<T> execute(ExecutiveConsumer<T> e, T t) {
-		return execute(e, t, true);
+	public static <T> ExecutiveConsumer<T> execute(ExecutiveConsumer<T> consumer, T t) {
+		return execute(consumer, t, true);
 	}
 
-	public static <T> ExecutiveConsumer<T> execute(Runnable r, boolean condition) {
-		if (condition) r.run();
+	public static <T> ExecutiveConsumer<T> execute(Executable executable, boolean condition) {
+		if (condition) executable.execute();
 		return ExecutiveConsumer.none();
 	}
 
-	public static <T, R> ExecutiveConsumer<T> execute(Runnable rn, Predicate<R> pr, R r) {
-		if (pr.test(r)) rn.run();
+	public static <T, R> ExecutiveConsumer<T> execute(Executable executable, Predicate<R> pr, R r) {
+		if (pr.test(r)) executable.execute();
 		return ExecutiveConsumer.none();
 	}
 
-	public static <T> ExecutiveConsumer<T> execute(Runnable r) {
-		return execute(r, true);
+	public static <T> ExecutiveConsumer<T> execute(Executable executable) {
+		return execute(executable, true);
 	}
 
 	public static <A, B> Consumer<B> from(BiConsumer<A, B> f, A a) {

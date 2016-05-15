@@ -4,6 +4,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import fr.aresrpg.commons.Predicates;
+import fr.aresrpg.commons.condition.functional.Executable;
 
 public class Matcher<T, R> {
 	private Case<T, R>[] cases;
@@ -37,9 +38,9 @@ public class Matcher<T, R> {
 		return new Case<>(tester, t -> result);
 	}
 
-	public static <T, R> Case<T, R> when(Predicate<T> tester, Runnable r) {
+	public static <T, R> Case<T, R> when(Predicate<T> tester, Executable executable) {
 		return new Case<>(tester, t -> {
-			r.run();
+			executable.execute();
 			return null;
 		});
 	}
@@ -52,8 +53,8 @@ public class Matcher<T, R> {
 		return when(Predicates.alwaysTrue(), result);
 	}
 
-	public static <T, R> Case<T, R> def(Runnable r) {
-		return when(Predicates.alwaysTrue(), () -> r.run());
+	public static <T, R> Case<T, R> def(Executable e) {
+		return when(Predicates.alwaysTrue(), e);
 	}
 
 	public static class Case<T, R> {

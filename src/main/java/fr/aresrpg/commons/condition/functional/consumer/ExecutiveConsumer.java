@@ -22,11 +22,12 @@ public interface ExecutiveConsumer<T> {
 	}
 
 	static ExecutiveConsumer none() {
-		return Empty.EMPTY;
+		return Empty.EMPTY_CONSUMER;
 	}
 
 	class Empty {
-		private static final ExecutiveConsumer EMPTY = (T) -> {};
+		private static final ExecutiveConsumer EMPTY_CONSUMER = t -> {};
+		private Empty(){}
 	}
 
 }

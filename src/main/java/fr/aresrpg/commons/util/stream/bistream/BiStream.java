@@ -37,12 +37,12 @@ public interface BiStream<T, U> extends BaseStream<BiStream.BiValue<T, U>, BiStr
 		/**
 		 * The First value of BiStream
 		 */
-		public T t;
+		private T t;
 
 		/**
 		 * The Second value of BiStream
 		 */
-		public U u;
+		private U u;
 
 		/**
 		 * Create a new BiValue
@@ -54,6 +54,22 @@ public interface BiStream<T, U> extends BaseStream<BiStream.BiValue<T, U>, BiStr
 		 */
 		public BiValue(T t, U u) {
 			this.t = t;
+			this.u = u;
+		}
+
+		public T getT() {
+			return t;
+		}
+
+		public U getU() {
+			return u;
+		}
+
+		public void setT(T t) {
+			this.t = t;
+		}
+
+		public void setU(U u) {
 			this.u = u;
 		}
 	}
@@ -147,8 +163,8 @@ public interface BiStream<T, U> extends BaseStream<BiStream.BiValue<T, U>, BiStr
 	 * <pre>
 	 * {
 	 * 	&#064;code
-	 * 	Stream&lt;String&gt; lines = Files.lines(path, StandardCharsets.UTF_8);
-	 * 	Stream&lt;String&gt; words = lines.flatMap(line -&gt; Stream.of(line.split(&quot; +&quot;)));
+	 * 	ObjectStream&lt;String&gt; lines = Files.lines(path, StandardCharsets.UTF_8);
+	 * 	ObjectStream&lt;String&gt; words = lines.flatMap(line -&gt; ObjectStream.of(line.split(&quot; +&quot;)));
 	 * }
 	 * </pre>
 	 * 
@@ -262,7 +278,7 @@ public interface BiStream<T, U> extends BaseStream<BiStream.BiValue<T, U>, BiStr
 	 * 
 	 * <pre>
 	 * {@code
-	 *     Stream.of("one", "two", "three", "four")
+	 *     ObjectStream.of("one", "two", "three", "four")
 	 *         .filter(e -> e.length() > 3)
 	 *         .peek(e -> System.out.println("Filtered value: " + e))
 	 *         .map(String::toUpperCase)

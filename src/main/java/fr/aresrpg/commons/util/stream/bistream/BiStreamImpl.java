@@ -28,48 +28,48 @@ public class BiStreamImpl<T , U> implements BiStream<T , U> {
 
     @Override
     public BiStream<T, U> filter(BiPredicate<? super T, ? super U> predicate) {
-        return BiStream.wrap(stream.filter(v -> predicate.test(v.t , v.u)));
+        return BiStream.wrap(stream.filter(v -> predicate.test(v.getT() , v.getU())));
     }
 
     @Override
     public <R> Stream<R> map(BiFunction<? super T, ? super U, ? extends R> function) {
-        return stream.map(v -> function.apply(v.t , v.u));
+        return stream.map(v -> function.apply(v.getT() , v.getU()));
     }
 
     @Override
     public IntStream mapToInt(ToIntBiFunction<? super T, ? super U> toIntBiFunction) {
-        return stream.mapToInt(v -> toIntBiFunction.applyAsInt(v.t , v.u));
+        return stream.mapToInt(v -> toIntBiFunction.applyAsInt(v.getT() , v.getU()));
     }
 
     @Override
     public LongStream mapToLong(ToLongBiFunction<? super T, ? super U> toLongBiFunction) {
-        return stream.mapToLong((v) -> toLongBiFunction.applyAsLong(v.t , v.u));
+        return stream.mapToLong(v -> toLongBiFunction.applyAsLong(v.getT() , v.getU()));
     }
 
     @Override
     public DoubleStream mapToDouble(ToDoubleBiFunction<? super T, ? super U> toDoubleBiFunction) {
-        return stream.mapToDouble((v) -> toDoubleBiFunction.applyAsDouble(v.t , v.u));
+        return stream.mapToDouble(v -> toDoubleBiFunction.applyAsDouble(v.getT() , v.getU()));
     }
 
     @Override
     public <R> Stream<R> flatMap(BiFunction<? super T, ? super U, ? extends Stream<? extends R>> function) {
-        return stream.flatMap((v) -> function.apply(v.t , v.u));
+        return stream.flatMap(v -> function.apply(v.getT() , v.getU()));
     }
 
 
     @Override
     public IntStream flatMapToInt(BiFunction<? super T, ? super U, ? extends IntStream> function) {
-        return stream.flatMapToInt((v) -> function.apply(v.t , v.u));
+        return stream.flatMapToInt(v -> function.apply(v.getT() , v.getU()));
     }
 
     @Override
     public LongStream flatMapToLong(BiFunction<? super T, ? super U, ? extends LongStream> function) {
-        return stream.flatMapToLong((v) -> function.apply(v.t , v.u));
+        return stream.flatMapToLong(v -> function.apply(v.getT() , v.getU()));
     }
 
     @Override
     public DoubleStream flatMapToDouble(BiFunction<? super T, ? super U ,? extends DoubleStream> function) {
-        return stream.flatMapToDouble((v) -> function.apply(v.t , v.u));
+        return stream.flatMapToDouble(v -> function.apply(v.getT() , v.getU()));
     }
 
     @Override
@@ -89,7 +89,7 @@ public class BiStreamImpl<T , U> implements BiStream<T , U> {
 
     @Override
     public BiStream<T, U> peek(BiConsumer<? super T, ? super U> consumer) {
-        return BiStream.wrap(stream.peek((v) -> consumer.accept(v.t , v.u)));
+        return BiStream.wrap(stream.peek(v -> consumer.accept(v.getT() , v.getU())));
     }
 
     @Override
@@ -105,12 +105,12 @@ public class BiStreamImpl<T , U> implements BiStream<T , U> {
 
     @Override
     public void forEach(BiConsumer<? super T, ? super U> consumer) {
-        stream.forEach((v) -> consumer.accept(v.t , v.u));
+        stream.forEach(v -> consumer.accept(v.getT() , v.getU()));
     }
 
     @Override
     public void forEachOrdered(BiConsumer<? super T, ? super U> consumer) {
-        stream.forEachOrdered((v) -> consumer.accept(v.t , v.u));
+        stream.forEachOrdered(v -> consumer.accept(v.getT() , v.getU()));
     }
 
     @Override
@@ -166,17 +166,17 @@ public class BiStreamImpl<T , U> implements BiStream<T , U> {
 
     @Override
     public boolean anyMatch(BiPredicate<? super T, ? super U> predicate) {
-        return stream.anyMatch((v) -> predicate.test(v.t , v.u));
+        return stream.anyMatch(v -> predicate.test(v.getT() , v.getU()));
     }
 
     @Override
     public boolean allMatch(BiPredicate<? super T, ? super U> predicate) {
-        return stream.allMatch((v) -> predicate.test(v.t , v.u));
+        return stream.allMatch(v -> predicate.test(v.getT() , v.getU()));
     }
 
     @Override
     public boolean noneMatch(BiPredicate<? super T, ? super U> predicate) {
-        return stream.noneMatch((v) -> predicate.test(v.t , v.u));
+        return stream.noneMatch(v -> predicate.test(v.getT() , v.getU()));
     }
 
     @Override

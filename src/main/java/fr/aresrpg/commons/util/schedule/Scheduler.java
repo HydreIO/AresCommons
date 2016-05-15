@@ -22,14 +22,14 @@ public class Scheduler {
 
 	private static Scheduler instance = new Scheduler();
 
+	private ScheduledExecutorService pool = Executors.newScheduledThreadPool(50, factory);
+
+	private Scheduler() {}
+
 	public static Scheduler getScheduler() {
 		return instance;
 	}
 
-	private ScheduledExecutorService pool = Executors.newScheduledThreadPool(50, factory);
-
-	private Scheduler() {
-	}
 
 	public void shutdown() {
 		pool.shutdown();
@@ -43,8 +43,7 @@ public class Scheduler {
 				try {
 					m.invoke(scheduled, new Object[m.getParameterCount()]);
 				} catch (Exception e) {
-					Logger.log("[Scheduler] Error with " + "//: " + m.getDeclaringClass() + "//:" + m.getName());
-					Logger.trace(e);
+					Logger.MAIN_LOGGER.debug(e , "[Scheduler] Error with " + "//: " + m.getDeclaringClass() + "//:" + m.getName());
 				}
 			}, ns, ns, java.util.concurrent.TimeUnit.NANOSECONDS);
 		});

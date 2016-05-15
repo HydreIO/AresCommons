@@ -18,8 +18,8 @@ public class BiSpliterator<T , U> implements Spliterator<BiStream.BiValue<T , U>
         if (action == null)
             throw new NullPointerException();
         BiStream.BiValue<T , U> b = new BiStream.BiValue<>(null , null);
-        boolean tr = this.t.tryAdvance(t -> b.t = t);
-        boolean ur = this.u.tryAdvance(u -> b.u = u);
+        boolean tr = this.t.tryAdvance(b::setT);
+        boolean ur = this.u.tryAdvance(b::setU);
         if(!tr && !ur)
             return false;
         action.accept(b);
@@ -33,9 +33,9 @@ public class BiSpliterator<T , U> implements Spliterator<BiStream.BiValue<T , U>
 
     @Override
     public long estimateSize() {
-        long t = this.t.estimateSize();
-        long u = this.u.estimateSize();
-        return t < u ? t : u;
+        long ts = this.t.estimateSize();
+        long us = this.u.estimateSize();
+        return Math.max(ts , us);
     }
 
     @Override
