@@ -53,15 +53,18 @@ public class UnmodifiableCollection<E> implements Collection<E>, Serializable {
 		return new Iterator<E>() {
 			private final Iterator<? extends E> i = delegate.iterator();
 
-			@Override public boolean hasNext() {
+			@Override
+			public boolean hasNext() {
 				return i.hasNext();
 			}
 
-			@Override public E next() {
+			@Override
+			public E next() {
 				return i.next();
 			}
 
-			@Override public void remove() {
+			@Override
+			public void remove() {
 				throw new UnsupportedOperationException();
 			}
 
@@ -71,6 +74,7 @@ public class UnmodifiableCollection<E> implements Collection<E>, Serializable {
 			}
 		};
 	}
+
 	@Override
 	public boolean add(E e) {
 		throw new UnsupportedOperationException();
@@ -117,19 +121,16 @@ public class UnmodifiableCollection<E> implements Collection<E>, Serializable {
 		throw new UnsupportedOperationException();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Spliterator<E> spliterator() {
 		return delegate.spliterator();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Stream<E> stream() {
 		return delegate.stream();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Stream<E> parallelStream() {
 		return delegate.parallelStream();
