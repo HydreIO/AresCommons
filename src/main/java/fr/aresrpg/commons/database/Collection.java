@@ -1,6 +1,8 @@
 package fr.aresrpg.commons.database;
 
-public interface Collection<T> {
+import fr.aresrpg.commons.Value;
+
+public interface Collection<T> extends Value<T> {
 	void put(T value);
 
 	void update(Filter filter, T value);

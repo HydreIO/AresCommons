@@ -7,8 +7,7 @@ import fr.aresrpg.commons.Iterators;
 import fr.aresrpg.commons.Value;
 import fr.aresrpg.commons.database.user.Credential;
 
-@SuppressWarnings("rawtypes")
-public interface Database extends Value<Collection> , Closeable{
+public interface Database extends Closeable{
 
 	/**
 	 * Connect to db
@@ -32,10 +31,4 @@ public interface Database extends Value<Collection> , Closeable{
 	<T> Collection<T>[] getCollections();
 
 	<T> Collection<T> get(String id, Class<T> clazz);
-
-	@Override
-	default Iterator<Collection> iterator() {
-		return Iterators.of(getCollections());
-	}
-
 }

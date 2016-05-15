@@ -1,7 +1,6 @@
 package fr.aresrpg.commons;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class Iterators {
     private static final Iterator<?> EMPTY_ITERATOR = new EmptyIterator();
@@ -31,6 +30,14 @@ public class Iterators {
         }
     }
 
+    public static <T> Iterator<T> sortedIterator(Iterator<T> it, Comparator<? super T> comparator) {
+        List<T> list = new ArrayList<>();
+        while (it.hasNext())
+            list.add(it.next());
+
+        Collections.sort(list, comparator);
+        return list.iterator();
+    }
 
     private static class ArrayIterator<T> implements Iterator<T> {
         private final T[] array;
