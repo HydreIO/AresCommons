@@ -12,7 +12,7 @@ import fr.aresrpg.commons.condition.functional.Executable;
 
 public interface RawOption<T, O extends RawOption<T, ?>> extends Value<T> {
 
-	default boolean isPresent(){
+	default boolean isPresent() {
 		return !isEmpty();
 	}
 
@@ -22,22 +22,23 @@ public interface RawOption<T, O extends RawOption<T, ?>> extends Value<T> {
 		return (O) this;
 	}
 
-	default T when(boolean condition , T value){
+	default T when(boolean condition, T value) {
 		return condition ? get() : value;
 	}
 
-	default T when(boolean condition , Supplier<? extends T> value){
+	default T when(boolean condition, Supplier<? extends T> value) {
 		return condition ? get() : value.get();
 	}
 
-	default T orElse(T other){
-		return when(isEmpty() , other);
-	}
-	default T orElse(Supplier<? extends T> other){
-		return when(isEmpty() , other);
+	default T orElse(T other) {
+		return when(isEmpty(), other);
 	}
 
-	default Optional<T> toOptional(){
+	default T orElse(Supplier<? extends T> other) {
+		return when(isEmpty(), other);
+	}
+
+	default Optional<T> toOptional() {
 		return isPresent() ? Optional.of(get()) : Optional.empty();
 	}
 
@@ -47,6 +48,7 @@ public interface RawOption<T, O extends RawOption<T, ?>> extends Value<T> {
 		return (O) this;
 	}
 
+	@SuppressWarnings("rawtypes")
 	<R> RawOption transform(Function<T, R> function);
 
 	abstract class None<O extends RawOption<Object, ?>> implements RawOption<Object, O> {
