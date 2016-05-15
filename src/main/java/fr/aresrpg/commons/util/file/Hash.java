@@ -37,7 +37,7 @@ public enum Hash {
 				digest.update(block, 0, length);
 			return digest.digest();
 		} catch (Exception e) {
-			Logger.trace(e);
+			Logger.MAIN_LOGGER.debug(e);
 		}
 		return new byte[0];
 	}
