@@ -3,7 +3,10 @@ package fr.aresrpg.commons.util.file;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
 import java.security.MessageDigest;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import fr.aresrpg.commons.log.Logger;
 
@@ -36,6 +39,11 @@ public enum Hash {
 			Logger.trace(e);
 		}
 		return new byte[0];
+	}
+
+	public String toString(File input) {
+		ByteBuffer buffer = ByteBuffer.wrap(checksum(input));
+		return IntStream.generate(buffer::get).limit(buffer.remaining()).mapToObj(String::valueOf).collect(Collectors.joining());
 	}
 
 }
