@@ -1,27 +1,53 @@
 package fr.aresrpg.commons.condition;
 
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import fr.aresrpg.commons.Iterators;
 import fr.aresrpg.commons.Value;
+import fr.aresrpg.commons.condition.functional.Executable;
 
 public interface RawOption<T, O extends RawOption<T, ?>> extends Value<T> {
 
+	default boolean isPresent(){
+		return !isEmpty();
+	}
+
 	@SuppressWarnings("unchecked")
 	default O ifPresent(Consumer<? super T> consumer) {
-		if (!isEmpty()) consumer.accept(get());
+		if (isPresent()) consumer.accept(get());
 		return (O) this;
+	}
+
+	default T when(boolean condition , T value){
+		return condition ? get() : value;
+	}
+
+	default T when(boolean condition , Supplier<? extends T> value){
+		return condition ? get() : value.get();
+	}
+
+	default T orElse(T other){
+		return when(isEmpty() , other);
+	}
+	default T orElse(Supplier<? extends T> other){
+		return when(isEmpty() , other);
+	}
+
+	default Optional<T> toOptional(){
+		return isPresent() ? Optional.of(get()) : Optional.empty();
 	}
 
 	@SuppressWarnings("unchecked")
-	default O orRun(Runnable runnable) {
-		if (isEmpty()) runnable.run();
+	default O orRun(Executable executable) {
+		if (isEmpty()) executable.execute();
 		return (O) this;
 	}
 
-	<R> RawOption<R, ?> transform(Function<T, R> function);
+	<R> RawOption transform(Function<T, R> function);
 
 	abstract class None<O extends RawOption<Object, ?>> implements RawOption<Object, O> {
 

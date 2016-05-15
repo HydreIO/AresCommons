@@ -9,7 +9,7 @@ public interface Option<T> extends RawOption<T, Option<T>> {
 
 	@SuppressWarnings("unchecked")
 	static <T> Option<T> none() {
-		return (Option<T>) Option.None.INSTANCE;
+		return (Option<T>) Option.NoneOption.INSTANCE;
 	}
 
 	static <T> Option<T> empty() {
@@ -17,7 +17,7 @@ public interface Option<T> extends RawOption<T, Option<T>> {
 	}
 
 	static <T> Option<T> some(T value) {
-		return new Option.Some<>(value);
+		return new Option.SomeOption<>(value);
 	}
 
 	@Override
@@ -26,15 +26,14 @@ public interface Option<T> extends RawOption<T, Option<T>> {
 		else return none();
 	}
 
-	class None extends RawOption.None<Option<Object>> implements Option<Object> {
-		private static final Option.None INSTANCE = new Option.None();
+	class NoneOption extends RawOption.None<Option<Object>> implements Option<Object> {
+		private static final Option.NoneOption INSTANCE = new Option.NoneOption();
 
-		private None() {
-		}
+		private NoneOption() {}
 	}
 
-	class Some<T> extends RawOption.Some<T, Option<T>> implements Option<T> {
-		Some(T value) {
+	class SomeOption<T> extends RawOption.Some<T, Option<T>> implements Option<T> {
+		SomeOption(T value) {
 			super(value);
 		}
 	}

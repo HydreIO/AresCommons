@@ -12,8 +12,8 @@ public interface Try<T> extends RawOption<T, Try<T>> {
 		try {
 			runnable.run();
 			return new Ok<>(null);
-		} catch (Throwable t) {
-			return new Error(t);
+		} catch (Exception e) {
+			return new Error(e);
 		}
 	}
 
@@ -21,8 +21,8 @@ public interface Try<T> extends RawOption<T, Try<T>> {
 	static <T> Try<T> test(TrySupplier<T> suplier) {
 		try {
 			return new Ok<>(suplier.get());
-		} catch (Throwable t) {
-			return (Try<T>) new Error(t);
+		} catch (Exception e) {
+			return (Try<T>) new Error(e);
 		}
 	}
 
@@ -53,7 +53,7 @@ public interface Try<T> extends RawOption<T, Try<T>> {
 
 	class Ok<T> extends Some<T, Try<T>> implements Try<T> {
 
-		public Ok(T value) {
+		Ok(T value) {
 			super(value);
 		}
 
@@ -76,7 +76,7 @@ public interface Try<T> extends RawOption<T, Try<T>> {
 	class Error extends None<Try<Object>> implements Try<Object> {
 		private final Throwable value;
 
-		public Error(Throwable value) {
+		Error(Throwable value) {
 			this.value = value;
 		}
 

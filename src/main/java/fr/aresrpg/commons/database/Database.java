@@ -31,7 +31,7 @@ public interface Database extends Value<Collection> , Closeable{
 
 	<T> Collection<T>[] getCollections();
 
-	<T> Collection<T> get(String id);
+	<T> Collection<T> get(String id, Class<T> clazz);
 
 	@Override
 	default Iterator<Collection> iterator() {

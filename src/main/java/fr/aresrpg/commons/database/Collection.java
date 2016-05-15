@@ -7,6 +7,10 @@ public interface Collection<T> {
 
 	void putOrUpdate(Filter filter, T value);
 
+	void updateAll(Filter filter, T value);
+
+	void putOrUpdateAll(Filter filter, T value);
+
 	T[] find(Filter filter, int max);
 
 	default T[] find(Filter filter) {
@@ -14,13 +18,17 @@ public interface Collection<T> {
 	}
 
 	default T findFirst(Filter filter) {
-		return find(filter)[0];
+		T[] found = find(filter , 1);
+		if(found.length >= 1)
+			return found[0];
+		else
+			return null;
 	}
 
-	void remove(Filter filter, int removed);
+	int remove(Filter filter, int removed);
 
-	default void remove(Filter filter) {
-		remove(filter, 1);
+	default int remove(Filter filter) {
+		return remove(filter, 1);
 	}
 
 	default boolean exist(Filter filter) {
