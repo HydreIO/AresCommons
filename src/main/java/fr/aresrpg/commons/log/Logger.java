@@ -217,7 +217,7 @@ public class Logger {
 	}
 
 	private String processArgs(String message , Object...args){
-		return message + Arrays.toString(args);
+		return message + (args.length == 0 ? "" : Arrays.toString(args));
 	}
 
 	public void addHandler(Handler handler){
