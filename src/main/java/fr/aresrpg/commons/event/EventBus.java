@@ -48,7 +48,7 @@ public class EventBus<E extends Event> {
 	public Subscriber<E> subscribeMethod(MethodHandles.Lookup lookup , MethodHandle method , Object instance , int priority) throws Throwable {
 		if(instance == null)
 			return subscribe((Consumer<E>) LambdaMetafactory.metafactory(lookup , "accept" , MethodType.methodType(Consumer.class) ,
-				MethodType.methodType(void.class , Object.class) , method , MethodType.methodType(void.class , owner)).getTarget().invokeExact() , priority);
+				MethodType.methodType(void.class , Object.class) , method , MethodType.methodType(void.class , owner)).getTarget().invoke() , priority);
 		else
 			return subscribe(Consumers.from(((BiConsumer<Object , E>) LambdaMetafactory.metafactory(lookup , "accept" , MethodType.methodType(BiConsumer.class) ,
 					MethodType.methodType(void.class , Object.class , Object.class) , method , MethodType.methodType(void.class , instance.getClass() , owner)).getTarget().invoke()), instance) , priority);
