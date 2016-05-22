@@ -21,7 +21,7 @@ public class UnsafeAccessor {
 		}
 	}
 
-	static Unsafe getUnsafe() {
+	public static Unsafe getUnsafe() {
 		return unsafe;
 	}
 }
