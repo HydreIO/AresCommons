@@ -6,12 +6,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Logger {
 	public static final Logger MAIN_LOGGER = new LoggerBuilder("DEFAULT")
 			.setUseConsoleHandler(true , true)
 			.build();
 	public static final String DEFAULT_CHANEL = null;
+	public static final Pattern ARGS_PATTERN = Pattern.compile("\\{(\\d+)?(:\\?)?\\}");
 
 	public enum Level{
 		INFO(false),
@@ -45,7 +48,7 @@ public class Logger {
 	}
 
 	public void log(Level level , String channel , Throwable t , String message , Object... args){
-		broadcast(level , channel , processArgs(message , args) , t);
+		broadcast(level , channel ,message , args , t);
 	}
 
 	public void log(Level level , Throwable t , String message , Object... args){
@@ -66,7 +69,7 @@ public class Logger {
 
 
 	public void log(Level level,Throwable t){
-		log(level , t);
+		log(level , DEFAULT_CHANEL , t);
 	}
 
 	//Info
@@ -193,45 +196,70 @@ public class Logger {
 
 	//Severe
 	public void severe(String channel , Throwable t , String message , Object... args){
-		log(Level.ERROR , channel , t,  message , args);
+		log(Level.SEVERE , channel , t,  message , args);
 	}
 
 	public void severe(Throwable t , String message , Object... args){
-		log(Level.ERROR, t , message , args);
+		log(Level.SEVERE, t , message , args);
 	}
 
 	public void severe(String channel , String message , Object... args){
-		log(Level.ERROR , channel, message , args);
+		log(Level.SEVERE , channel, message , args);
 	}
 
 	public void severe(String message , Object... args){
-		log(Level.ERROR , message , args);
+		log(Level.SEVERE , message , args);
 	}
 
 	public void severe(String channel , Throwable t){
-		log(Level.ERROR , channel, t);
+		log(Level.SEVERE , channel, t);
 	}
 
 	public void severe(Throwable t){
-		log(Level.ERROR , t);
+		log(Level.SEVERE , t);
 	}
 
 	private String processArgs(String message , Object...args){
-		return message + (args.length == 0 ? "" : Arrays.toString(args));
+		if(args == null)
+			return message;
+		StringBuilder sb = new StringBuilder();
+		Matcher matcher = ARGS_PATTERN.matcher(message);
+		int index = 0;
+		int i = 0;
+		while(true){
+			if(!matcher.find()){
+				sb.append(message.substring(index));
+				return sb.toString();
+			}
+			String n = matcher.group(1);
+			sb.append(message.substring(index , matcher.start())).append(args[n == null ? i++ : Integer.parseInt(n)]);
+			index = matcher.end();
+		}
 	}
 
 	public void addHandler(Handler handler){
 		handlers.add(handler);
 	}
 
-	private void broadcast(Level level, String channel , String message , Throwable t){
-		long millis = System.currentTimeMillis();
+	private void broadcast(Level level, String channel , String message , Object[] args, Throwable t){
+		Log log = new Log(level , channel , processArgs(message , args) ,
+				message , args , t , System.currentTimeMillis() , Thread.currentThread() , findSource() ,this);
 		try {
 			for(Handler handler : handlers)
-				handler.handle(level , channel , message , t , millis);
+				handler.handle(log);
 		} catch (IOException e) {
 			MAIN_LOGGER.severe(e);
 		}
+	}
+
+	private StackTraceElement findSource(){
+		StackTraceElement[] elements = Thread.currentThread().getStackTrace();
+		for(int i = 1 ; i < elements.length ; i++){
+			StackTraceElement element = elements[i];
+			if(!element.getClassName().equals(getClass().getName()))//Ignore logger calls
+				return element;
+		}
+		return null;
 	}
 
 	public String getName() {

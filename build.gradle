@@ -51,6 +51,8 @@ repositories {
 
 dependencies {
 
+    compile 'com.getsentry.raven:raven:7.2.3'
+
     testCompile sourceSets.shared.output
     testCompile 'junit:junit:4.12'
 

@@ -1,8 +1,8 @@
 package fr.aresrpg.commons.log.handler.formatters;
 
-import fr.aresrpg.commons.log.Logger;
+import fr.aresrpg.commons.log.Log;
 
 @FunctionalInterface
 public interface Formatter {
-	String format(Logger.Level level , String channel , String message , String error , long millis);
+	String format(Log log , ErrorFormatter errorFormatter);
 }

@@ -1,5 +1,6 @@
 package fr.aresrpg.commons.log.handler;
 
+import fr.aresrpg.commons.log.Log;
 import fr.aresrpg.commons.log.Logger;
 
 import java.io.IOException;
@@ -25,12 +26,12 @@ public class StreamHandler extends BaseHandler {
 	}
 
 	@Override
-	public void log(Logger.Level level, String message) throws IOException{
-		if(level.isError()){
-			errorStream.write(message.getBytes(charset));
+	public void handle(Log log) throws IOException {
+		if(log.getLevel().isError()){
+			errorStream.write(format(log).getBytes(charset));
 			errorStream.flush();
 		}else {
-			outStream.write(message.getBytes(charset));
+			outStream.write(format(log).getBytes(charset));
 			outStream.flush();
 		}
 	}

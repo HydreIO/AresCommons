@@ -1,14 +1,19 @@
 package fr.aresrpg.commons.log.handler;
 
+import fr.aresrpg.commons.log.Log;
 import fr.aresrpg.commons.log.Logger;
+import fr.aresrpg.commons.log.handler.formatters.BasicFormatter;
 import fr.aresrpg.commons.log.handler.formatters.ErrorFormatter;
 import fr.aresrpg.commons.log.handler.formatters.Formatter;
 
-import java.io.IOException;
-
 public abstract class BaseHandler implements Handler {
-	private Formatter formatter;
-	private ErrorFormatter errorFormatter;
+	private Formatter formatter = new BasicFormatter();
+	private ErrorFormatter errorFormatter = new ErrorFormatter() {
+		@Override
+		public String formatError(Logger.Level level, Throwable t) {
+			return "";
+		}
+	};
 
 	public void setFormatter(Formatter formatter) {
 		this.formatter = formatter;
@@ -27,11 +32,7 @@ public abstract class BaseHandler implements Handler {
 		return errorFormatter;
 	}
 
-
-	@Override
-	public void handle(Logger.Level level, String channel , String message, Throwable t , long millis) throws IOException {
-		log(level , formatter.format(level ,channel, message , t == null ? null : errorFormatter.formatError(level , t) , millis));
+	protected String format(Log log){
+		return formatter.format(log , errorFormatter);
 	}
-
-	abstract void log(Logger.Level level, String message) throws IOException;
 }

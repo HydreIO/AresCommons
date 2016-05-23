@@ -1,6 +1,7 @@
 package fr.aresrpg.commons.log.handler.formatters;
 
 import fr.aresrpg.commons.log.AnsiColors;
+import fr.aresrpg.commons.log.Log;
 import fr.aresrpg.commons.log.Logger;
 
 public class ColorFormatter implements Formatter{
@@ -8,11 +9,6 @@ public class ColorFormatter implements Formatter{
 
 	public ColorFormatter(Formatter parent) {
 		this.parent = parent;
-	}
-
-	@Override
-	public String format(Logger.Level level, String channel , String message, String error , long millis) {
-		return getColor(level) + parent.format(level , channel , message , error ,millis) + AnsiColors.ANSI_RESET;
 	}
 
 	public String getColor(Logger.Level level){
@@ -38,5 +34,10 @@ public class ColorFormatter implements Formatter{
 				break;
 		}
 		return color;
+	}
+
+	@Override
+	public String format(Log log, ErrorFormatter errorFormatter) {
+		return getColor(log.getLevel()) + parent.format(log , errorFormatter) + AnsiColors.ANSI_RESET;
 	}
 }

@@ -1,5 +1,6 @@
 package fr.aresrpg.commons.log.handler.formatters;
 
+import fr.aresrpg.commons.log.Log;
 import fr.aresrpg.commons.log.Logger;
 
 import java.text.DateFormat;
@@ -28,9 +29,9 @@ public class BasicFormatter implements Formatter{
 	}
 
 	@Override
-	public String format(Logger.Level level, String channel , String message, String error , long millis) {
-		return '[' + dateFormat.format(new Date(millis)) + "]["
-				+ Thread.currentThread().getName() + "][" + level +"]"+(channel != null ? '[' + channel + ']' : "")+
-				": " + message + '\n' + (error == null ? "" : error);
+	public String format(Log log , ErrorFormatter errorFormatter) {
+		return '[' + dateFormat.format(new Date(log.getMillis())) + "]["
+				+ log.getThread().getName() + "][" + log.getLevel() +"]"+(log.getChannel() != null ? '[' + log.getChannel() + ']' : "")+
+				": " + log.getMessage() + '\n' + (log.getThrowable() == null ? "" : errorFormatter.formatError(log.getLevel() , log.getThrowable()));
 	}
 }
