@@ -1,16 +1,15 @@
 package fr.aresrpg.commons.serialization.formats.json;
 
-import fr.aresrpg.commons.log.Logger;
-import fr.aresrpg.commons.reflection.ParametrizedClass;
-import fr.aresrpg.commons.serialization.SerializationContext;
-import fr.aresrpg.commons.serialization.formats.SerializationFormat;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-public class JsonSerializationFormat implements SerializationFormat{
+import fr.aresrpg.commons.log.Logger;
+import fr.aresrpg.commons.serialization.SerializationContext;
+import fr.aresrpg.commons.serialization.formats.SerializationFormat;
+
+public class JsonSerializationFormat implements SerializationFormat {
 	public static final String ENCODING = "UTF-8";
 	public static final char BEGIN_OBJECT = '{';
 	public static final char END_OBJECT = '}';
@@ -24,11 +23,11 @@ public class JsonSerializationFormat implements SerializationFormat{
 	private static final byte[] JSON_FALSE = getBytes("false");
 	private static final byte[] JSON_NULL = getBytes("null");
 
-	public static byte[] getBytes(String string){
+	public static byte[] getBytes(String string) {
 		try {
 			return string.getBytes(ENCODING);
 		} catch (UnsupportedEncodingException e) {
-			Logger.MAIN_LOGGER.severe("JsonSerializationFormat" , e , "UTF-8 encoding not found");
+			Logger.MAIN_LOGGER.severe("JsonSerializationFormat", e, "UTF-8 encoding not found");
 			return new byte[0];
 		}
 	}
@@ -36,17 +35,16 @@ public class JsonSerializationFormat implements SerializationFormat{
 	@Override
 	public <T> void writeObject(OutputStream outputStream, T value, SerializationContext context) throws IOException {
 		outputStream.write(BEGIN_OBJECT);
-		SerializationFormat.super.writeObject(outputStream , value , context);
+		SerializationFormat.super.writeObject(outputStream, value, context);
 		outputStream.write(END_OBJECT);
 	}
 
 	@Override
 	public void writeField(OutputStream outputStream, String name, Object value, SerializationContext context, boolean last) throws IOException {
-		writeString(outputStream , name , context);
+		writeString(outputStream, name, context);
 		outputStream.write(SEPARATOR);
-		write(outputStream , value , context);
-		if(!last)
-			outputStream.write(FIELD_SEPARATOR);
+		write(outputStream, value, context);
+		if (!last) outputStream.write(FIELD_SEPARATOR);
 	}
 
 	@Override
@@ -74,11 +72,10 @@ public class JsonSerializationFormat implements SerializationFormat{
 	@Override
 	public void writeArray(OutputStream outputStream, List<?> array, SerializationContext context) throws IOException {
 		outputStream.write(BEGIN_ARRAY);
-		int end = array.size()-1;
-		for(int i = 0 ; i < array.size() ; i++){
-			write(outputStream , array.get(i) , context);
-			if(i != end)
-				outputStream.write(ARRAY_SEPARATOR);
+		int end = array.size() - 1;
+		for (int i = 0; i < array.size(); i++) {
+			write(outputStream, array.get(i), context);
+			if (i != end) outputStream.write(ARRAY_SEPARATOR);
 		}
 		outputStream.write(END_ARRAY);
 	}
