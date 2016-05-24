@@ -61,7 +61,7 @@ public class RavenHandler extends BaseHandler {
 				.withTimestamp(new Date(log.getMillis()))
 				.withLogger(log.getLogger().getName())
 				.withLevel(convertLevel(log.getLevel()))
-				.withFingerprint(log.getChannel() , log.getBaseMessage());
+				.withFingerprint(log.getBaseMessage());
 
 		if(!Util.isNullOrEmpty(serverName))
 			eventBuilder.withServerName(serverName.trim());

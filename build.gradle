@@ -52,6 +52,7 @@ repositories {
 dependencies {
 
     compile 'com.getsentry.raven:raven:7.2.3'
+    compile 'org.ow2.asm:asm:5.1'
 
     testCompile sourceSets.shared.output
     testCompile 'junit:junit:4.12'
@@ -60,6 +61,8 @@ dependencies {
     jmhCompile sourceSets.shared.output
     jmhCompile 'org.openjdk.jmh:jmh-core:1.12'
     jmhCompile 'org.openjdk.jmh:jmh-generator-annprocess:1.12'
+    jmhCompile 'io.fastjson:boon:0.33'
+    jmhCompile 'com.fasterxml.jackson.core:jackson-databind:2.7.1-1'
 }
 
 task shaded(type: Jar) {

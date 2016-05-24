@@ -2,7 +2,7 @@ package fr.aresrpg.commons.event;
 
 @SuppressWarnings("rawtypes")
 public class BusRegisterEvent implements Event<BusRegisterEvent> {
-	private static EventBus<BusRegisterEvent> bus = new EventBus<>(BusRegisterEvent.class);
+	public static final EventBus<BusRegisterEvent> BUS = new EventBus<>(BusRegisterEvent.class);
 
 	private final Class<? extends Event> owner;
 	private final EventBus registeredBus;
@@ -22,7 +22,7 @@ public class BusRegisterEvent implements Event<BusRegisterEvent> {
 
 	@Override
 	public EventBus<BusRegisterEvent> getBus() {
-		return bus;
+		return BUS;
 	}
 
 	@Override

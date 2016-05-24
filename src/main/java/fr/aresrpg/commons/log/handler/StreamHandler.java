@@ -1,9 +1,9 @@
 package fr.aresrpg.commons.log.handler;
 
+import fr.aresrpg.commons.log.Log;
+
 import java.io.IOException;
 import java.io.OutputStream;
-
-import fr.aresrpg.commons.log.Log;
 
 public class StreamHandler extends BaseHandler {
 	private OutputStream outStream;

@@ -22,6 +22,8 @@ public class ParametrizedClass<T> implements Value<Class<T>> {
 
 	}
 
+	
+
 	public ParametrizedClass(Type type) {
 		this.type = type;
 		this.raw = Types.getClazz(type);
@@ -38,14 +40,14 @@ public class ParametrizedClass<T> implements Value<Class<T>> {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (o == null || !(o instanceof ParametrizedClass)) return false;
 		ParametrizedClass<?> that = (ParametrizedClass<?>) o;
-		return Objects.equals(type, that.type);
+		return Objects.equals(raw, that.raw);//Fix that
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(type);
+		return Objects.hash(raw);
 	}
 
 	@Override

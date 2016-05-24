@@ -8,7 +8,7 @@ public class StaticLoggerBinder implements LoggerFactoryBinder{
 	/**
 	 * The unique instance of this class.
 	 */
-	private static StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
+	private static final StaticLoggerBinder SINGLETON = new StaticLoggerBinder();
 
 	private LoggerFactory factory = new LoggerFactory();
 	private StaticLoggerBinder(){}

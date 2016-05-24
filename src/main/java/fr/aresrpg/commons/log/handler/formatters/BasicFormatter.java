@@ -1,12 +1,12 @@
 package fr.aresrpg.commons.log.handler.formatters;
 
+import fr.aresrpg.commons.log.Log;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import fr.aresrpg.commons.log.Log;
-
-public class BasicFormatter implements Formatter {
+public class BasicFormatter implements Formatter{
 	private static final DateFormat DEFAULT_FORMAT = new SimpleDateFormat("HH:mm:ss");
 
 	private DateFormat dateFormat;
