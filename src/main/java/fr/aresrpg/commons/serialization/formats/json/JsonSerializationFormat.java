@@ -34,9 +34,9 @@ public class JsonSerializationFormat implements SerializationFormat{
 	}
 
 	@Override
-	public <T> void writeObject(OutputStream outputStream, T value, SerializationContext context, ParametrizedClass<T> clazz) throws IOException {
+	public <T> void writeObject(OutputStream outputStream, T value, SerializationContext context) throws IOException {
 		outputStream.write(BEGIN_OBJECT);
-		SerializationFormat.super.writeObject(outputStream , value , context , clazz);
+		SerializationFormat.super.writeObject(outputStream , value , context);
 		outputStream.write(END_OBJECT);
 	}
 
