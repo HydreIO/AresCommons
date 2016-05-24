@@ -1,10 +1,9 @@
 package fr.aresrpg.commons.log.handler;
 
-import fr.aresrpg.commons.log.Log;
-import fr.aresrpg.commons.log.Logger;
-
 import java.io.IOException;
 import java.io.OutputStream;
+
+import fr.aresrpg.commons.log.Log;
 
 public class StreamHandler extends BaseHandler {
 	private OutputStream outStream;
@@ -18,19 +17,19 @@ public class StreamHandler extends BaseHandler {
 	}
 
 	public StreamHandler(OutputStream outStream, OutputStream errorStream) {
-		this(outStream, errorStream , "UTF-8");
+		this(outStream, errorStream, "UTF-8");
 	}
 
 	public StreamHandler(OutputStream stream) {
-		this(stream , stream);
+		this(stream, stream);
 	}
 
 	@Override
 	public void handle(Log log) throws IOException {
-		if(log.getLevel().isError()){
+		if (log.getLevel().isError()) {
 			errorStream.write(format(log).getBytes(charset));
 			errorStream.flush();
-		}else {
+		} else {
 			outStream.write(format(log).getBytes(charset));
 			outStream.flush();
 		}

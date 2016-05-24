@@ -1,9 +1,8 @@
 package fr.aresrpg.commons.log.handler;
 
-import fr.aresrpg.commons.log.Log;
-import fr.aresrpg.commons.log.Logger;
-
 import java.io.IOException;
+
+import fr.aresrpg.commons.log.Log;
 
 @FunctionalInterface
 public interface Handler {

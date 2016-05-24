@@ -57,9 +57,9 @@ public class EventBus<E extends Event> {
 						.getTarget().invoke(), priority);
 		else return subscribe(
 				Consumers.from(
-						((BiConsumer<Object, E>) LambdaMetafactory
+						(BiConsumer<Object, E>) LambdaMetafactory
 								.metafactory(lookup, "accept", MethodType.methodType(BiConsumer.class), MethodType.methodType(void.class, Object.class, Object.class), method,
-										MethodType.methodType(void.class, instance.getClass(), owner)).getTarget().invoke()), instance), priority);
+										MethodType.methodType(void.class, instance.getClass(), owner)).getTarget().invoke(), instance), priority);
 	}
 
 	public void unsubscribe(Subscriber<E> subscriber) {
