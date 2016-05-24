@@ -11,7 +11,6 @@ import fr.aresrpg.commons.condition.functional.consumer.HexaConsumer;
 import fr.aresrpg.commons.condition.functional.consumer.PentaConsumer;
 import fr.aresrpg.commons.condition.functional.consumer.TetraConsumer;
 import fr.aresrpg.commons.condition.functional.consumer.TriConsumer;
-import fr.aresrpg.commons.event.Event;
 
 @SuppressWarnings("unchecked")
 public class Consumers {

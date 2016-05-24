@@ -1,13 +1,10 @@
 package fr.aresrpg.commons.database;
 
 import java.io.Closeable;
-import java.util.Iterator;
 
-import fr.aresrpg.commons.Iterators;
-import fr.aresrpg.commons.Value;
 import fr.aresrpg.commons.database.user.Credential;
 
-public interface Database extends Closeable{
+public interface Database extends Closeable {
 
 	/**
 	 * Connect to db

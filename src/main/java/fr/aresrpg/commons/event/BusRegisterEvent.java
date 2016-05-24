@@ -1,5 +1,6 @@
 package fr.aresrpg.commons.event;
 
+@SuppressWarnings("rawtypes")
 public class BusRegisterEvent implements Event<BusRegisterEvent> {
 	private static EventBus<BusRegisterEvent> bus = new EventBus<>(BusRegisterEvent.class);
 
@@ -31,12 +32,12 @@ public class BusRegisterEvent implements Event<BusRegisterEvent> {
 
 	@Override
 	public void send() {
-		if(getBus() != null)//For self registering
-			Event.super.send();
+		if (getBus() != null) // For self registering
+		Event.super.send();
 	}
 
 	@Override
 	public String toString() {
-		return "BusRegisterEvent["+owner.getName()+"]";
+		return "BusRegisterEvent[" + owner.getName() + "]";
 	}
 }
