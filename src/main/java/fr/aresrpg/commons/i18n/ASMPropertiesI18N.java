@@ -142,5 +142,7 @@ public class ASMPropertiesI18N implements I18N{
 
 	public static void main(String[] args) throws IOException {
 		new ASMPropertiesI18N().storeDefault(L10NProxy.class);
+		if(true)
+			System.out.println("Hello @bot");
 	}
 }
