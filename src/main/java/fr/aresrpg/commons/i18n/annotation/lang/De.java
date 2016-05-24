@@ -6,7 +6,7 @@ import java.lang.annotation.*;
 
 @LangAnnotation(language = "de")
 @Target(ElementType.METHOD)
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface De {
 	String value();

@@ -6,7 +6,7 @@ import java.lang.annotation.*;
 
 @LangAnnotation(language = "zh")
 @Target(ElementType.METHOD)
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Zh {
 	String value();
