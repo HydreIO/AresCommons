@@ -16,7 +16,7 @@ import static org.objectweb.asm.Opcodes.*;
 public class ASMPropertiesI18N implements I18N{
 	public static final File FOLDER = new File("lang");
 	public static final String ENCODING = "UTF-8";
-	public static final Set<Class> classes = new HashSet<>();
+	private Set<Class> classes = new HashSet<>();
 
 	static {
 		if(!FOLDER.exists() && !FOLDER.mkdir())
