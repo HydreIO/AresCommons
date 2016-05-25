@@ -1,7 +1,6 @@
 package fr.aresrpg.commons.i18n;
 
 import fr.aresrpg.commons.i18n.annotation.LangAnnotation;
-import fr.aresrpg.commons.i18n.test.L10NProxy;
 import fr.aresrpg.commons.log.Logger;
 import org.objectweb.asm.*;
 
@@ -9,14 +8,34 @@ import java.io.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.objectweb.asm.Opcodes.*;
 
 
 public class ASMPropertiesI18N implements I18N{
+	public class ByteClassLoader extends ClassLoader{
+		public ByteClassLoader(ClassLoader classLoader) {
+			super(classLoader);
+		}
+
+		public ByteClassLoader() {
+			super();
+		}
+
+		public Class<?> defineClass(String name , byte[] bytes){
+			return defineClass(name , bytes , 0 , bytes.length , null);
+		}
+	}
 	public static final File FOLDER = new File("lang");
 	public static final String ENCODING = "UTF-8";
+	public static final Pattern ARGS_PATTERN = Pattern.compile("\\{(\\d+)?\\}");
+	public static final String STRING_BUILDER = "java/lang/StringBuilder";
+	public static final String STRING_BUILDER_APPEND = "append";
+	public static final String INIT = "<init>";
 	private Set<Class> classes = new HashSet<>();
+	private ByteClassLoader loader = new ByteClassLoader(ClassLoader.getSystemClassLoader());
 
 	static {
 		if(!FOLDER.exists() && !FOLDER.mkdir())
@@ -26,43 +45,131 @@ public class ASMPropertiesI18N implements I18N{
 	@Override
 	public <T extends L10N> T createL10N(Locale locale, Class<T> clazz) {
 		try {
-			if(!classes.contains(clazz)){
+			if(!classes.contains(clazz)) {
 				storeDefault(clazz);
 				classes.add(clazz);
 			}
-			String name = clazz.getName().replace('.' , '$')+getName(locale)+"Impl";
-			createClass(name , findProperties(locale) , clazz);
+			String name = "fr.aresrpg.commons.i18n." + clazz.getName().replace('.' , '_')+getName(locale)+"Impl";
+			return (T) createOrLoad(name , locale , clazz).newInstance();
 		}catch (Exception e){
 			Logger.MAIN_LOGGER.severe(e);
 		}
 		return null;
 	}
 
-	public byte[] createClass(String name , Properties properties , Class<?> reference) throws ReflectiveOperationException , IOException{
-		ClassWriter cw = new ClassWriter(0);
-		FieldVisitor fv;
-		MethodVisitor mv;
-		AnnotationVisitor av0;
-		cw.visit(52, ACC_PUBLIC + ACC_SUPER, name, null, "java/lang/Object", new String[]{"fr/aresrpg/commons/i18n/test/L10NProxy"});
-
-		cw.visitSource(name + ".java", null);
-		{
-			mv = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
-			mv.visitCode();
-			Label l0 = new Label();
-			mv.visitLabel(l0);
-			mv.visitLineNumber(3, l0);
-			mv.visitVarInsn(ALOAD, 0);
-			mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
-			mv.visitInsn(RETURN);
-			Label l1 = new Label();
-			mv.visitLabel(l1);
-			mv.visitLocalVariable("this", "L"+name+";", null, l0, l1, 0);
-			mv.visitMaxs(1, 1);
-			mv.visitEnd();
+	protected Class<?> createOrLoad(String name , Locale locale , Class<?> reference) throws Exception {
+		try{
+			return loader.loadClass(name);
+		}catch (ClassNotFoundException e){//NOSONAR Inform if class not found
+			return loader.defineClass(name , createClass(name , findProperties(locale) , reference));
 		}
-		for(Method method : reference.getMethods());
+	}
+	protected byte[] createClass(String name , Properties properties , Class<?> reference) throws Exception{
+		ClassWriter cw = new ClassWriter(0);
+		cw.visit(52, ACC_PUBLIC + ACC_SUPER, name.replace('.' , '/'), null, "java/lang/Object", new String[]{Type.getInternalName(reference)});
+		//Constructor
+		MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, INIT, "()V", null, null);
+		mv.visitCode();
+		Label l0 = new Label();
+		mv.visitLabel(l0);
+		mv.visitVarInsn(ALOAD, 0);
+		mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", INIT, "()V", false);
+		mv.visitInsn(RETURN);
+		Label l1 = new Label();
+		mv.visitLabel(l1);
+		mv.visitMaxs(1, 1);
+		mv.visitEnd();
+		for(Method method : reference.getMethods()){
+			String value = properties.getProperty(method.getName());
+			if(value == null || value.isEmpty())
+				createNullMethod(cw , method);
+			else
+				createMethod(cw , method , value);
+
+
+		}
 		return cw.toByteArray();
+	}
+
+	private void createNullMethod(ClassWriter cw, Method reference){
+		MethodVisitor mv = cw.visitMethod(ACC_PUBLIC + ACC_VARARGS, reference.getName(),
+				methodSignature(reference), null, null);
+		mv.visitCode();
+		Label l0 = new Label();
+		mv.visitLabel(l0);
+		mv.visitLineNumber(16, l0);
+		mv.visitInsn(ACONST_NULL);
+		mv.visitInsn(ARETURN);
+		Label l1 = new Label();
+		mv.visitLabel(l1);
+		mv.visitMaxs(1, reference.getParameterCount()+1);//+1 for this
+		mv.visitEnd();
+	}
+
+	private void createMethod(ClassWriter cw, Method reference , String value){
+		MethodVisitor mv = cw.visitMethod(ACC_PUBLIC + ACC_VARARGS, reference.getName(),
+				methodSignature(reference), null, null);
+		mv.visitCode();
+		Label l0 = new Label();
+		mv.visitLabel(l0);
+		mv.visitTypeInsn(NEW, STRING_BUILDER);
+		mv.visitInsn(DUP);
+		mv.visitMethodInsn(INVOKESPECIAL, STRING_BUILDER, INIT, "()V", false);
+		Matcher matcher = ARGS_PATTERN.matcher(value);
+		int index = 0;
+		while (true) {
+			if (!matcher.find()) {
+				mv.visitLdcInsn(value.substring(index));
+				mv.visitMethodInsn(INVOKEVIRTUAL, STRING_BUILDER,  STRING_BUILDER_APPEND, "(Ljava/lang/String;)Ljava/lang/StringBuilder;", false);
+				mv.visitMethodInsn(INVOKEVIRTUAL, STRING_BUILDER, "toString", "()Ljava/lang/String;", false);
+				mv.visitInsn(ARETURN);
+				Label l1 = new Label();
+				mv.visitLabel(l1);
+				mv.visitMaxs(3, reference.getParameterCount()+1);//+1 for this
+				mv.visitEnd();
+				return;
+			}
+			mv.visitLdcInsn(value.substring(index, matcher.start()));
+			mv.visitMethodInsn(INVOKEVIRTUAL, STRING_BUILDER, STRING_BUILDER_APPEND, "(Ljava/lang/String;)Ljava/lang/StringBuilder;", false);
+			mv.visitVarInsn(ALOAD, 1);
+			writeIntValue(mv , Integer.parseInt(matcher.group(1)));
+			mv.visitInsn(AALOAD);
+			mv.visitMethodInsn(INVOKEVIRTUAL, STRING_BUILDER,  STRING_BUILDER_APPEND, "(Ljava/lang/Object;)Ljava/lang/StringBuilder;", false);
+			index = matcher.end();
+		}
+	}
+
+	private void writeIntValue(MethodVisitor mv , int value){
+		switch (value){
+			case 0:
+				mv.visitInsn(ICONST_0);
+				break;
+			case 1:
+				mv.visitInsn(ICONST_1);
+				break;
+			case 2:
+				mv.visitInsn(ICONST_2);
+				break;
+			case 3:
+				mv.visitInsn(ICONST_3);
+				break;
+			case 4:
+				mv.visitInsn(ICONST_4);
+				break;
+			case 5:
+				mv.visitInsn(ICONST_5);
+				break;
+			default:
+				mv.visitVarInsn(BIPUSH , value);
+				break;
+		}
+	}
+
+	private String methodSignature(Method method){
+		StringBuilder sb = new StringBuilder().append('(');
+		for(Type type : Type.getArgumentTypes(method))
+			sb.append(type.getDescriptor());
+		return sb.append(')').append(Type.getReturnType(method).getDescriptor()).toString();
 	}
 
 	public void storeDefault(Class<?> clazz) throws IOException {
@@ -138,9 +245,5 @@ public class ASMPropertiesI18N implements I18N{
 		}
 		outputStream.flush();
 		outputStream.close();
-	}
-
-	public static void main(String[] args) throws IOException {
-		new ASMPropertiesI18N().storeDefault(L10NProxy.class);
 	}
 }
