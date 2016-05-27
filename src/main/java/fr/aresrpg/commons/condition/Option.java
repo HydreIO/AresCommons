@@ -12,10 +12,6 @@ public interface Option<T> extends RawOption<T, Option<T>> {
 		return (Option<T>) Option.NoneOption.INSTANCE;
 	}
 
-	static <T> Option<T> empty() {
-		return none();
-	}
-
 	static <T> Option<T> some(T value) {
 		return new Option.SomeOption<>(value);
 	}
@@ -29,7 +25,8 @@ public interface Option<T> extends RawOption<T, Option<T>> {
 	class NoneOption extends RawOption.None<Option<Object>> implements Option<Object> {
 		private static final Option.NoneOption INSTANCE = new Option.NoneOption();
 
-		private NoneOption() {}
+		private NoneOption() {
+		}
 	}
 
 	class SomeOption<T> extends RawOption.Some<T, Option<T>> implements Option<T> {
