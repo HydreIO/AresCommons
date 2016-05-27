@@ -6,7 +6,7 @@ import fr.aresrpg.commons.log.handler.formatters.Formatter;
 
 public abstract class BaseHandler implements Handler {
 	private Formatter formatter;
-	private ErrorFormatter errorFormatter;
+	private ErrorFormatter errorFormatter = (e , l) -> "";
 
 	public void setFormatter(Formatter formatter) {
 		this.formatter = formatter;
