@@ -20,4 +20,8 @@ public interface Set<E> extends java.util.Set<E> {
 		return removeAll(c);
 	}
 
+	static <E> Set<E> empty() {
+		return new HashSet<E>();
+	}
+
 }
