@@ -3,18 +3,32 @@ package fr.aresrpg.commons.util.map;
 import java.util.Map;
 
 public interface EnumMap<K extends Enum<K>, V> extends Map<K, V> {
-
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	static final EnumMap empty = new EnumHashMap(null);
+	static class IdentityMap {
+		static final EnumMap empty = new EnumHashMap(null);
 
+		private IdentityMap() {
+
+		}
+	}
+
+	/**
+	 * @deprecated
+	 */
 	@Deprecated
 	@Override
 	public V remove(Object key);
 
+	/**
+	 * @deprecated
+	 */
 	@Deprecated
 	@Override
 	public V get(Object key);
 
+	/**
+	 * @deprecated
+	 */
 	@Deprecated
 	@Override
 	public default V getOrDefault(Object key, V defaultValue) {
@@ -31,9 +45,12 @@ public interface EnumMap<K extends Enum<K>, V> extends Map<K, V> {
 
 	@SuppressWarnings("unchecked")
 	static <K extends Enum<K>, V> EnumMap<K, V> identity() {
-		return empty;
+		return IdentityMap.empty;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	@Deprecated
 	@Override
 	public default boolean remove(Object key, Object value) {
