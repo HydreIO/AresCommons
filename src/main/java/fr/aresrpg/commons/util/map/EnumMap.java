@@ -4,6 +4,9 @@ import java.util.Map;
 
 public interface EnumMap<K extends Enum<K>, V> extends Map<K, V> {
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	static final EnumMap empty = new EnumHashMap(null);
+
 	@Deprecated
 	@Override
 	public V remove(Object key);
@@ -24,6 +27,11 @@ public interface EnumMap<K extends Enum<K>, V> extends Map<K, V> {
 
 	default V safeGetOrDefault(K key, V value) {
 		return getOrDefault(key, value);
+	}
+
+	@SuppressWarnings("unchecked")
+	static <K extends Enum<K>, V> EnumMap<K, V> identity() {
+		return empty;
 	}
 
 	@Deprecated
