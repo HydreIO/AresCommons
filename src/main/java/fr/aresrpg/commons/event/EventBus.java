@@ -62,11 +62,10 @@ public class EventBus<E extends Event> {
 							(BiConsumer<Object, E>) LambdaMetafactory
 									.metafactory(lookup, "accept", MethodType.methodType(BiConsumer.class), MethodType.methodType(void.class, Object.class, Object.class), method,
 											MethodType.methodType(void.class, instance.getClass(), owner)).getTarget().invoke(), instance), priority);
-		} catch (Throwable e) { // NOSONAR already throwed
-			throw new Exception(e);
+		} catch (Throwable e) {
+			throw new ReflectiveOperationException(e);
 		}
 	}
-
 
 	public void unsubscribe(Subscriber<E> subscriber) {
 		this.subscribers.remove(subscriber);
@@ -93,4 +92,5 @@ public class EventBus<E extends Event> {
 	public static Map<Class<? extends Event>, EventBus<? extends Event>> getBuses() {
 		return Collections.unmodifiableMap(buses);
 	}
+
 }
