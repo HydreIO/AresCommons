@@ -95,7 +95,7 @@ public class Pool {
 
 	}
 
-	enum PoolType {
+	public enum PoolType {
 		FIXED,
 		CACHED,
 		SCHEDULED,

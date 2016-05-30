@@ -22,7 +22,7 @@ import fr.aresrpg.commons.unsafe.UnsafeAccessor;
 @SuppressWarnings("rawtypes")
 public class EventBus<E extends Event> {
 	private static final Map<Class<? extends Event>, EventBus<? extends Event>> buses = new HashMap<>();
-	public static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(10);
+	public static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(40);
 	public static final Comparator<Subscriber> PRIORITY_COMPARATOR = (s1, s2) -> Integer.compare(s1.getPriority(), s2.getPriority());
 
 	private final PriorityQueue<Subscriber<E>> subscribers;
