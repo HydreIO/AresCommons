@@ -45,22 +45,28 @@ public class EventBus<E extends Event> {
 		return subscriber;
 	}
 
-	public Subscriber<E> subscribeMethod(Method method, Object instance, int priority) throws Throwable {
+	public Subscriber<E> subscribeMethod(Method method, Object instance, int priority) throws Exception {
 		MethodHandles.Lookup lookup = MethodHandles.lookup();
 		return subscribeMethod(lookup, lookup.unreflect(method), instance, priority);
 	}
 
-	public Subscriber<E> subscribeMethod(MethodHandles.Lookup lookup, MethodHandle method, Object instance, int priority) throws Throwable {
-		if (instance == null) return subscribe(
-				(Consumer<E>) LambdaMetafactory
-						.metafactory(lookup, "accept", MethodType.methodType(Consumer.class), MethodType.methodType(void.class, Object.class), method, MethodType.methodType(void.class, owner))
-						.getTarget().invoke(), priority);
-		else return subscribe(
-				Consumers.from(
-						(BiConsumer<Object, E>) LambdaMetafactory
-								.metafactory(lookup, "accept", MethodType.methodType(BiConsumer.class), MethodType.methodType(void.class, Object.class, Object.class), method,
-										MethodType.methodType(void.class, instance.getClass(), owner)).getTarget().invoke(), instance), priority);
+	public Subscriber<E> subscribeMethod(MethodHandles.Lookup lookup, MethodHandle method, Object instance, int priority) throws Exception {
+		try {
+			if (instance == null) return subscribe(
+					(Consumer<E>) LambdaMetafactory
+							.metafactory(lookup, "accept", MethodType.methodType(Consumer.class), MethodType.methodType(void.class, Object.class), method, MethodType.methodType(void.class, owner))
+							.getTarget().invoke(), priority);
+
+			else return subscribe(
+					Consumers.from(
+							(BiConsumer<Object, E>) LambdaMetafactory
+									.metafactory(lookup, "accept", MethodType.methodType(BiConsumer.class), MethodType.methodType(void.class, Object.class, Object.class), method,
+											MethodType.methodType(void.class, instance.getClass(), owner)).getTarget().invoke(), instance), priority);
+		} catch (Throwable e) { // NOSONAR already throwed
+			throw new Exception(e);
+		}
 	}
+
 
 	public void unsubscribe(Subscriber<E> subscriber) {
 		this.subscribers.remove(subscriber);
