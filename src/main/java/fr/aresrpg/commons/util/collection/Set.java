@@ -2,12 +2,18 @@ package fr.aresrpg.commons.util.collection;
 
 import java.util.Collection;
 
-public interface Set<E> extends java.util.Set<E> {
+public interface Set<E> extends java.util.Set<E> { // NOSONAR rename this interface
 
+	/**
+	 * @deprecated
+	 */
 	@Deprecated
 	@Override
 	public boolean remove(Object o);
 
+	/**
+	 * @deprecated
+	 */
 	@Deprecated
 	@Override
 	public boolean removeAll(Collection<?> c);
@@ -21,7 +27,7 @@ public interface Set<E> extends java.util.Set<E> {
 	}
 
 	static <E> Set<E> empty() {
-		return new HashSet<E>();
+		return new HashSet<>();
 	}
 
 }
