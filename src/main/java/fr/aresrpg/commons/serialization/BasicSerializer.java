@@ -39,6 +39,7 @@ public class BasicSerializer<T> implements Serializer<T>{
 	@SuppressWarnings("unchecked")
 	public void serialize(OutputStream output, T object, Format format) throws IOException {
 		TypeEnum type = TypeEnum.getType(object);
+		format.writeBegin(output);
 		if (type == TypeEnum.OBJECT) {
 			if (!clazz.isAssignableFrom(object.getClass()))
 				throw new IllegalArgumentException(clazz + " is not assignable from " + object.getClass());
@@ -66,6 +67,7 @@ public class BasicSerializer<T> implements Serializer<T>{
 			format.writeEndObject(output);
 		} else
 			format.writeValue(output , type, object , context);
+		format.writeEnd(output);
 		output.flush();
 	}
 

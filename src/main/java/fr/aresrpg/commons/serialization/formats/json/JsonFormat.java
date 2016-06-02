@@ -40,6 +40,11 @@ public class JsonFormat implements Format {
 	}
 
 	@Override
+	public void writeBegin(OutputStream out) throws IOException {
+		//Ignore
+	}
+
+	@Override
 	public void writeValue(OutputStream out , TypeEnum type, Object value , SerializationContext context) throws IOException {
 		switch (type){
 			case BOOLEAN:
@@ -109,6 +114,11 @@ public class JsonFormat implements Format {
 	@Override
 	public void writeEndObject(OutputStream out) throws IOException {
 		out.write(END_OBJECT);
+	}
+
+	@Override
+	public void writeEnd(OutputStream out) throws IOException {
+		//Ignore
 	}
 
 	public void writeCollection(OutputStream out , Collection<?> collection , SerializationContext context) throws IOException {
