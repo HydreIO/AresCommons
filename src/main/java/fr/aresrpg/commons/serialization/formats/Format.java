@@ -8,8 +8,7 @@ import java.util.Map;
 
 public interface Format<I , O>{
 	void writeBegin(O out) throws IOException;
-	void writeValue(O out , TypeEnum type , Object value , SerializationContext context) throws IOException;
-	void writeName(O out , String name) throws IOException;
+	void writeValue(O out , String name , TypeEnum type , Object value , SerializationContext context) throws IOException;
 	void writeBeginObject(O out) throws IOException;
 	void writeFieldSeparator(O out , boolean firstField , boolean lastField) throws IOException;
 	void writeEndObject(O out) throws IOException;

@@ -45,7 +45,11 @@ public class JsonFormat implements Format<InputStream , OutputStream> {
 	}
 
 	@Override
-	public void writeValue(OutputStream out , TypeEnum type, Object value , SerializationContext context) throws IOException {
+	public void writeValue(OutputStream out , String name , TypeEnum type, Object value , SerializationContext context) throws IOException {
+		if(name != null){
+			out.write(name.getBytes(ENCODING));
+			out.write(SEPARATOR);
+		}
 		switch (type){
 			case BOOLEAN:
 				out.write((Boolean)value ? JSON_TRUE : JSON_FALSE);
@@ -92,12 +96,6 @@ public class JsonFormat implements Format<InputStream , OutputStream> {
 				writeDoubleArray(out , (double[])value);
 				break;
 		}
-	}
-
-	@Override
-	public void writeName(OutputStream out, String name) throws IOException {
-		out.write(name.getBytes(ENCODING));
-		out.write(SEPARATOR);
 	}
 
 	@Override
