@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 
-public interface Serializer<T> {
-	void serialize(OutputStream output , T object , Format format) throws IOException;
-	T deserialize(InputStream input, Format format) throws IOException;
+public interface Serializer<T , I , O> {
+	void serialize(O output , T object , Format<? , O> format) throws IOException;
+	T deserialize(I input, Format<I , ?> format) throws IOException;
 }

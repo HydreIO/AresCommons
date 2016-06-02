@@ -13,7 +13,7 @@ import fr.aresrpg.commons.serialization.SerializationContext;
 import fr.aresrpg.commons.serialization.formats.Format;
 import fr.aresrpg.commons.types.TypeEnum;
 
-public class JsonFormat implements Format {
+public class JsonFormat implements Format<InputStream , OutputStream> {
 	public static final JsonFormat INSTANCE = new JsonFormat();
 	public static final String ENCODING = "UTF-8";
 	public static final char BEGIN_OBJECT = '{';

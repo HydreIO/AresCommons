@@ -12,10 +12,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class BasicSerializationFactory implements SerializationFactory{
+public class BasicSerializationFactory<I , O> implements SerializationFactory<I , O>{
 	private List<Adapter<? , ?>> adapters;
 	private FieldModifier fieldModifier;
-	private Map<Class<?> , Serializer<?>> cache;
+	private Map<Class<?> , Serializer<? , I , O>> cache;
 
 	public BasicSerializationFactory(List<Adapter<? , ?>> adapters) {
 		this.adapters = new ArrayList<>(adapters);
@@ -28,16 +28,16 @@ public class BasicSerializationFactory implements SerializationFactory{
 	}
 
 	@Override
-	public <T> Serializer<T> createSerializer(Class<T> clazz) {
-		Serializer<T> s = new BasicSerializer<>(this , clazz);
+	public <T> Serializer<T , I , O> createSerializer(Class<T> clazz) {
+		Serializer<T , I , O> s = new BasicSerializer<>(this , clazz);
 		cache.put(clazz , s);
 		return s;
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public <T> Serializer<T> createOrGetSerializer(Class<T> clazz) {
-		Serializer<T> s = (Serializer<T>) cache.get(clazz);
+	public <T> Serializer<T , I , O> createOrGetSerializer(Class<T> clazz) {
+		Serializer<T , I , O> s = (Serializer<T , I , O>) cache.get(clazz);
 		if(s != null)
 			return s;
 		else

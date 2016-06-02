@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class BasicSerializer<T> implements Serializer<T>{
+public class BasicSerializer<T , I , O> implements Serializer<T , I , O>{
 
 	private SerializationFactory factory;
 	private Class<T> clazz;
@@ -37,7 +37,7 @@ public class BasicSerializer<T> implements Serializer<T>{
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public void serialize(OutputStream output, T object, Format format) throws IOException {
+	public void serialize(O output, T object, Format<? , O> format) throws IOException {
 		TypeEnum type = TypeEnum.getType(object);
 		format.writeBegin(output);
 		if (type == TypeEnum.OBJECT) {
@@ -68,13 +68,12 @@ public class BasicSerializer<T> implements Serializer<T>{
 		} else
 			format.writeValue(output , type, object , context);
 		format.writeEnd(output);
-		output.flush();
 	}
 
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public T deserialize(InputStream input, Format format) throws IOException{
+	public T deserialize(I input, Format<I , ?> format) throws IOException{
 		try {
 			T instance = (T) UnsafeAccessor.getUnsafe().allocateInstance(clazz);
 			Map<String , Object> map = new LinkedHashMap<>();

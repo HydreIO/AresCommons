@@ -10,6 +10,7 @@ import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 @State(Scope.Benchmark)
@@ -30,14 +31,14 @@ public class JsonSerializationBenchmark {
 	private Message message;
 	private ObjectMapper jackson;
 	private JsonSimpleSerializerImpl boon;
-	private Serializer<Message> ares;
+	private Serializer<Message , InputStream , OutputStream> ares;
 
 	@Setup(Level.Trial)
 	public void setup(){
 		message = new Message();
 		jackson = new ObjectMapper();
 		boon = new JsonSimpleSerializerImpl();
-		ares = new BasicSerializationFactory().createSerializer(Message.class);
+		ares = new BasicSerializationFactory<InputStream , OutputStream>().createSerializer(Message.class);
 	}
 
 	@Benchmark

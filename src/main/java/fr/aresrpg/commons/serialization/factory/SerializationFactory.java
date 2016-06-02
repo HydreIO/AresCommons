@@ -7,9 +7,9 @@ import fr.aresrpg.commons.serialization.field.FieldModifier;
 
 import java.util.List;
 
-public interface SerializationFactory {
-	<T> Serializer<T> createSerializer(Class<T> clazz);
-	<T> Serializer<T> createOrGetSerializer(Class<T> clazz);
+public interface SerializationFactory<I , O> {
+	<T> Serializer<T , I , O> createSerializer(Class<T> clazz);
+	<T> Serializer<T , I , O> createOrGetSerializer(Class<T> clazz);
 
 	List<Adapter<? , ?>> getAdapters();
 	void addAdapter(Adapter<? , ?> adapter);
