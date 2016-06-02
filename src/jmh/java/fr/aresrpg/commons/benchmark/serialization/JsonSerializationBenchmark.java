@@ -3,15 +3,14 @@ package fr.aresrpg.commons.benchmark.serialization;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.aresrpg.commons.serialization.Serializer;
-import fr.aresrpg.commons.serialization.field.ReflectionFieldModifier;
-import fr.aresrpg.commons.serialization.formats.json.JsonSerializationFormat;
+import fr.aresrpg.commons.serialization.factory.BasicSerializationFactory;
+import fr.aresrpg.commons.serialization.formats.json.JsonFormat;
 import org.boon.json.serializers.impl.JsonSimpleSerializerImpl;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
 
 @State(Scope.Benchmark)
 public class JsonSerializationBenchmark {
@@ -31,14 +30,14 @@ public class JsonSerializationBenchmark {
 	private Message message;
 	private ObjectMapper jackson;
 	private JsonSimpleSerializerImpl boon;
-	private Serializer ares;
+	private Serializer<Message> ares;
 
 	@Setup(Level.Trial)
 	public void setup(){
 		message = new Message();
 		jackson = new ObjectMapper();
 		boon = new JsonSimpleSerializerImpl();
-		ares = new Serializer(new JsonSerializationFormat() , new ArrayList<>() , n -> n , new ReflectionFieldModifier());
+		ares = new BasicSerializationFactory().createSerializer(Message.class);
 	}
 
 	@Benchmark
@@ -58,7 +57,17 @@ public class JsonSerializationBenchmark {
 			public void write(int i) throws IOException {
 				bh.consume(i);
 			}
-		} , message);
+
+			@Override
+			public void write(byte[] bytes, int i, int i1) throws IOException {
+				bh.consume(bytes);
+			}
+
+			@Override
+			public void write(byte[] bytes) throws IOException {
+				bh.consume(bytes);
+			}
+		} , message , JsonFormat.INSTANCE);
 	}
 
 

@@ -17,7 +17,13 @@ public class UnsafeFieldModifier implements FieldModifier{
 	}
 
 	@Override
-	public boolean canProccess(Field f) {
+	public boolean canProcess(Field f) {
 		return true;
 	}
+
+	@Override
+	public void preprocess(Field field) {
+		//Don't need preprocess
+	}
+
 }

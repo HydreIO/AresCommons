@@ -5,7 +5,6 @@ import java.lang.reflect.Field;
 public class ReflectionFieldModifier implements FieldModifier{
 	@Override
 	public void setValue(Field field, Object instance, Object value) {
-		field.setAccessible(true);
 		try {
 			field.set(instance , value);
 		} catch (IllegalAccessException e) {
@@ -15,7 +14,6 @@ public class ReflectionFieldModifier implements FieldModifier{
 
 	@Override
 	public Object getValue(Field field, Object instance) {
-		field.setAccessible(true);
 		try {
 			return field.get(instance);
 		} catch (IllegalAccessException e) {
@@ -24,7 +22,12 @@ public class ReflectionFieldModifier implements FieldModifier{
 	}
 
 	@Override
-	public boolean canProccess(Field f) {
+	public boolean canProcess(Field f) {
 		return true;
+	}
+
+	@Override
+	public void preprocess(Field field) {
+		field.setAccessible(true);
 	}
 }

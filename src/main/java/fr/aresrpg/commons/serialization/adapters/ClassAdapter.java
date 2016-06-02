@@ -1,30 +1,37 @@
 package fr.aresrpg.commons.serialization.adapters;
 
+import fr.aresrpg.commons.log.Logger;
 import fr.aresrpg.commons.reflection.ParametrizedClass;
-import fr.aresrpg.commons.serialization.DeserializationContext;
-import fr.aresrpg.commons.serialization.SerializationContext;
-import fr.aresrpg.commons.serialization.formats.DeserializationFormat;
-import fr.aresrpg.commons.serialization.formats.SerializationFormat;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+public class ClassAdapter implements Adapter<Class<?> , String> {
+	public static final Adapter<Class<?> , String> INSTANCE = new ClassAdapter();
+	public static final ParametrizedClass<Class<?>> IN = new ParametrizedClass<Class<?>>(){};
+	public static final ParametrizedClass<String> OUT = new ParametrizedClass<String>(){};
 
-public class ClassAdapter implements Adapter<Class<?>> {
-	public static final ParametrizedClass<Class<?>> TYPE = new ParametrizedClass<Class<?>>(){};
+	private ClassAdapter(){}
 
 	@Override
-	public void adaptTo(OutputStream outputStream, Class<?> object, SerializationContext context, SerializationFormat format) throws IOException {
-		format.writeString(outputStream , object.getName(), context);
+	public String adaptTo(Class<?> in) {
+		return in.getName();
 	}
 
 	@Override
-	public Class<?> adaptFrom(InputStream inputStream, DeserializationContext context, DeserializationFormat format) {
-		return null;
+	public Class<?> adaptFrom(String out) {
+		try {
+			return Class.forName(out);
+		} catch (ClassNotFoundException e) {
+			Logger.MAIN_LOGGER.severe("ClassAdapter", "Class " + out + " not found");
+			return null;
+		}
 	}
 
 	@Override
-	public ParametrizedClass<Class<?>> getType() {
-		return TYPE;
+	public ParametrizedClass<Class<?>> getInType() {
+		return IN;
+	}
+
+	@Override
+	public ParametrizedClass<String> getOutType() {
+		return OUT;
 	}
 }
