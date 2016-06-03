@@ -13,7 +13,7 @@ import fr.aresrpg.commons.serialization.SerializationContext;
 import fr.aresrpg.commons.serialization.formats.Format;
 import fr.aresrpg.commons.types.TypeEnum;
 
-public class JsonFormat implements Format<InputStream , OutputStream> {
+public class JsonFormat implements Format<InputStream, OutputStream> {
 	public static final JsonFormat INSTANCE = new JsonFormat();
 	public static final String ENCODING = "UTF-8";
 	public static final char BEGIN_OBJECT = '{';
@@ -28,7 +28,8 @@ public class JsonFormat implements Format<InputStream , OutputStream> {
 	private static final byte[] JSON_FALSE = getBytes("false");
 	private static final byte[] JSON_NULL = getBytes("null");
 
-	private JsonFormat() {}
+	private JsonFormat() {
+	}
 
 	public static byte[] getBytes(String string) {
 		try {
@@ -41,18 +42,18 @@ public class JsonFormat implements Format<InputStream , OutputStream> {
 
 	@Override
 	public void writeBegin(OutputStream out) throws IOException {
-		//Ignore
+		// Ignore
 	}
 
 	@Override
-	public void writeValue(OutputStream out , String name , TypeEnum type, Object value , SerializationContext context) throws IOException {
-		if(name != null){
+	public void writeValue(OutputStream out, String name, TypeEnum type, Object value, SerializationContext context) throws IOException {
+		if (name != null) {
 			out.write(name.getBytes(ENCODING));
 			out.write(SEPARATOR);
 		}
-		switch (type){
+		switch (type) {
 			case BOOLEAN:
-				out.write((Boolean)value ? JSON_TRUE : JSON_FALSE);
+				out.write((Boolean) value ? JSON_TRUE : JSON_FALSE);
 				break;
 			case BYTE:
 			case SHORT:
@@ -63,37 +64,43 @@ public class JsonFormat implements Format<InputStream , OutputStream> {
 				out.write(value.toString().getBytes(ENCODING));
 				break;
 			case CHAR:
-				out.write(STRING_DELIMITER);out.write((Character)value);out.write(STRING_DELIMITER);
+				out.write(STRING_DELIMITER);
+				out.write((Character) value);
+				out.write(STRING_DELIMITER);
 				break;
 			case NULL:
 				out.write(JSON_NULL);
 				break;
 			case STRING:
-				out.write(STRING_DELIMITER);out.write(((String)value).getBytes(ENCODING));out.write(STRING_DELIMITER);
+				out.write(STRING_DELIMITER);
+				out.write(((String) value).getBytes(ENCODING));
+				out.write(STRING_DELIMITER);
 				break;
 			case COLLECTION:
-				writeCollection(out , (Collection<?>)value , context);
+				writeCollection(out, (Collection<?>) value, context);
 				break;
 			case BYTE_ARRAY:
-				writeByteArray(out , (byte[])value);
+				writeByteArray(out, (byte[]) value);
 				break;
 			case SHORT_ARRAY:
-				writeShortArray(out , (short[])value);
+				writeShortArray(out, (short[]) value);
 				break;
 			case CHAR_ARRAY:
-				writeCharArray(out , (char[])value);
+				writeCharArray(out, (char[]) value);
 				break;
 			case INT_ARRAY:
-				writeIntArray(out , (int[])value);
+				writeIntArray(out, (int[]) value);
 				break;
 			case LONG_ARRAY:
-				writeLongArray(out , (long[])value);
+				writeLongArray(out, (long[]) value);
 				break;
 			case FLOAT_ARRAY:
-				writeFloatArray(out , (float[])value);
+				writeFloatArray(out, (float[]) value);
 				break;
 			case DOUBLE_ARRAY:
-				writeDoubleArray(out , (double[])value);
+				writeDoubleArray(out, (double[]) value);
+				break;
+			default:
 				break;
 		}
 	}
@@ -105,8 +112,7 @@ public class JsonFormat implements Format<InputStream , OutputStream> {
 
 	@Override
 	public void writeFieldSeparator(OutputStream out, boolean firstField, boolean lastField) throws IOException {
-		if(!lastField)
-			out.write(FIELD_SEPARATOR);
+		if (!lastField) out.write(FIELD_SEPARATOR);
 	}
 
 	@Override
@@ -116,25 +122,23 @@ public class JsonFormat implements Format<InputStream , OutputStream> {
 
 	@Override
 	public void writeEnd(OutputStream out) throws IOException {
-		//Ignore
+		// Ignore
 	}
 
-	public void writeCollection(OutputStream out , Collection<?> collection , SerializationContext context) throws IOException {
+	public void writeCollection(OutputStream out, Collection<?> collection, SerializationContext context) throws IOException {
 		out.write(BEGIN_ARRAY);
 		Iterator<?> it = collection.iterator();
-		if(it.hasNext()){
-			while(true){
-				context.serialize(out , it.next() , this);
-				if(!it.hasNext())
-					break;
-				else
-					out.write(ARRAY_SEPARATOR);
+		if (it.hasNext()) {
+			while (true) {
+				context.serialize(out, it.next(), this);
+				if (!it.hasNext()) break;
+				else out.write(ARRAY_SEPARATOR);
 			}
 		}
 		out.write(END_ARRAY);
 	}
 
-	public void writeByteArray(OutputStream out , byte[] bytes) throws IOException {
+	public void writeByteArray(OutputStream out, byte[] bytes) throws IOException {
 		out.write(BEGIN_ARRAY);
 		int end = bytes.length - 1;
 		for (int i = 0; i < bytes.length; i++) {
@@ -144,7 +148,7 @@ public class JsonFormat implements Format<InputStream , OutputStream> {
 		out.write(END_ARRAY);
 	}
 
-	public void writeShortArray(OutputStream out , short[] shorts) throws IOException {
+	public void writeShortArray(OutputStream out, short[] shorts) throws IOException {
 		out.write(BEGIN_ARRAY);
 		int end = shorts.length - 1;
 		for (int i = 0; i < shorts.length; i++) {
@@ -154,7 +158,7 @@ public class JsonFormat implements Format<InputStream , OutputStream> {
 		out.write(END_ARRAY);
 	}
 
-	public void writeCharArray(OutputStream out , char[] chars) throws IOException {
+	public void writeCharArray(OutputStream out, char[] chars) throws IOException {
 		out.write(BEGIN_ARRAY);
 		int end = chars.length - 1;
 		for (int i = 0; i < chars.length; i++) {
@@ -164,7 +168,7 @@ public class JsonFormat implements Format<InputStream , OutputStream> {
 		out.write(END_ARRAY);
 	}
 
-	public void writeIntArray(OutputStream out , int[] ints) throws IOException {
+	public void writeIntArray(OutputStream out, int[] ints) throws IOException {
 		out.write(BEGIN_ARRAY);
 		int end = ints.length - 1;
 		for (int i = 0; i < ints.length; i++) {
@@ -174,7 +178,7 @@ public class JsonFormat implements Format<InputStream , OutputStream> {
 		out.write(END_ARRAY);
 	}
 
-	public void writeLongArray(OutputStream out , long[] longs) throws IOException {
+	public void writeLongArray(OutputStream out, long[] longs) throws IOException {
 		out.write(BEGIN_ARRAY);
 		int end = longs.length - 1;
 		for (int i = 0; i < longs.length; i++) {
@@ -184,7 +188,7 @@ public class JsonFormat implements Format<InputStream , OutputStream> {
 		out.write(END_ARRAY);
 	}
 
-	public void writeFloatArray(OutputStream out , float[] floats) throws IOException {
+	public void writeFloatArray(OutputStream out, float[] floats) throws IOException {
 		out.write(BEGIN_ARRAY);
 		int end = floats.length - 1;
 		for (int i = 0; i < floats.length; i++) {
@@ -194,7 +198,7 @@ public class JsonFormat implements Format<InputStream , OutputStream> {
 		out.write(END_ARRAY);
 	}
 
-	public void writeDoubleArray(OutputStream out , double[] doubles) throws IOException {
+	public void writeDoubleArray(OutputStream out, double[] doubles) throws IOException {
 		out.write(BEGIN_ARRAY);
 		int end = doubles.length - 1;
 		for (int i = 0; i < doubles.length; i++) {
