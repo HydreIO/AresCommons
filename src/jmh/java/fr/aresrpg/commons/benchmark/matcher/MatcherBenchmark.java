@@ -1,8 +1,8 @@
 package fr.aresrpg.commons.benchmark.matcher;
 
-import static fr.aresrpg.commons.Predicates.is;
-import static fr.aresrpg.commons.condition.match.Matcher.match;
-import static fr.aresrpg.commons.condition.match.Matcher.when;
+import static fr.aresrpg.commons.domain.Predicates.is;
+import static fr.aresrpg.commons.domain.condition.match.Matcher.match;
+import static fr.aresrpg.commons.domain.condition.match.Matcher.when;
 
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Scope;
