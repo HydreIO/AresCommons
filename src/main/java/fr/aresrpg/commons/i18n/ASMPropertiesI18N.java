@@ -67,8 +67,6 @@ public class ASMPropertiesI18N implements I18N {
 	public static final String INIT = "<init>";
 	@SuppressWarnings("rawtypes")
 	private Set<Class> classes = new HashSet<>();
-	private ByteClassLoader loader = new ByteClassLoader(ClassLoader.getSystemClassLoader());
-
 	static {
 		if (!FOLDER.exists() && !FOLDER.mkdir()) throw new IllegalStateException("Could'not create folder lang");
 	}
@@ -82,14 +80,14 @@ public class ASMPropertiesI18N implements I18N {
 				classes.add(clazz);
 			}
 			String name = "fr.aresrpg.commons.i18n." + clazz.getName().replace('.', '_') + getName(locale) + "Impl";
-			return (T) createOrLoad(name, locale, clazz).newInstance();
+			return (T) createOrLoad(new ByteClassLoader(clazz.getClassLoader()) , name, locale, clazz).newInstance();
 		} catch (Exception e) {
 			Logger.MAIN_LOGGER.severe(e);
 		}
 		return null;
 	}
 
-	protected Class<?> createOrLoad(String name, Locale locale, Class<?> reference) throws Exception {
+	protected Class<?> createOrLoad(ByteClassLoader loader , String name, Locale locale, Class<?> reference) throws Exception {
 		try {
 			return loader.loadClass(name);
 		} catch (ClassNotFoundException e) {// NOSONAR Inform if class not found
