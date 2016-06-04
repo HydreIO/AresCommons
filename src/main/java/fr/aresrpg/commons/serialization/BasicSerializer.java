@@ -55,11 +55,8 @@ public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {
 					name = ((AdaptedField) field).getField().getName();
 				}
 				type = TypeEnum.getType(toSerialize);
-				if (type == TypeEnum.OBJECT) factory.createOrGetSerializer((Class) toSerialize.getClass()).serialize(output, toSerialize, format);
-				else {
-					format.writeValue(output, name, type, toSerialize, context);
-					format.writeFieldSeparator(output, i == 0, i == fields.length - 1);
-				}
+				format.writeValue(output, name, type, toSerialize, context);
+				format.writeFieldSeparator(output, i == 0, i == fields.length - 1);
 			}
 			format.writeEndObject(output);
 		} else format.writeValue(output, null, type, object, context);

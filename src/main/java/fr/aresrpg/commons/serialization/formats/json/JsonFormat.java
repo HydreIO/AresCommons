@@ -100,6 +100,8 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 			case DOUBLE_ARRAY:
 				writeDoubleArray(out, (double[]) value);
 				break;
+			case OBJECT:
+				context.serialize(out , value , this);
 			default:
 				break;
 		}
