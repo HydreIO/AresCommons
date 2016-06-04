@@ -182,7 +182,7 @@ publishing {
         }
 
         lib(MavenPublication) {
-            artifact jar
+            from components.java
             artifact javadocJar
             ext.repo = "libraries"
         }
