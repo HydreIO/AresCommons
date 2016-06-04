@@ -7,10 +7,7 @@ import fr.aresrpg.commons.serialization.adapters.Adapter;
 import fr.aresrpg.commons.serialization.field.FieldModifier;
 import fr.aresrpg.commons.serialization.field.ReflectionFieldModifier;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class BasicSerializationFactory<I , O> implements SerializationFactory<I , O>{
 	private List<Adapter<? , ?>> adapters;
@@ -20,11 +17,13 @@ public class BasicSerializationFactory<I , O> implements SerializationFactory<I 
 	public BasicSerializationFactory(List<Adapter<? , ?>> adapters) {
 		this.adapters = new ArrayList<>(adapters);
 		this.fieldModifier = new ReflectionFieldModifier();
+		this.cache = new HashMap<>();
 	}
 
 	public BasicSerializationFactory() {
 		this.adapters = new ArrayList<>();
 		this.fieldModifier = new ReflectionFieldModifier();
+		this.cache = new HashMap<>();
 	}
 
 	@Override
