@@ -1,9 +1,6 @@
 package fr.aresrpg.commons.serialization.factory;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import fr.aresrpg.commons.reflection.ParametrizedClass;
 import fr.aresrpg.commons.serialization.BasicSerializer;
@@ -20,11 +17,13 @@ public class BasicSerializationFactory<I, O> implements SerializationFactory<I, 
 	public BasicSerializationFactory(List<Adapter<? , ?>> adapters) {
 		this.adapters = new ArrayList<>(adapters);
 		this.fieldModifier = new ReflectionFieldModifier();
+		this.cache = new HashMap<>();
 	}
 
 	public BasicSerializationFactory() {
 		this.adapters = new ArrayList<>();
 		this.fieldModifier = new ReflectionFieldModifier();
+		this.cache = new HashMap<>();
 	}
 
 	@Override
