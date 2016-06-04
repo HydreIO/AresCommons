@@ -1,5 +1,10 @@
 package fr.aresrpg.commons.serialization.factory;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 import fr.aresrpg.commons.reflection.ParametrizedClass;
 import fr.aresrpg.commons.serialization.BasicSerializer;
 import fr.aresrpg.commons.serialization.Serializer;
@@ -7,23 +12,19 @@ import fr.aresrpg.commons.serialization.adapters.Adapter;
 import fr.aresrpg.commons.serialization.field.FieldModifier;
 import fr.aresrpg.commons.serialization.field.ReflectionFieldModifier;
 
-import java.util.*;
-
-public class BasicSerializationFactory<I , O> implements SerializationFactory<I , O>{
-	private List<Adapter<? , ?>> adapters;
+public class BasicSerializationFactory<I, O> implements SerializationFactory<I, O> {
+	private List<Adapter<?, ?>> adapters;
 	private FieldModifier fieldModifier;
 	private Map<Class<?> , Serializer<? , I , O>> cache;
 
 	public BasicSerializationFactory(List<Adapter<? , ?>> adapters) {
 		this.adapters = new ArrayList<>(adapters);
 		this.fieldModifier = new ReflectionFieldModifier();
-		this.cache = new HashMap<>();
 	}
 
 	public BasicSerializationFactory() {
 		this.adapters = new ArrayList<>();
 		this.fieldModifier = new ReflectionFieldModifier();
-		this.cache = new HashMap<>();
 	}
 
 	@Override

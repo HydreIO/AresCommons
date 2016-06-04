@@ -22,17 +22,16 @@ public interface Credential {
 	}
 
 	default String getPass() {
-		return get().split(":")[1];
+		return get().split("@")[0].split(":")[1];
 	}
 
 	default String getHostAdress() {
 		String value = get();
-		return value.substring(value.indexOf('@')).split(":")[0];
+		return value.substring(value.indexOf('@') + 1).split(":")[0];
 	}
 
 	default int getPort() {
 		String value = get();
-		return Integer.parseInt(value.substring(value.indexOf('@')).split(":")[1]);
+		return Integer.parseInt(value.split(":")[2]);
 	}
-
 }
