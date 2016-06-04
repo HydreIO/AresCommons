@@ -112,4 +112,8 @@ public class RavenHandler implements Handler {
 		}
 		return level;
 	}
+
+	public static RavenHandler from(String dsn){
+		return new RavenHandler(dsn);
+	}
 }
