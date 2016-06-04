@@ -24,7 +24,7 @@ public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {
 
 	private SerializationFactory factory;
 	private Class<T> clazz;
-	private Object[] fields;
+	private AdaptedField[] fields;
 	private FieldModifier fieldModifier;
 	private SerializationContext context;
 
@@ -32,7 +32,7 @@ public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {
 		this.factory = factory;
 		this.clazz = clazz;
 		this.fieldModifier = factory.getFieldModifier();
-		this.context = new BasicSerializationContext<I , O>();
+		this.context = new BasicSerializationContext();
 		setup();
 	}
 
@@ -45,18 +45,10 @@ public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {
 			if (!clazz.isAssignableFrom(object.getClass())) throw new IllegalArgumentException(clazz + " is not assignable from " + object.getClass());
 			format.writeBeginObject(output);
 			for (int i = 0; i < fields.length; i++) {
-				Object field = fields[i];
-				Object toSerialize;
-				String name;
-				if (field instanceof Field) {
-					toSerialize = fieldModifier.getValue((Field) field, object);
-					name = getName((Field) field);
-				} else {
-					toSerialize = ((AdaptedField) field).getValue(fieldModifier, object);
-					name = getName(((AdaptedField) field).getField());
-				}
+				AdaptedField field = fields[i];
+				Object toSerialize = field.getValue(fieldModifier , object);
 				type = TypeEnum.getType(toSerialize);
-				format.writeValue(output, name, type, toSerialize, context);
+				format.writeValue(output, getName(field.getField()), type, toSerialize, context);
 				format.writeFieldSeparator(output, i == 0, i == fields.length - 1);
 			}
 			format.writeEndObject(output);
@@ -78,18 +70,14 @@ public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {
 		try {
 			T instance = (T) UnsafeAccessor.getUnsafe().allocateInstance(clazz);
 			for (int i = 0; i < fields.length; i++) {
-				Object field = fields[i];
-				Field f = getField(field);
-				Object value = map.get(getName(f));
+				AdaptedField field = fields[i];
+				Object value = map.get(getName(field.getField()));
 				if(value != null){
-					Class<?> c = f.getType();
+					Class<?> c = field.getInType().getRaw();
 					if(value instanceof Map && !Map.class.isAssignableFrom(c))
 						value = factory.createOrGetSerializer(c).deserialize((Map<String, Object>) value);
 
-					if (field instanceof Field)
-						fieldModifier.setValue((Field) field, instance, value);
-					else
-						((AdaptedField) field).setValue(fieldModifier, instance, map.get(((AdaptedField) field).getField().getName()));
+					field.setValue(fieldModifier, instance, value);
 				}
 			}
 			return instance;
@@ -111,9 +99,8 @@ public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {
 			return f.getName();
 	}
 
-	@SuppressWarnings("unchecked")
 	private void setup() {
-		List<Object> f = new ArrayList<>();
+		List<AdaptedField> f = new ArrayList<>();
 
 		Field[] fds = clazz.getDeclaredFields();
 		for (int i = clazz.isMemberClass() ? 1 : 0; i < fds.length; i++) {
@@ -123,25 +110,16 @@ public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {
 			Adapter last = factory.getAdapter(new ParametrizedClass<>(field.getType()));
 			if (last != null) {
 				List<Adapter> adapters = new ArrayList<>();
-				adapters.add(last);
 				while (last != null) {
-					last = factory.getAdapter(last.getOutType());
 					adapters.add(last);
+					last = factory.getAdapter(last.getOutType());
 				}
 				f.add(new AdaptedField(adapters.toArray(new Adapter[adapters.size()]), field));
-			} else f.add(field);
+			}else
+				f.add(new AdaptedField(new Adapter[0] , field));
 		}
-		this.fields = f.toArray(new Object[f.size()]);
+		this.fields = f.toArray(new AdaptedField[f.size()]);
 	}
-
-	protected static Field getField(Object o){
-		if(o instanceof Field)
-			return (Field) o;
-		else if(o instanceof AdaptedField)
-			return ((AdaptedField) o).getField();
-		else return null;
-	}
-
 
 	public static class AdaptedField {
 		private Adapter[] adapters;
@@ -164,17 +142,24 @@ public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {
 		public void setValue(FieldModifier modifier, Object instance, Object value) {
 			if (value == null) return;
 			Object o = value;
-			for (Adapter adapter : adapters)
-				o = adapter.adaptFrom(o);
+			for (int i = adapters.length ; i >= 0 ; i--)
+				o = adapters[i].adaptFrom(o);
 			modifier.setValue(field, instance, o);
 		}
 
 		public Field getField() {
 			return field;
 		}
+
+		public ParametrizedClass<?> getInType(){
+			if(adapters.length == 0)
+				return new ParametrizedClass<>(field.getGenericType());
+			else
+				return adapters[adapters.length-1].getOutType();
+		}
 	}
 
-	private class BasicSerializationContext<J , P> implements SerializationContext<I , O> {
+	private class BasicSerializationContext implements SerializationContext<I , O> {
 
 		@Override
 		@SuppressWarnings("unchecked")
