@@ -6,9 +6,7 @@ import fr.aresrpg.commons.log.Logger;
 
 public class Events {
 
-	private Events() {
-
-	}
+	private Events() {}
 
 	@SuppressWarnings({ "unchecked" })
 	public static void register(Object c) throws IllegalArgumentException {
