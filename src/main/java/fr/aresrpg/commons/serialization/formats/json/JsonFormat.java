@@ -46,7 +46,7 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 	}
 
 	@Override
-	public void writeValue(OutputStream out, String name, TypeEnum type, Object value, SerializationContext context) throws IOException {
+	public void writeValue(OutputStream out, String name, TypeEnum type, Object value, SerializationContext<InputStream , OutputStream> context) throws IOException {
 		if (name != null) {
 			out.write(name.getBytes(ENCODING));
 			out.write(SEPARATOR);
@@ -127,7 +127,7 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 		// Ignore
 	}
 
-	public void writeCollection(OutputStream out, Collection<?> collection, SerializationContext context) throws IOException {
+	public void writeCollection(OutputStream out, Collection<?> collection, SerializationContext<InputStream , OutputStream> context) throws IOException {
 		out.write(BEGIN_ARRAY);
 		Iterator<?> it = collection.iterator();
 		if (it.hasNext()) {
@@ -211,7 +211,7 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 	}
 
 	@Override
-	public void read(InputStream in, Map<String, Object> container, SerializationContext context) throws IOException {
+	public void read(InputStream in, Map<String, Object> container, SerializationContext<InputStream , OutputStream> context) throws IOException {
 
 	}
 }
