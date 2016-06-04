@@ -10,7 +10,6 @@ import com.getsentry.raven.event.interfaces.*;
 import com.getsentry.raven.util.Util;
 import fr.aresrpg.commons.log.Log;
 import fr.aresrpg.commons.log.Logger;
-import fr.aresrpg.commons.log.handler.BaseHandler;
 import fr.aresrpg.commons.log.handler.Handler;
 
 import java.io.IOException;
@@ -35,6 +34,10 @@ public class RavenHandler implements Handler {
 
 	public RavenHandler(Raven raven) {
 		this(raven , null , null);
+	}
+
+	public RavenHandler(String dsn) {
+		this(RavenFactory.ravenInstance(dsn), null , null);
 	}
 
 	public RavenHandler(Dsn dsn) {
