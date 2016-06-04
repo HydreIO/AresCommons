@@ -5,7 +5,7 @@ import java.io.OutputStream;
 
 import fr.aresrpg.commons.serialization.formats.Format;
 
-public interface SerializationContext {
+public interface SerializationContext<I , O> {
 	@SuppressWarnings("rawtypes")
-	<T> void serialize(OutputStream stream, T value, Format format) throws IOException;
+	<T> void serialize(O out, T value, Format format) throws IOException;
 }

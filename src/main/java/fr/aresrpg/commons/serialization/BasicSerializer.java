@@ -31,7 +31,7 @@ public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {
 		this.factory = factory;
 		this.clazz = clazz;
 		this.fieldModifier = factory.getFieldModifier();
-		this.context = new BasicSerializationContext();
+		this.context = new BasicSerializationContext<I , O>();
 		setup();
 	}
 
@@ -142,12 +142,12 @@ public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {
 		}
 	}
 
-	private class BasicSerializationContext implements SerializationContext {
+	private class BasicSerializationContext<J , P> implements SerializationContext<I , O> {
 
 		@Override
 		@SuppressWarnings("unchecked")
-		public <E> void serialize(OutputStream stream, E value, Format format) throws IOException {
-			factory.createOrGetSerializer((Class<E>) value.getClass()).serialize(stream, value, format);
+		public <E> void serialize(O stream, E value, Format format) throws IOException {
+			factory.createOrGetSerializer(value.getClass()).serialize(stream, value, format);
 		}
 	}
 }
