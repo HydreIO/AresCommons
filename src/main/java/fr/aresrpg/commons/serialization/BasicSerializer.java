@@ -11,6 +11,7 @@ import java.util.Map;
 import fr.aresrpg.commons.log.Logger;
 import fr.aresrpg.commons.reflection.ParametrizedClass;
 import fr.aresrpg.commons.serialization.adapters.Adapter;
+import fr.aresrpg.commons.serialization.annotations.SerializedName;
 import fr.aresrpg.commons.serialization.factory.SerializationFactory;
 import fr.aresrpg.commons.serialization.field.FieldModifier;
 import fr.aresrpg.commons.serialization.formats.Format;
@@ -49,10 +50,10 @@ public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {
 				String name;
 				if (field instanceof Field) {
 					toSerialize = fieldModifier.getValue((Field) field, object);
-					name = ((Field) field).getName();
+					name = getName((Field) field);
 				} else {
 					toSerialize = ((AdaptedField) field).getValue(fieldModifier, object);
-					name = ((AdaptedField) field).getField().getName();
+					name = getName(((AdaptedField) field).getField());
 				}
 				type = TypeEnum.getType(toSerialize);
 				format.writeValue(output, name, type, toSerialize, context);
@@ -66,22 +67,48 @@ public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public T deserialize(I input, Format<I, ?> format) throws IOException {
+		Map<String, Object> map = new LinkedHashMap<>();
+		format.read(input, map, context);
+		return deserialize(map);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public T deserialize(Map<String, Object> map) throws IOException {
 		try {
 			T instance = (T) UnsafeAccessor.getUnsafe().allocateInstance(clazz);
-			Map<String, Object> map = new LinkedHashMap<>();
-			format.read(input, map, context);
 			for (int i = 0; i < fields.length; i++) {
 				Object field = fields[i];
-				if (field instanceof Field) {
-					Object value = map.get(((Field) field).getName());
-					if (value != null) fieldModifier.setValue((Field) field, instance, value);
-				} else ((AdaptedField) field).setValue(fieldModifier, instance, map.get(((AdaptedField) field).getField().getName()));
+				Field f = getField(field);
+				Object value = map.get(getName(f));
+				if(value != null){
+					Class<?> c = f.getType();
+					if(value instanceof Map && !Map.class.isAssignableFrom(c))
+						value = factory.createOrGetSerializer(c).deserialize((Map<String, Object>) value);
+
+					if (field instanceof Field)
+						fieldModifier.setValue((Field) field, instance, value);
+					else
+						((AdaptedField) field).setValue(fieldModifier, instance, map.get(((AdaptedField) field).getField().getName()));
+				}
 			}
 			return instance;
 		} catch (InstantiationException e) {
 			Logger.MAIN_LOGGER.severe("BasicDeserializer", e, "Could'not create instance");
 			return null;
 		}
+	}
+
+	protected boolean processField(Field f) {
+		return !Modifier.isStatic(f.getModifiers()) && !Modifier.isTransient(f.getModifiers());
+	}
+
+	protected String getName(Field f){
+		SerializedName name = f.getAnnotation(SerializedName.class);
+		if(name != null)
+			return name.value();
+		else
+			return f.getName();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -107,9 +134,14 @@ public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {
 		this.fields = f.toArray(new Object[f.size()]);
 	}
 
-	protected boolean processField(Field f) {
-		return !Modifier.isStatic(f.getModifiers()) && !Modifier.isTransient(f.getModifiers());
+	protected static Field getField(Object o){
+		if(o instanceof Field)
+			return (Field) o;
+		else if(o instanceof AdaptedField)
+			return ((AdaptedField) o).getField();
+		else return null;
 	}
+
 
 	public static class AdaptedField {
 		private Adapter[] adapters;
