@@ -11,12 +11,13 @@ import com.getsentry.raven.util.Util;
 import fr.aresrpg.commons.log.Log;
 import fr.aresrpg.commons.log.Logger;
 import fr.aresrpg.commons.log.handler.BaseHandler;
+import fr.aresrpg.commons.log.handler.Handler;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
 
-public class RavenHandler extends BaseHandler {
+public class RavenHandler implements Handler {
 	public static final String THREAD_NAME = "Thread name";
 	public static final String THREAD_ID = "Thread id";
 	public static final String ARGUMENTS = "Arguments";
