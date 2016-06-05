@@ -58,7 +58,6 @@ public class Filter {
 		return value;
 	}
 
-
 	public static Filter and(Filter... filters) {
 		return new Filter(null, Type.AND, filters);
 	}

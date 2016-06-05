@@ -1,7 +1,6 @@
 package fr.aresrpg.commons.serialization;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {
 		this.factory = factory;
 		this.clazz = clazz;
 		this.fieldModifier = factory.getFieldModifier();
-		this.context = new BasicSerializationContext<I , O>();
+		this.context = new BasicSerializationContext<I, O>();
 		setup();
 	}
 
@@ -81,15 +80,12 @@ public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {
 				Object field = fields[i];
 				Field f = getField(field);
 				Object value = map.get(getName(f));
-				if(value != null){
+				if (value != null) {
 					Class<?> c = f.getType();
-					if(value instanceof Map && !Map.class.isAssignableFrom(c))
-						value = factory.createOrGetSerializer(c).deserialize((Map<String, Object>) value);
+					if (value instanceof Map && !Map.class.isAssignableFrom(c)) value = factory.createOrGetSerializer(c).deserialize((Map<String, Object>) value);
 
-					if (field instanceof Field)
-						fieldModifier.setValue((Field) field, instance, value);
-					else
-						((AdaptedField) field).setValue(fieldModifier, instance, map.get(((AdaptedField) field).getField().getName()));
+					if (field instanceof Field) fieldModifier.setValue((Field) field, instance, value);
+					else ((AdaptedField) field).setValue(fieldModifier, instance, map.get(((AdaptedField) field).getField().getName()));
 				}
 			}
 			return instance;
@@ -103,12 +99,10 @@ public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {
 		return !Modifier.isStatic(f.getModifiers()) && !Modifier.isTransient(f.getModifiers());
 	}
 
-	protected String getName(Field f){
+	protected String getName(Field f) {
 		SerializedName name = f.getAnnotation(SerializedName.class);
-		if(name != null)
-			return name.value();
-		else
-			return f.getName();
+		if (name != null) return name.value();
+		else return f.getName();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -134,14 +128,11 @@ public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {
 		this.fields = f.toArray(new Object[f.size()]);
 	}
 
-	protected static Field getField(Object o){
-		if(o instanceof Field)
-			return (Field) o;
-		else if(o instanceof AdaptedField)
-			return ((AdaptedField) o).getField();
+	protected static Field getField(Object o) {
+		if (o instanceof Field) return (Field) o;
+		else if (o instanceof AdaptedField) return ((AdaptedField) o).getField();
 		else return null;
 	}
-
 
 	public static class AdaptedField {
 		private Adapter[] adapters;
@@ -174,7 +165,7 @@ public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {
 		}
 	}
 
-	private class BasicSerializationContext<J , P> implements SerializationContext<I , O> {
+	private class BasicSerializationContext<J, P> implements SerializationContext<I, O> {
 
 		@Override
 		@SuppressWarnings("unchecked")
