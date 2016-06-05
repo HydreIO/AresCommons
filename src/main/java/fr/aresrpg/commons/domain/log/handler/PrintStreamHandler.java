@@ -1,11 +1,11 @@
 package fr.aresrpg.commons.domain.log.handler;
 
-import fr.aresrpg.commons.domain.log.Log;
-
 import java.io.IOException;
 import java.io.PrintStream;
 
-public class PrintStreamHandler extends BaseHandler{
+import fr.aresrpg.commons.domain.log.Log;
+
+public class PrintStreamHandler extends BaseHandler {
 	private PrintStream outStream;
 	private PrintStream errorStream;
 
@@ -20,9 +20,7 @@ public class PrintStreamHandler extends BaseHandler{
 
 	@Override
 	public void handle(Log log) throws IOException {
-		if (log.getLevel().isError())
-			errorStream.print(format(log));
-		else
-			outStream.print(format(log));
+		if (log.getLevel().isError()) errorStream.println(format(log));
+		else outStream.println(format(log));
 	}
 }
