@@ -1,7 +1,7 @@
 package fr.aresrpg.commons.test.event;
 
-import fr.aresrpg.commons.event.Event;
-import fr.aresrpg.commons.event.EventBus;
+import fr.aresrpg.commons.domain.event.Event;
+import fr.aresrpg.commons.domain.event.EventBus;
 import org.junit.Assert;
 import org.junit.Test;
 

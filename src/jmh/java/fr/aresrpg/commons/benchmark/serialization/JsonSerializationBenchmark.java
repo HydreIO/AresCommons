@@ -2,9 +2,9 @@ package fr.aresrpg.commons.benchmark.serialization;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.aresrpg.commons.serialization.Serializer;
-import fr.aresrpg.commons.serialization.factory.BasicSerializationFactory;
-import fr.aresrpg.commons.serialization.formats.json.JsonFormat;
+import fr.aresrpg.commons.domain.serialization.Serializer;
+import fr.aresrpg.commons.infra.serialization.factory.BasicSerializationFactory;
+import fr.aresrpg.commons.infra.serialization.formats.json.JsonFormat;
 import org.boon.json.serializers.impl.JsonSimpleSerializerImpl;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
