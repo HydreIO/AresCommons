@@ -218,7 +218,7 @@ public class ASMPropertiesI18N implements I18N {
 
 		}
 		for (Map.Entry<Locale, Properties> entry : properties.entrySet()) {
-			save(entry.getValue(), new FileOutputStream(new File(FOLDER, getName(entry.getKey())) + ".i18n"), entry.getKey().toString());
+			save(entry.getValue(), new FileOutputStream(new File(FOLDER, getName(entry.getKey())) + ".lang"), entry.getKey().toString());
 		}
 	}
 
