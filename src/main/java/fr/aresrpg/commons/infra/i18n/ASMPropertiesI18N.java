@@ -148,8 +148,8 @@ public class ASMPropertiesI18N implements I18N {
 		while (true) {
 			if (!matcher.find()) {
 				mv.visitLdcInsn(value.substring(index));
-				mv.visitMethodInsn(INVOKEVIRTUAL, STRING_BUILDER, STRING_BUILDER_APPEND, "(Ljava/i18n/String;)Ljava/i18n/StringBuilder;", false);
-				mv.visitMethodInsn(INVOKEVIRTUAL, STRING_BUILDER, "toString", "()Ljava/i18n/String;", false);
+				mv.visitMethodInsn(INVOKEVIRTUAL, STRING_BUILDER, STRING_BUILDER_APPEND, "(Ljava/lang/String;)Ljava/lang/StringBuilder;", false);
+				mv.visitMethodInsn(INVOKEVIRTUAL, STRING_BUILDER, "toString", "()Ljava/lang/String;", false);
 				mv.visitInsn(ARETURN);
 				Label l1 = new Label();
 				mv.visitLabel(l1);
@@ -158,11 +158,11 @@ public class ASMPropertiesI18N implements I18N {
 				return;
 			}
 			mv.visitLdcInsn(value.substring(index, matcher.start()));
-			mv.visitMethodInsn(INVOKEVIRTUAL, STRING_BUILDER, STRING_BUILDER_APPEND, "(Ljava/i18n/String;)Ljava/i18n/StringBuilder;", false);
+			mv.visitMethodInsn(INVOKEVIRTUAL, STRING_BUILDER, STRING_BUILDER_APPEND, "(Ljava/lang/String;)Ljava/lang/StringBuilder;", false);
 			mv.visitVarInsn(ALOAD, 1);
 			writeIntValue(mv, Integer.parseInt(matcher.group(1)));
 			mv.visitInsn(AALOAD);
-			mv.visitMethodInsn(INVOKEVIRTUAL, STRING_BUILDER, STRING_BUILDER_APPEND, "(Ljava/i18n/Object;)Ljava/i18n/StringBuilder;", false);
+			mv.visitMethodInsn(INVOKEVIRTUAL, STRING_BUILDER, STRING_BUILDER_APPEND, "(Ljava/lang/Object;)Ljava/i18n/StringBuilder;", false);
 			index = matcher.end();
 		}
 	}
@@ -231,7 +231,7 @@ public class ASMPropertiesI18N implements I18N {
 	}
 
 	public Properties tryGetProperties(String name) throws IOException {
-		File file = new File(FOLDER, name + ".i18n");
+		File file = new File(FOLDER, name + ".lang");
 		if (!file.exists()) return null;
 		Properties properties = new Properties();
 		properties.load(new FileReader(file));
