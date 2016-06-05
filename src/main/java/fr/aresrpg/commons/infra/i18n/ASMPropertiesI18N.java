@@ -162,7 +162,7 @@ public class ASMPropertiesI18N implements I18N {
 			mv.visitVarInsn(ALOAD, 1);
 			writeIntValue(mv, Integer.parseInt(matcher.group(1)));
 			mv.visitInsn(AALOAD);
-			mv.visitMethodInsn(INVOKEVIRTUAL, STRING_BUILDER, STRING_BUILDER_APPEND, "(Ljava/lang/Object;)Ljava/i18n/StringBuilder;", false);
+			mv.visitMethodInsn(INVOKEVIRTUAL, STRING_BUILDER, STRING_BUILDER_APPEND, "(Ljava/lang/Object;)Ljava/lang/StringBuilder;", false);
 			index = matcher.end();
 		}
 	}
