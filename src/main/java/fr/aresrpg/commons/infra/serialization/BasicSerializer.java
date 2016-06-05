@@ -140,8 +140,9 @@ public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {
 		public void setValue(FieldModifier modifier, Object instance, Object value) {
 			if (value == null) return;
 			Object o = value;
-			for (int i = adapters.length; i >= 0; i--)
-				o = adapters[i].adaptFrom(o);
+			if(adapters.length > 0)
+				for (int i = adapters.length; i >= 0; i--)
+					o = adapters[i].adaptFrom(o);
 			modifier.setValue(field, instance, o);
 		}
 
