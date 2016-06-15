@@ -86,7 +86,7 @@ public class EventBus<E> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends Event> EventBus<T> getBus(Class<T> eventClass) {
+	public static <T> EventBus<T> getBus(Class<T> eventClass) {
 		UnsafeAccessor.getUnsafe().ensureClassInitialized(eventClass);
 		return (EventBus<T>) buses.get(eventClass);
 	}
