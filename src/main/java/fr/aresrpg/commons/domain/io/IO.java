@@ -7,6 +7,7 @@ import java.io.OutputStream;
 
 public class IO {
 	private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
+
 	private IO(){}
 
 	public static void copy(InputStream from , OutputStream to , int bufferSize) throws IOException {

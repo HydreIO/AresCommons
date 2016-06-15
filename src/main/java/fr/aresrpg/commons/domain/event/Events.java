@@ -19,7 +19,6 @@ public class Events {
 				Logger.MAIN_LOGGER.error(e);
 			}
 		});
-
 	}
 
 }
