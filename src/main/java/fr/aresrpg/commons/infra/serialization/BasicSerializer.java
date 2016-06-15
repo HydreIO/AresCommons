@@ -102,7 +102,7 @@ public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {
 		List<AdaptedField> f = new ArrayList<>();
 
 		Field[] fds = clazz.getDeclaredFields();
-		for (int i = clazz.isMemberClass() ? 1 : 0; i < fds.length; i++) {
+		for (int i = (clazz.isMemberClass() && !Modifier.isStatic(clazz.getModifiers())) ? 1 : 0; i < fds.length; i++) {
 			Field field = fds[i];
 			if (!processField(field) || !fieldModifier.canProcess(field)) continue;
 			fieldModifier.preprocess(field);

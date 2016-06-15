@@ -69,7 +69,7 @@ public enum TypeEnum {
 			else
 				value = OBJECT_ARRAY;
 		} else {
-			if(clazz.getName().startsWith("java.i18n")){
+			if(clazz.getName().startsWith("java.lang")){
 				if(String.class.equals(clazz))
 					value = STRING;
 				else
