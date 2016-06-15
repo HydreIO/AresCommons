@@ -1,5 +1,7 @@
 package fr.aresrpg.commons.domain.util;
 
+import java.util.Objects;
+
 public class Pair<F , S> {
 	protected F first;
 	protected S second;
@@ -15,5 +17,19 @@ public class Pair<F , S> {
 
 	public S getSecond() {
 		return second;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Pair<?, ?> pair = (Pair<?, ?>) o;
+		return Objects.equals(first, pair.first) &&
+				Objects.equals(second, pair.second);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(first, second);
 	}
 }
