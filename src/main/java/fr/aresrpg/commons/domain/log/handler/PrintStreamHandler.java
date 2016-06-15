@@ -20,7 +20,7 @@ public class PrintStreamHandler extends BaseHandler {
 
 	@Override
 	public void handle(Log log) throws IOException {
-		if (log.getLevel().isError()) errorStream.print(format(log));
-		else outStream.print(format(log));
+		if (log.getLevel().isError()) errorStream.println(format(log));
+		else outStream.println(format(log));
 	}
 }
