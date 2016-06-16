@@ -33,105 +33,91 @@ public enum TypeEnum {
 	OBJECT;
 
 	public static TypeEnum getType(Class<?> clazz){
-		TypeEnum value = null;
-		if(clazz.isPrimitive())
-			value = getPrimitiveType(clazz);
+		String name = clazz.getName();
+		TypeEnum type = getType(name);
+		if(type != null)
+			return type;
 		else if(clazz.isArray()){
 			if(clazz.getComponentType().isPrimitive())
-				switch (getPrimitiveType(clazz.getComponentType())){
+				switch (getPrimitiveType(clazz.getComponentType().getName())){
 					case BOOLEAN:
-						value = BOOLEAN_ARRAY;
-						break;
+						return BOOLEAN_ARRAY;
 					case BYTE:
-						value = BYTE_ARRAY;
-						break;
+						return BYTE_ARRAY;
 					case SHORT:
-						value = SHORT_ARRAY;
-						break;
+						return SHORT_ARRAY;
 					case CHAR:
-						value = CHAR_ARRAY;
-						break;
+						return CHAR_ARRAY;
 					case INT:
-						value = INT_ARRAY;
-						break;
+						return INT_ARRAY;
 					case LONG:
-						value = LONG_ARRAY;
-						break;
+						return LONG_ARRAY;
 					case FLOAT:
-						value = FLOAT_ARRAY;
-						break;
+						return FLOAT_ARRAY;
 					case DOUBLE:
-						value = DOUBLE_ARRAY;
-						break;
+						return DOUBLE_ARRAY;
 					default:
-						break;
+						throw new IllegalStateException("Unreachable");
 				}
 			else
-				value = OBJECT_ARRAY;
-		} else {
-			if(clazz.getName().startsWith("java.lang")){
-				if(String.class.equals(clazz))
-					value = STRING;
-				else
-					value = getWrapperType(clazz);
-			} else if(clazz.getName().startsWith("java.util"))
-				if(Collection.class.isAssignableFrom(clazz))
-					value = COLLECTION;
-		}
-		return value == null ? OBJECT : value;
+				return OBJECT_ARRAY;
+		}else if(name.startsWith("java.util") && Collection.class.isAssignableFrom(clazz))
+			return COLLECTION;
+		else
+			return OBJECT;
 	}
 
+	public static TypeEnum getType(String name){
+		switch (name){
+			case "java.lang.String":
+				return STRING;
+			case "java.lang.Boolean":
+				return BOOLEAN;
+			case "java.lang.Byte":
+				return BYTE;
+			case "java.lang.Short":
+				return SHORT;
+			case "java.lang.Character":
+				return CHAR;
+			case "java.lang.Integer":
+				return INT;
+			case "java.lang.Long":
+				return LONG;
+			case "java.lang.Float":
+				return FLOAT;
+			case "java.lang.Double":
+				return DOUBLE;
+			default:
+				return getPrimitiveType(name);
+		}
+	}
+
+	public static TypeEnum getPrimitiveType(String name){
+		switch (name){
+			case "boolean":
+				return BOOLEAN;
+			case "byte":
+				return BYTE;
+			case "short":
+				return SHORT;
+			case "char":
+				return CHAR;
+			case "int":
+				return INT;
+			case "long":
+				return LONG;
+			case "float":
+				return FLOAT;
+			case "double":
+				return DOUBLE;
+			default:
+				return null;
+		}
+	}
 	public static TypeEnum getType(Object object){
 		if(object == null)
 			return NULL;
 		else
 			return getType(object.getClass());
 	}
-
-	public static TypeEnum getPrimitiveType(Class<?> clazz){
-		TypeEnum value = null;
-		if(boolean.class.equals(clazz))
-			value = BOOLEAN;
-		else if(byte.class.equals(clazz))
-			value = BYTE;
-		else if(short.class.equals(clazz))
-			value = SHORT;
-		else if(char.class.equals(clazz))
-			value = CHAR;
-		else if(int.class.equals(clazz))
-			value = INT;
-		else if(long.class.equals(clazz))
-			value = LONG;
-		else if(float.class.equals(clazz))
-			value = FLOAT;
-		else if(double.class.equals(clazz))
-			value = DOUBLE;
-		return value;
-
-	}
-
-	public static TypeEnum getWrapperType(Class<?> clazz){
-		TypeEnum value = null;
-		if(Boolean.class.equals(clazz))
-			value = BOOLEAN;
-		else if(Byte.class.equals(clazz))
-			value = BYTE;
-		else if(Short.class.equals(clazz))
-			value = SHORT;
-		else if(Character.class.equals(clazz))
-			value = CHAR;
-		else if(Integer.class.equals(clazz))
-			value = INT;
-		else if(Long.class.equals(clazz))
-			value = LONG;
-		else if(Float.class.equals(clazz))
-			value = FLOAT;
-		else if(Double.class.equals(clazz))
-			value = DOUBLE;
-		return value;
-
-	}
-
-
-
 }
