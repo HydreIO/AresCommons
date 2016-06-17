@@ -14,8 +14,7 @@ import fr.aresrpg.commons.domain.condition.functional.consumer.TriConsumer;
 
 @SuppressWarnings("unchecked")
 public class Consumers {
-	private Consumers() {
-	}
+	private Consumers() {}
 
 	public static <T> ExecutiveConsumer<T> executeNative(java.util.function.Consumer<T> consumer, T t, boolean condition) {
 		if (condition) consumer.accept(t);
