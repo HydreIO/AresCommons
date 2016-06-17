@@ -4,15 +4,15 @@ package fr.aresrpg.commons.domain.event;
 public class BusRegisterEvent implements Event<BusRegisterEvent> {
 	public static final EventBus<BusRegisterEvent> BUS = new EventBus<>(BusRegisterEvent.class);
 
-	private final Class<? extends Event> owner;
+	private final Class<?> owner;
 	private final EventBus registeredBus;
 
-	public BusRegisterEvent(Class<? extends Event> owner, EventBus registeredBus) {
+	public BusRegisterEvent(Class<?> owner, EventBus registeredBus) {
 		this.owner = owner;
 		this.registeredBus = registeredBus;
 	}
 
-	public Class<? extends Event> getBusOwner() {
+	public Class<?> getBusOwner() {
 		return owner;
 	}
 

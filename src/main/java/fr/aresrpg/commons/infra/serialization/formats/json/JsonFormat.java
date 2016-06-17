@@ -48,7 +48,9 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 	@Override
 	public void writeValue(OutputStream out, String name, TypeEnum type, Object value, SerializationContext<InputStream , OutputStream> context) throws IOException {
 		if (name != null) {
+			out.write(STRING_DELIMITER);
 			out.write(name.getBytes(ENCODING));
+			out.write(STRING_DELIMITER);
 			out.write(SEPARATOR);
 		}
 		switch (type) {
@@ -79,6 +81,9 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 			case COLLECTION:
 				writeCollection(out, (Collection<?>) value, context);
 				break;
+			case OBJECT_ARRAY:
+				writeObjectArray(out, (Object[]) value , context);
+				break;
 			case BYTE_ARRAY:
 				writeByteArray(out, (byte[]) value);
 				break;
@@ -106,6 +111,7 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 				break;
 		}
 	}
+
 
 	@Override
 	public void writeBeginObject(OutputStream out) throws IOException {
@@ -136,6 +142,16 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 				if (!it.hasNext()) break;
 				else out.write(ARRAY_SEPARATOR);
 			}
+		}
+		out.write(END_ARRAY);
+	}
+
+	private void writeObjectArray(OutputStream out, Object[] objects, SerializationContext<InputStream , OutputStream> context) throws IOException {
+		out.write(BEGIN_ARRAY);
+		int end = objects.length - 1;
+		for (int i = 0; i < objects.length; i++) {
+			context.serialize(out , objects[i] , this);
+			if (i != end) out.write(ARRAY_SEPARATOR);
 		}
 		out.write(END_ARRAY);
 	}

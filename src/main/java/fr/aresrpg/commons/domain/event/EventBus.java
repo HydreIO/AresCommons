@@ -20,8 +20,8 @@ import fr.aresrpg.commons.domain.condition.functional.consumer.Consumer;
 import fr.aresrpg.commons.domain.unsafe.UnsafeAccessor;
 
 @SuppressWarnings("rawtypes")
-public class EventBus<E extends Event> {
-	private static final Map<Class<? extends Event>, EventBus<? extends Event>> buses = new HashMap<>();
+public class EventBus<E> {
+	private static final Map<Class<?>, EventBus<?>> buses = new HashMap<>();
 	public static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(40);
 	public static final Comparator<Subscriber> PRIORITY_COMPARATOR = (s1, s2) -> Integer.compare(s1.getPriority(), s2.getPriority());
 
@@ -50,6 +50,7 @@ public class EventBus<E extends Event> {
 		return subscribeMethod(lookup, lookup.unreflect(method), instance, priority);
 	}
 
+	@SuppressWarnings("unchecked")
 	public Subscriber<E> subscribeMethod(MethodHandles.Lookup lookup, MethodHandle method, Object instance, int priority) throws Exception {
 		try {
 			if (instance == null) return subscribe(
@@ -79,17 +80,18 @@ public class EventBus<E extends Event> {
 		return subscribers.size();
 	}
 
-	private static void registerBus(Class<? extends Event> owner, EventBus<? extends Event> bus) {
-		if (buses.putIfAbsent(owner, bus) == null) new BusRegisterEvent(owner, bus).send();
+	private static void registerBus(Class<?> owner, EventBus<?> bus) {
+		if (buses.putIfAbsent(owner, bus) == null)
+			new BusRegisterEvent(owner, bus).send();
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends Event> EventBus<T> getBus(Class<T> eventClass) {
+	public static <T> EventBus<T> getBus(Class<T> eventClass) {
 		UnsafeAccessor.getUnsafe().ensureClassInitialized(eventClass);
 		return (EventBus<T>) buses.get(eventClass);
 	}
 
-	public static Map<Class<? extends Event>, EventBus<? extends Event>> getBuses() {
+	public static Map<Class<?>, EventBus<?>> getBuses() {
 		return Collections.unmodifiableMap(buses);
 	}
 
