@@ -10,9 +10,9 @@ public class EventTest {
 	public static final int COUNT = 50;
 
 	public static class PriorityTestEvent implements Event<PriorityTestEvent> {
-		public static final EventBus<PriorityTestEvent>	BUS		= new EventBus<>(PriorityTestEvent.class);
+		public static final EventBus<PriorityTestEvent> BUS = new EventBus<>(PriorityTestEvent.class);
 
-		public int										counter	= 0;
+		public int counter = 0;
 
 		public void called(int index) {
 			Assert.assertEquals(counter, index);
@@ -40,9 +40,9 @@ public class EventTest {
 	}
 
 	public static class AsynchronousTestEvent implements Event<AsynchronousTestEvent> {
-		public static final EventBus<AsynchronousTestEvent>	BUS	= new EventBus<>(AsynchronousTestEvent.class);
+		public static final EventBus<AsynchronousTestEvent> BUS = new EventBus<>(AsynchronousTestEvent.class);
 
-		public Thread										startThread;
+		public Thread startThread;
 
 		public AsynchronousTestEvent(Thread startThread) {
 			this.startThread = startThread;
@@ -72,9 +72,9 @@ public class EventTest {
 	}
 
 	public static class SynchronousTestEvent implements Event<SynchronousTestEvent> {
-		public static final EventBus<SynchronousTestEvent>	BUS	= new EventBus<>(SynchronousTestEvent.class);
+		public static final EventBus<SynchronousTestEvent> BUS = new EventBus<>(SynchronousTestEvent.class);
 
-		public Thread										startThread;
+		public Thread startThread;
 
 		public SynchronousTestEvent(Thread startThread) {
 			this.startThread = startThread;
