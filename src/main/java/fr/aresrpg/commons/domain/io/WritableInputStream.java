@@ -6,6 +6,6 @@ import java.io.InputStream;
 public class WritableInputStream extends InputStream{
 	@Override
 	public int read() throws IOException {
-		return 0;
+		throw new UnsupportedOperationException();
 	}
 }
