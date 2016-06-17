@@ -27,7 +27,6 @@ public class EventTest {
 			return false;
 		}
 	}
-
 	@Test
 	public void priorityTestEvent(){
 		for(int i = 0 ; i < COUNT ; i++){
