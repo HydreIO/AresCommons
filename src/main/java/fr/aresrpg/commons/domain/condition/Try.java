@@ -1,6 +1,9 @@
 package fr.aresrpg.commons.domain.condition;
 
-import fr.aresrpg.commons.domain.condition.functional.TryRunnable;
+import java.util.function.Consumer;
+import java.util.function.Function;
+
+import fr.aresrpg.commons.domain.condition.functional.TryExecutable;
 import fr.aresrpg.commons.domain.condition.functional.suplier.TrySupplier;
 
 import java.util.function.Consumer;
@@ -8,9 +11,9 @@ import java.util.function.Function;
 
 public interface Try<T> extends RawOption<T, Try<T>> {
 
-	static Try<Object> test(TryRunnable runnable) {
+	static Try<Object> test(TryExecutable executable) {
 		try {
-			runnable.run();
+			executable.execute();
 			return new Ok<>(null);
 		} catch (Exception e) {
 			return new Error(e);
