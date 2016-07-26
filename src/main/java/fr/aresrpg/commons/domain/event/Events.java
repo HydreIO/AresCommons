@@ -1,12 +1,10 @@
 package fr.aresrpg.commons.domain.event;
 
-import java.util.Arrays;
-
 import fr.aresrpg.commons.domain.log.Logger;
 
-public class Events {
+import java.util.Arrays;
 
-	private Events() {}
+public interface Events {
 
 	@SuppressWarnings({ "unchecked" })
 	public static void register(Object c) throws IllegalArgumentException {
