@@ -26,6 +26,10 @@ public class Predicates {
 		return o -> Objects.equals(o, value);
 	}
 
+	public static <T> Predicate<T> isNot(T value) {
+		return o -> !Objects.equals(o, value);
+	}
+
 	@SafeVarargs
 	public static <T> Predicate<T> in(T... values) {
 		return o -> {

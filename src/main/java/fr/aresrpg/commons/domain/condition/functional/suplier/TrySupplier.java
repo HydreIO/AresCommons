@@ -1,4 +1,4 @@
-package fr.aresrpg.commons.domain.condition.functional;
+package fr.aresrpg.commons.domain.condition.functional.suplier;
 
 @FunctionalInterface
 public interface TrySupplier<T> {

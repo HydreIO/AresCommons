@@ -4,13 +4,13 @@ import java.util.Iterator;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 import fr.aresrpg.commons.domain.Iterators;
 import fr.aresrpg.commons.domain.Value;
 import fr.aresrpg.commons.domain.condition.functional.Executable;
+import fr.aresrpg.commons.domain.condition.functional.suplier.Supplier;
 
-public interface RawOption<T, O extends RawOption<T, ?>> extends Value<T> {
+public interface RawOption<T, O extends RawOption<T, ?>> extends Value<T> , Supplier<T> {
 
 	default boolean isPresent() {
 		return !isEmpty();

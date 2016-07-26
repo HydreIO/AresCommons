@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,6 @@ import fr.aresrpg.commons.domain.serialization.field.FieldModifier;
 import fr.aresrpg.commons.domain.serialization.formats.Format;
 import fr.aresrpg.commons.domain.types.TypeEnum;
 import fr.aresrpg.commons.domain.unsafe.UnsafeAccessor;
-import fr.aresrpg.commons.domain.util.map.LinkedHashMap;
 
 @SuppressWarnings("rawtypes")
 public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {

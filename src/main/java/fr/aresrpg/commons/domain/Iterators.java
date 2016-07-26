@@ -1,5 +1,7 @@
 package fr.aresrpg.commons.domain;
 
+import fr.aresrpg.commons.domain.condition.functional.suplier.Supplier;
+
 import java.util.*;
 
 public class Iterators {
@@ -16,6 +18,12 @@ public class Iterators {
         return new ArrayIterator<>(values);
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T> T[] toArray(Iterator<T> iterator, T[] array) {
+        for(int i = 0 ; iterator.hasNext() && i < array.length ; i++)
+            array[i] = iterator.next();
+        return array;
+    }
 
     private static class EmptyIterator implements Iterator<Object> {
 

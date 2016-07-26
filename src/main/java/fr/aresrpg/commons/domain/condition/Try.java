@@ -4,7 +4,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import fr.aresrpg.commons.domain.condition.functional.TryRunnable;
-import fr.aresrpg.commons.domain.condition.functional.TrySupplier;
+import fr.aresrpg.commons.domain.condition.functional.suplier.Supplier;
+import fr.aresrpg.commons.domain.condition.functional.suplier.TrySupplier;
 
 public interface Try<T> extends RawOption<T, Try<T>> {
 

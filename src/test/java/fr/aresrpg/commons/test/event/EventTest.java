@@ -101,6 +101,7 @@ public class EventTest {
 			EventBus.getBus(SynchronousTestEvent.class).subscribe(SynchronousTestEvent::called, i);
 		}
 		new SynchronousTestEvent(Thread.currentThread()).send();
+		System.out.println("Hello");
 	}
 
 	public static class TestEvent implements Event<TestEvent> {

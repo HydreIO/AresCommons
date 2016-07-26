@@ -15,11 +15,10 @@ public interface Value<T> extends Iterable<T>{
         return objectName()+"["+joiner.toString()+"]";
     }
 
+
     default String objectName(){
         return getClass().getName();
     }
 
     boolean isEmpty();
-
-    T get();
 }
