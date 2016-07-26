@@ -16,7 +16,7 @@ public class Events {
 			try {
 				EventBus.getBus((Class<Event<?>>) m.getParameterTypes()[0]).subscribeMethod(m, c, ((AresEvent) m.getAnnotation(AresEvent.class)).priority());
 			} catch (Exception e) {
-				Logger.MAIN_LOGGER.error(e);
+				Logger.MAIN_LOGGER.error(e , "Error while register bus for class {}" , c.getClass());
 			}
 		});
 	}
