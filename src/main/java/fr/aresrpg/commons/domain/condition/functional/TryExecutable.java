@@ -1,6 +1,6 @@
 package fr.aresrpg.commons.domain.condition.functional;
 
 @FunctionalInterface
-public interface TryRunnable {
-    void run() throws Exception;
+public interface TryExecutable {
+    void execute() throws Exception;
 }
