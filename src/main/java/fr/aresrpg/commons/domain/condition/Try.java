@@ -5,6 +5,7 @@ import java.util.function.Function;
 
 import fr.aresrpg.commons.domain.condition.functional.TryExecutable;
 import fr.aresrpg.commons.domain.condition.functional.suplier.TrySupplier;
+import fr.aresrpg.commons.domain.util.Or;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -54,6 +55,8 @@ public interface Try<T> extends RawOption<T, Try<T>> {
 
 	Throwable getError();
 
+	Or<T , Throwable> toOr();
+
 	class Ok<T> extends Some<T, Try<T>> implements Try<T> {
 
 		Ok(T value) {
@@ -73,6 +76,11 @@ public interface Try<T> extends RawOption<T, Try<T>> {
 		@Override
 		public Throwable getError() {
 			return null;
+		}
+
+		@Override
+		public Or<T, Throwable> toOr() {
+			return Or.first(get());
 		}
 	}
 
@@ -98,6 +106,11 @@ public interface Try<T> extends RawOption<T, Try<T>> {
 		@Override
 		public Throwable getError() {
 			return value;
+		}
+
+		@Override
+		public Or<Object, Throwable> toOr() {
+			return Or.second(value);
 		}
 	}
 
