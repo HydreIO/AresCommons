@@ -56,13 +56,8 @@ public class ParametrizedClass<T> implements Value<Class<T>> {
 	}
 
 	@Override
-	public Class<T> get() {
-		return getRaw();
-	}
-
-	@Override
 	public Iterator<Class<T>> iterator() {
-		return Iterators.of(get());
+		return Iterators.of(getRaw());
 	}
 
 }
