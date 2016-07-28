@@ -1,4 +1,4 @@
-package fr.aresrpg.commons.domain.condition.functional.function;
+package fr.aresrpg.commons.domain.functional.function;
 
 
 @FunctionalInterface

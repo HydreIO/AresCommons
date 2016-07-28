@@ -1,8 +1,8 @@
 package fr.aresrpg.commons.domain.container.singleton;
 
 import fr.aresrpg.commons.domain.container.Container;
-import fr.aresrpg.commons.domain.Iterators;
-import fr.aresrpg.commons.domain.condition.functional.suplier.Supplier;
+import fr.aresrpg.commons.domain.util.Iterators;
+import fr.aresrpg.commons.domain.functional.suplier.Supplier;
 
 import java.util.Iterator;
 import java.util.Objects;

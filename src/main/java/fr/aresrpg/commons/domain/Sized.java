@@ -1,5 +1,7 @@
 package fr.aresrpg.commons.domain;
 
+import fr.aresrpg.commons.domain.util.Iterators;
+
 import java.util.Iterator;
 
 /**

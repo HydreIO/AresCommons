@@ -1,7 +1,7 @@
 package fr.aresrpg.commons.domain.event;
 
 
-import fr.aresrpg.commons.domain.condition.functional.consumer.Consumer;
+import fr.aresrpg.commons.domain.functional.consumer.Consumer;
 
 public class Subscriber<E> {
 	private Consumer<E> consumer;

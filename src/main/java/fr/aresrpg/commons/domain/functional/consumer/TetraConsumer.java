@@ -1,4 +1,4 @@
-package fr.aresrpg.commons.domain.condition.functional.consumer;
+package fr.aresrpg.commons.domain.functional.consumer;
 
 @FunctionalInterface
 public interface TetraConsumer<A , B , C , D> {

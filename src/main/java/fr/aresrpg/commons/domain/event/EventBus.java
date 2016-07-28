@@ -14,9 +14,9 @@ import java.util.PriorityQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import fr.aresrpg.commons.domain.Consumers;
-import fr.aresrpg.commons.domain.condition.functional.consumer.BiConsumer;
-import fr.aresrpg.commons.domain.condition.functional.consumer.Consumer;
+import fr.aresrpg.commons.domain.util.Consumers;
+import fr.aresrpg.commons.domain.functional.consumer.BiConsumer;
+import fr.aresrpg.commons.domain.functional.consumer.Consumer;
 import fr.aresrpg.commons.domain.unsafe.UnsafeAccessor;
 
 @SuppressWarnings("rawtypes")

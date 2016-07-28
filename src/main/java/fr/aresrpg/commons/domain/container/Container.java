@@ -5,7 +5,7 @@ import fr.aresrpg.commons.domain.container.immutable.ImmutableContainer;
 import fr.aresrpg.commons.domain.container.singleton.SingletonContainer;
 import fr.aresrpg.commons.domain.Sized;
 import fr.aresrpg.commons.domain.Value;
-import fr.aresrpg.commons.domain.condition.functional.suplier.Supplier;
+import fr.aresrpg.commons.domain.functional.suplier.Supplier;
 
 import java.util.Collection;
 import java.util.Iterator;

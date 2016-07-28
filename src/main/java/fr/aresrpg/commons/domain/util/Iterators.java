@@ -1,6 +1,4 @@
-package fr.aresrpg.commons.domain;
-
-import fr.aresrpg.commons.domain.util.IllegalConstructionException;
+package fr.aresrpg.commons.domain.util;
 
 import java.util.*;
 

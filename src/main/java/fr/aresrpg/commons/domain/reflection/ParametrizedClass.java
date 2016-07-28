@@ -1,6 +1,6 @@
 package fr.aresrpg.commons.domain.reflection;
 
-import fr.aresrpg.commons.domain.Iterators;
+import fr.aresrpg.commons.domain.util.Iterators;
 import fr.aresrpg.commons.domain.Value;
 import fr.aresrpg.commons.domain.util.Types;
 

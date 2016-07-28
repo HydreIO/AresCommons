@@ -2,21 +2,61 @@ package fr.aresrpg.commons.domain.util;
 
 import java.util.Objects;
 
+/**
+ * A pair is a structure that hold 2 values
+ *
+ * @param <F> First type contained in this pair
+ * @param <S> Second type contained in this pair
+ * @see Turple
+ * @see Or
+ * @see ModifiablePair
+ * @author Duarte David <deltaduartedavid @ gmail.com>
+ */
 public class Pair<F , S> {
 	protected F first;
 	protected S second;
 
+	/**
+	 * Construct a new pair with this tow values
+	 * @param first the first value of this Pair
+	 * @param second the second value of this Pair
+	 */
 	public Pair(F first, S second) {
 		this.first = first;
 		this.second = second;
 	}
 
+	/**
+	 * Construct a copy of the pair passed in argument
+	 * @param pair the pair to copy
+	 */
+	public Pair(Pair<F , S> pair){
+		this.first = pair.first;
+		this.second = pair.second;
+	}
+
+	/**
+	 * Get the first value hold by this pair
+	 * @return the first value hold by this pair
+	 */
 	public F getFirst() {
 		return first;
 	}
 
+	/**
+	 * Get the second value hold by this pair
+	 * @return the first value hold by this pair
+	 */
 	public S getSecond() {
 		return second;
+	}
+
+	/**
+	 * Transform this pair to a modifiable pair
+	 * @return a modifiable version of this pair
+	 */
+	public ModifiablePair<F , S> toModifiable(){
+		return new ModifiablePair<>(first , second);
 	}
 
 	@Override

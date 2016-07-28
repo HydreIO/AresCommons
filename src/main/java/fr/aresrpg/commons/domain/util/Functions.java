@@ -1,4 +1,4 @@
-package fr.aresrpg.commons.domain;
+package fr.aresrpg.commons.domain.util;
 
 import fr.aresrpg.commons.domain.util.IllegalConstructionException;
 

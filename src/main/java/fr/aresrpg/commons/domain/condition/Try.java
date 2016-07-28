@@ -1,7 +1,7 @@
 package fr.aresrpg.commons.domain.condition;
 
-import fr.aresrpg.commons.domain.condition.functional.TryExecutable;
-import fr.aresrpg.commons.domain.condition.functional.suplier.TrySupplier;
+import fr.aresrpg.commons.domain.functional.TryExecutable;
+import fr.aresrpg.commons.domain.functional.suplier.TrySupplier;
 import fr.aresrpg.commons.domain.util.Or;
 
 import java.util.function.Consumer;

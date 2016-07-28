@@ -1,4 +1,4 @@
-package fr.aresrpg.commons.domain.condition.functional.consumer;
+package fr.aresrpg.commons.domain.functional.consumer;
 
 public interface HexaConsumer<A, B, C, D, E, F> {
 	void accept(A a, B b, C c, D d, E e, F f);

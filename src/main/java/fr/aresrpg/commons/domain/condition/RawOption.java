@@ -5,10 +5,10 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import fr.aresrpg.commons.domain.Iterators;
+import fr.aresrpg.commons.domain.util.Iterators;
 import fr.aresrpg.commons.domain.Value;
-import fr.aresrpg.commons.domain.condition.functional.Executable;
-import fr.aresrpg.commons.domain.condition.functional.suplier.Supplier;
+import fr.aresrpg.commons.domain.functional.Executable;
+import fr.aresrpg.commons.domain.functional.suplier.Supplier;
 
 public interface RawOption<T, O extends RawOption<T, ?>> extends Value<T> , Supplier<T> {
 

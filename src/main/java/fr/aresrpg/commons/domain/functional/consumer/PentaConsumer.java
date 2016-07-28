@@ -1,4 +1,4 @@
-package fr.aresrpg.commons.domain.condition.functional.consumer;
+package fr.aresrpg.commons.domain.functional.consumer;
 
 @FunctionalInterface
 public interface PentaConsumer<A , B , C , D , E> {

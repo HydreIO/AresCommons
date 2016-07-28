@@ -1,16 +1,16 @@
-package fr.aresrpg.commons.domain;
+package fr.aresrpg.commons.domain.util;
 
 import java.util.function.Predicate;
 
-import fr.aresrpg.commons.domain.condition.functional.Executable;
-import fr.aresrpg.commons.domain.condition.functional.consumer.BiConsumer;
-import fr.aresrpg.commons.domain.condition.functional.consumer.Consumer;
-import fr.aresrpg.commons.domain.condition.functional.consumer.ExecutiveConsumer;
-import fr.aresrpg.commons.domain.condition.functional.consumer.HeptaConsumer;
-import fr.aresrpg.commons.domain.condition.functional.consumer.HexaConsumer;
-import fr.aresrpg.commons.domain.condition.functional.consumer.PentaConsumer;
-import fr.aresrpg.commons.domain.condition.functional.consumer.TetraConsumer;
-import fr.aresrpg.commons.domain.condition.functional.consumer.TriConsumer;
+import fr.aresrpg.commons.domain.functional.Executable;
+import fr.aresrpg.commons.domain.functional.consumer.BiConsumer;
+import fr.aresrpg.commons.domain.functional.consumer.Consumer;
+import fr.aresrpg.commons.domain.functional.consumer.ExecutiveConsumer;
+import fr.aresrpg.commons.domain.functional.consumer.HeptaConsumer;
+import fr.aresrpg.commons.domain.functional.consumer.HexaConsumer;
+import fr.aresrpg.commons.domain.functional.consumer.PentaConsumer;
+import fr.aresrpg.commons.domain.functional.consumer.TetraConsumer;
+import fr.aresrpg.commons.domain.functional.consumer.TriConsumer;
 
 /**
  * A util class to use with Consumers

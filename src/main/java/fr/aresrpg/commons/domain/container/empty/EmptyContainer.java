@@ -1,7 +1,7 @@
 package fr.aresrpg.commons.domain.container.empty;
 
 import fr.aresrpg.commons.domain.container.Container;
-import fr.aresrpg.commons.domain.Iterators;
+import fr.aresrpg.commons.domain.util.Iterators;
 
 import java.util.Iterator;
 
