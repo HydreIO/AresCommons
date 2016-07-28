@@ -11,6 +11,10 @@ public interface BiConsumer<A , B> {
         };
     }
 
+    default BiConsumer<B , A> reverseBA(){
+        return (b , a) -> accept(a , b);
+    }
+
     static <A , B> BiConsumer<A , B> empty(){
         return (a , b) ->{
             //Empty
