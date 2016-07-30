@@ -3,38 +3,42 @@ package fr.aresrpg.commons.domain.util.schedule;
 import java.util.Arrays;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.atomic.AtomicInteger;
 
+import fr.aresrpg.commons.domain.concurrent.ThreadBuilder;
 import fr.aresrpg.commons.domain.log.Logger;
 
+/**
+ * The class to launch {@link Scheduled} instance
+ * @author Duarte David <deltaduartedavid @ gmail.com>
+ */
 public class Scheduler {
-	private static ThreadFactory factory = new ThreadFactory() {
-		final AtomicInteger count = new AtomicInteger(0);
-
-		@Override
-		public Thread newThread(Runnable runnable) {
-			Thread thread = new Thread(runnable, "Scheduler pool - [Thrd: " + count + "]");
-			thread.setDaemon(true);
-			return thread;
-		}
-	};
 
 	private static Scheduler instance = new Scheduler();
 
-	private ScheduledExecutorService pool = Executors.newScheduledThreadPool(50, factory);
+	private ScheduledExecutorService pool = Executors.newScheduledThreadPool(50, new ThreadBuilder().setName("Scheduler pool - [Thrd: %1]").toFactory());
 
 	private Scheduler() {}
 
+	/**
+	 * Get the scheduler instance
+	 * @return the scheduler instance
+	 */
 	public static Scheduler getScheduler() {
 		return instance;
 	}
 
 
+	/**
+	 * Shutdown the scheduler , if this method is not called the application will not exit
+	 */
 	public void shutdown() {
 		pool.shutdown();
 	}
 
+	/**
+	 * Register the  method annotated with {@link Schedule} in {@link Scheduled} instance for scheduling
+	 * @param scheduled the scheduled instance to register
+	 */
 	public void register(Scheduled scheduled) {
 		Arrays.stream(scheduled.getClass().getMethods()).filter(m -> m.isAnnotationPresent(Schedule.class)).forEach(m -> {
 			Schedule s = m.getAnnotation(Schedule.class);

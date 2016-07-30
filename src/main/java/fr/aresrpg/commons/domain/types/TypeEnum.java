@@ -2,6 +2,10 @@ package fr.aresrpg.commons.domain.types;
 
 import java.util.Collection;
 
+/**
+ * A enum to represent commons types
+ * @author Duarte David <deltaduartedavid @ gmail.com>
+ */
 public enum TypeEnum {
 	//Primitive
 	BOOLEAN,
@@ -32,6 +36,11 @@ public enum TypeEnum {
 	//Last
 	OBJECT;
 
+	/**
+	 * Get the type enum for this class
+	 * @param clazz the class
+	 * @return the type enum for the class
+	 */
 	public static TypeEnum getType(Class<?> clazz){
 		String name = clazz.getName();
 		TypeEnum type = getType(name);
@@ -67,6 +76,11 @@ public enum TypeEnum {
 			return OBJECT;
 	}
 
+	/**
+	 * Get the type enum for this class name
+	 * @param name the name of the class
+	 * @return the type enum for the class
+	 */
 	public static TypeEnum getType(String name){
 		switch (name){
 			case "java.lang.String":
