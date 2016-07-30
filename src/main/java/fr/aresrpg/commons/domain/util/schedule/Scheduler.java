@@ -15,7 +15,7 @@ public class Scheduler {
 
 	private static Scheduler instance = new Scheduler();
 
-	private ScheduledExecutorService pool = Executors.newScheduledThreadPool(50, new ThreadBuilder().setName("Scheduler pool - [Thrd: %1]").toFactory());
+	private ScheduledExecutorService pool = Executors.newScheduledThreadPool(50, new ThreadBuilder().setName("Scheduler pool - [Thrd: %1$]").toFactory());
 
 	private Scheduler() {}
 

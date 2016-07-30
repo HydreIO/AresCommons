@@ -19,15 +19,13 @@ public class ThreadBuilder implements Builder<Thread> {
 		return this;
 	}
 
-	public Runnable getRunnable() {
-		return runnable;
-	}
 
 	/**
-	 * Set %1% to get the number of the thread
+	 * Set %1$ to get the number of the thread ,see the <a
+	 *          href="../util/Formatter.html#detail">Details</a> section of the
+	 *          formatter class specification.
 	 * 
-	 * @param name
-	 *            the thread name
+	 * @param name the thread name
 	 * @return the builder
 	 */
 	public ThreadBuilder setName(String name) {
@@ -74,7 +72,7 @@ public class ThreadBuilder implements Builder<Thread> {
 
 	private Thread build(Runnable runnable) {
 		Thread thread = new Thread(runnable);
-		if (name != null) thread.setName(name);
+		if (name != null) thread.setName(String.format(name , 0));
 		if (daemon != null) thread.setDaemon(daemon);
 		if (priority != null) thread.setPriority(priority);
 		if (uncaughtExceptionHandler != null) thread.setUncaughtExceptionHandler(uncaughtExceptionHandler);
