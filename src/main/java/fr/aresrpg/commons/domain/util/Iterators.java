@@ -48,7 +48,7 @@ public class Iterators {
 
 	/**
 	 * Transform an iterator into a sorted iterator
-	 * @param it the iterator that must be sorted
+	 * @param it the iterator which must be sorted
 	 * @param comparator the comparator to sort the iterator
 	 * @param <T> the type of the iterator
 	 * @return a sorted iterator
