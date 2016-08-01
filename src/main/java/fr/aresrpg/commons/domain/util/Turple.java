@@ -3,53 +3,53 @@ package fr.aresrpg.commons.domain.util;
 import java.util.Objects;
 
 /**
- * A Turple is a structure that hold 3 values
+ * A Tuple is a structure that hold 3 values
  *
- * @param <F> First type contained in this turple
- * @param <S> Second type contained in this turple
- * @param <T> The Third type contained in this turple
+ * @param <F> First type contained in this Tuple
+ * @param <S> Second type contained in this Tuple
+ * @param <T> The Third type contained in this Tuple
  * @see Pair
- * @see ModifiableTurple
+ * @see ModifiableTuple
  * @author Duarte David <deltaduartedavid @ gmail.com>
  */
-public class Turple<F , S , T> extends Pair<F , S>{
+public class Tuple<F , S , T> extends Pair<F , S>{
 	protected T third;
 
 	/**
-	 * Construct a new turple with this 3 values
+	 * Construct a new Tuple with this 3 values
 	 *
-	 * @param first the first value of the turple
-	 * @param second the second value of the turple
-	 * @param third the third value of the turple
+	 * @param first the first value of the Tuple
+	 * @param second the second value of the Tuple
+	 * @param third the third value of the Tuple
 	 */
-	public Turple(F first, S second , T third) {
+	public Tuple(F first, S second , T third) {
 		super(first, second);
 		this.third = third;
 	}
 
 	/**
-	 * Construct a new turple with this pair and values
+	 * Construct a new Tuple with this pair and values
 	 *
 	 * @param pair the pair to get the first and second value
-	 * @param third the third value of the turple
+	 * @param third the third value of the Tuple
 	 */
-	public Turple(Pair<F , S> pair , T third) {
+	public Tuple(Pair<F , S> pair , T third) {
 		super(pair);
 		this.third = third;
 	}
 
 
 	/**
-	 * Construct a copy of the turple passed in argument
-	 * @param turple the turple to copy
+	 * Construct a copy of the Tuple passed in argument
+	 * @param Tuple the Tuple to copy
 	 */
-	public Turple(Turple<F , S , T> turple){
-		super(turple);
+	public Tuple(Tuple<F , S , T> Tuple){
+		super(Tuple);
 		this.third = third;
 	}
 
 	/**
-	 * Get third value of this turple
+	 * Get third value of this Tuple
 	 * @return the third value
 	 */
 	public T getThird() {
@@ -57,11 +57,11 @@ public class Turple<F , S , T> extends Pair<F , S>{
 	}
 
 	/**
-	 * Transform this Turple to a modifiable version
-	 * @return a Modifiable turple with same values
+	 * Transform this Tuple to a modifiable version
+	 * @return a Modifiable Tuple with same values
 	 */
-	public ModifiableTurple<F , S , T> toModifiableTurple(){
-		return new ModifiableTurple<>(first , second , third);
+	public ModifiableTuple<F , S , T> toModifiableTuple(){
+		return new ModifiableTuple<>(first , second , third);
 	}
 
 	@Override
@@ -69,8 +69,8 @@ public class Turple<F , S , T> extends Pair<F , S>{
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		if (!super.equals(o)) return false;
-		Turple<?, ?, ?> turple = (Turple<?, ?, ?>) o;
-		return Objects.equals(third, turple.third);
+		Tuple<?, ?, ?> Tuple = (Tuple<?, ?, ?>) o;
+		return Objects.equals(third, Tuple.third);
 	}
 
 	@Override
