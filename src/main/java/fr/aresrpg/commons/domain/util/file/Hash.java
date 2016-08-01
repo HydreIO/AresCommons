@@ -1,15 +1,10 @@
 package fr.aresrpg.commons.domain.util.file;
 
+import fr.aresrpg.commons.domain.io.IO;
+
 import java.io.*;
-import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import fr.aresrpg.commons.domain.io.IO;
-import fr.aresrpg.commons.domain.log.Logger;
 
 public enum Hash {
 
@@ -28,6 +23,7 @@ public enum Hash {
 
 	/**
 	 * Get the name of this hash algorithm
+	 * 
 	 * @return the name of the hash algorithm
 	 */
 	public String getName() {
@@ -37,9 +33,11 @@ public enum Hash {
 	/**
 	 * Get the checksum of this byte array
 	 *
-	 * @param bytes the bytes to get the checksum
+	 * @param bytes
+	 *            the bytes to get the checksum
 	 * @return the checksum calculated
-	 * @throws NoSuchAlgorithmException if the Algorithm is not available
+	 * @throws NoSuchAlgorithmException
+	 *             if the Algorithm is not available
 	 */
 	public byte[] checksum(byte[] bytes) throws NoSuchAlgorithmException {
 		return MessageDigest.getInstance(getName()).digest(bytes);
@@ -47,10 +45,14 @@ public enum Hash {
 
 	/**
 	 * Get the checksum of this InputStream
-	 * @param in the InputStream to get the checksum
+	 * 
+	 * @param in
+	 *            the InputStream to get the checksum
 	 * @return the checksum calculated
-	 * @throws IOException if an io error occur
-	 * @throws NoSuchAlgorithmException if the Algorithm is not available
+	 * @throws IOException
+	 *             if an io error occur
+	 * @throws NoSuchAlgorithmException
+	 *             if the Algorithm is not available
 	 */
 	public byte[] checksum(InputStream in) throws IOException, NoSuchAlgorithmException {
 		return MessageDigest.getInstance(getName()).digest(IO.toByteArray(in));
@@ -58,10 +60,14 @@ public enum Hash {
 
 	/**
 	 * Get the checksum of this File
-	 * @param input the File to get the checksum
+	 * 
+	 * @param input
+	 *            the File to get the checksum
 	 * @return the checksum calculated
-	 * @throws IOException if an io error occur
-	 * @throws NoSuchAlgorithmException if the Algorithm is not available
+	 * @throws IOException
+	 *             if an io error occur
+	 * @throws NoSuchAlgorithmException
+	 *             if the Algorithm is not available
 	 */
 	public byte[] checksum(File input) throws IOException, NoSuchAlgorithmException {
 		return checksum(new FileInputStream(input));
