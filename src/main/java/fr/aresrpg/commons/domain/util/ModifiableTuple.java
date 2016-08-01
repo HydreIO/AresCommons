@@ -13,6 +13,7 @@ package fr.aresrpg.commons.domain.util;
  * @author Duarte David <deltaduartedavid @ gmail.com>
  */
 public class ModifiableTuple<F, S, T> extends Tuple<F, S, T> {
+
 	/**
 	 * {@inheritDoc}
 	 */
