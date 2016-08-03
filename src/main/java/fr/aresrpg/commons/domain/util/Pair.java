@@ -10,7 +10,7 @@ import java.util.Objects;
  * @see Turple
  * @see Or
  * @see ModifiablePair
- * @author Duarte David <deltaduartedavid @ gmail.com>
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public class Pair<F , S> {
 	protected F first;

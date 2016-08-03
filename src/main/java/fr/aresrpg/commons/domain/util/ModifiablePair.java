@@ -5,9 +5,9 @@ package fr.aresrpg.commons.domain.util;
  *
  * @param <F> First type contained in this pair
  * @param <S> Second type contained in this pair
- * @see Turple
+ * @see Tuple
  * @see ModifiablePair
- * @author Duarte David <deltaduartedavid @ gmail.com>
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public class ModifiablePair<F , S> extends Pair<F , S>{
 	/**

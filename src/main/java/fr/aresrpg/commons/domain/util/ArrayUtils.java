@@ -7,8 +7,8 @@ import java.util.*;
 /**
  * A util class to manipulate arrays
  * 
- * @author Duarte David <deltaduartedavid @ gmail.com>
- * @author MrSceat <sceat@aresrpg.fr>
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
+ * @author MrSceat {@literal <mr.sceat@outlook.com>}
  */
 public class ArrayUtils {
 	private ArrayUtils() {

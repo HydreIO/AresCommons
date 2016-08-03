@@ -14,7 +14,7 @@ import fr.aresrpg.commons.domain.functional.consumer.TriConsumer;
 
 /**
  * A util class to use with Consumers
- * @author Duarte David <deltaduartedavid @ gmail.com>
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 @SuppressWarnings("unchecked")
 public class Consumers {

@@ -9,7 +9,7 @@ import fr.aresrpg.commons.domain.log.Logger;
 
 /**
  * The class to launch {@link Scheduled} instance
- * @author Duarte David <deltaduartedavid @ gmail.com>
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public class Scheduler {
 

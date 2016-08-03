@@ -2,7 +2,7 @@ package fr.aresrpg.commons.domain.util;
 
 /**
  * A runtime exception to avoid illegal construction of util classes
- * @author Duarte David <deltaduartedavid @ gmail.com>
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public class IllegalConstructionException extends IllegalStateException{
 

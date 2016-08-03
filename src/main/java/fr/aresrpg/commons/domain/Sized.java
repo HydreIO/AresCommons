@@ -7,7 +7,7 @@ import java.util.Iterator;
 /**
  * Represent an object with size , so it contains object an can be converted to an array
  * @param <T> the type of the objects contained
- * @author Duarte David <deltaduartedavid @ gmail.com>
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public interface Sized<T> extends Iterable<T>{
 	/**

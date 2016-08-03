@@ -4,7 +4,7 @@ import java.util.Collection;
 
 /**
  * A enum to represent commons types
- * @author Duarte David <deltaduartedavid @ gmail.com>
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public enum TypeEnum {
 	//Primitive

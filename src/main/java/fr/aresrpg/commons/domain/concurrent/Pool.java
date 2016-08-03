@@ -8,6 +8,9 @@ import java.util.concurrent.ThreadFactory;
 import fr.aresrpg.commons.domain.condition.Option;
 import fr.aresrpg.commons.domain.util.Enums;
 
+/**
+ * @author Cyril Morlet {@literal <mr.sceat@outlook.com>}
+ */
 public class Pool {
 
 	public static final Pool COMMON_POOL = create(builder().setName("[AresCommons][COMMON_POOL][THRD:%1%]").setType(PoolType.CACHED).toService(Option.none()));
@@ -19,22 +22,44 @@ public class Pool {
 		this.scheduled = s2;
 	}
 
+	/**
+	 * Get the main executor service
+	 * @return the executor service
+	 */
 	public ExecutorService getExecutor() {
 		return executor;
 	}
 
+	/**
+	 * Get the main scheduled executor service
+	 * @return the scheduled executor service
+	 */
 	public ScheduledExecutorService getScheduled() {
 		return scheduled;
 	}
 
+	/**
+	 * Create a new PoolBuilder
+	 * @return a PoolBuilder
+	 */
 	public static PoolBuilder builder() {
 		return new PoolBuilder();
 	}
 
+	/**
+	 * Create a Pool with an executor service
+	 * @param executor the executor to use
+	 * @return a Pool instance
+	 */
 	public static Pool create(ExecutorService executor) {
 		return new Pool(executor, null);
 	}
 
+	/**
+	 * Create a Pool with an scheduled executor service
+	 * @param scheduled the scheduled executor to use
+	 * @return a Pool instance
+	 */
 	public static Pool create(ScheduledExecutorService scheduled) {
 		return new Pool(null, scheduled);
 	}
@@ -49,11 +74,22 @@ public class Pool {
 			factory = Executors.defaultThreadFactory();
 		}
 
+		/**
+		 * Set the type of the pool
+		 * @param type the type for the pool
+		 * @return the builder
+		 */
 		public PoolBuilder setType(PoolType type) {
 			this.type = type;
 			return this;
 		}
 
+		/**
+		 * Set the name for the this thread pool
+		 * @param name name for this pool
+		 * @return the builder
+		 * @see ThreadBuilder#setName(String)
+		 */
 		public PoolBuilder setName(String name) {
 			if (this.security) throw new IllegalAccessError("You cant setName twice or call setFactory too");
 			this.security = true;
@@ -63,8 +99,7 @@ public class Pool {
 
 		/**
 		 * For only change the name use {@link PoolBuilder#setName(String)} instead
-		 * 
-		 * @param factory
+		 * @param factory the factory to use
 		 * @return the builder
 		 */
 		public PoolBuilder setFactory(ThreadFactory factory) {
@@ -74,6 +109,11 @@ public class Pool {
 			return this;
 		}
 
+		/**
+		 * Create a new executor service with the provided number of thread
+		 * @param parallelism number of threads to use
+		 * @return the executor service created
+		 */
 		public ExecutorService toService(Option<Integer> parallelism) {
 			Enums.requireTypeOr(this.type, PoolType.CACHED, PoolType.FIXED, PoolType.WORK_STEALING);
 			switch (this.type) {
@@ -86,11 +126,6 @@ public class Pool {
 				default:
 					return null;
 			}
-		}
-
-		public ScheduledExecutorService toScheduledService(Option<Integer> parallelism) {
-			Enums.requireType(this.type, PoolType.SCHEDULED);
-			return Executors.newScheduledThreadPool(parallelism.orElse(1), factory);
 		}
 
 	}

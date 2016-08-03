@@ -4,9 +4,9 @@ package fr.aresrpg.commons.domain.util;
  * A pair to contain the first value , or the second , or the twice
  * @param <F> First type contained in this pair
  * @param <S> Second type contained in this pair
- * @see Turple
+ * @see Tuple
  * @see Pair
- * @author Duarte David <deltaduartedavid @ gmail.com>
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public class Or<F , S> extends Pair<F , S>{
 

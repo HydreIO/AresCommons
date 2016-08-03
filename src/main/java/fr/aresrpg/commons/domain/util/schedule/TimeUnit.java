@@ -2,7 +2,7 @@ package fr.aresrpg.commons.domain.util.schedule;
 
 /**
  * A enum containing different time units with util method to do conversions
- * @author Duarte David <deltaduartedavid @ gmail.com>
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public enum TimeUnit {
 	NANOSECONDS(1L),

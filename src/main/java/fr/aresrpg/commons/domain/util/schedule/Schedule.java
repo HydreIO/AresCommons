@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * Indicate that this method must be scheduled
- * @author Duarte David <deltaduartedavid @ gmail.com>
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

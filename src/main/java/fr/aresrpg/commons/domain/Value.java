@@ -6,7 +6,7 @@ import java.util.StringJoiner;
  * This class is a subset of the java object , a
  * lot of AresCommons objects implement it so you use this methods
  * @param <T> the value old
- * @author Duarte David <deltaduartedavid @ gmail.com>
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public interface Value<T> extends Iterable<T>{
     default void debug(){}

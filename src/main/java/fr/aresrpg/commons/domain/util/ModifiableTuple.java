@@ -10,7 +10,7 @@ package fr.aresrpg.commons.domain.util;
  * @param <T>
  *            The Third type contained in this Tuple
  * @see Pair
- * @author Duarte David <deltaduartedavid @ gmail.com>
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public class ModifiableTuple<F, S, T> extends Tuple<F, S, T> {
 

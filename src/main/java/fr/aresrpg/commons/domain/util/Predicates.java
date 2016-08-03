@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 
 /**
  * An util class to use predicates
- * @author Duarte David <deltaduartedavid @ gmail.com>
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public class Predicates {
 	private static final Predicate<?> TRUE = o -> true;

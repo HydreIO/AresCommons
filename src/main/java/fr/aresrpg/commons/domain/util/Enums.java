@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 /**
  * A util class for enums
- * @author Cyril Morlet <mr.sceat @ outlook.com>
+ * @author Cyril Morlet {@literal <mr.sceat@outlook.com>}
  */
 public class Enums {
 

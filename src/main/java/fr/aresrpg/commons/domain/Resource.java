@@ -2,7 +2,7 @@ package fr.aresrpg.commons.domain;
 
 /**
  * Represent an object with must be opened and closed
- * @author Duarte David <deltaduartedavid @ gmail.com>
+ * @author Duarte David  {@literal <deltaduartedavid@gmail.com>}
  */
 public interface Resource {
 	/**
@@ -26,7 +26,7 @@ public interface Resource {
 
 	/**
 	 * An exception related to a resource
-	 * @author Duarte David <deltaduartedavid @ gmail.com>
+	 * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
 	 */
 	class ResourceException extends Exception{
 		private Resource resource;
@@ -52,7 +52,7 @@ public interface Resource {
 
 	/**
 	 * Thrown when a resource is not opened
-	 * @author Duarte David <deltaduartedavid @ gmail.com>
+	 * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
 	 */
     class NotOpenedException extends ResourceException{
 
@@ -63,7 +63,7 @@ public interface Resource {
 
 	/**
 	 * Thrown when a resource is already opened
-	 * @author Duarte David <deltaduartedavid @ gmail.com>
+	 * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
 	 */
 	class AlreadyOpenedException extends ResourceException{
 		public AlreadyOpenedException(Resource resource) {

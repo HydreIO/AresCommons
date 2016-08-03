@@ -5,7 +5,7 @@ import java.lang.reflect.Type;
 
 /**
  * A util class to use with Type class
- * @author Duarte David <deltaduartedavid @ gmail.com>
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public class Types {
 	private Types() { throw new IllegalConstructionException();}

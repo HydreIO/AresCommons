@@ -13,7 +13,7 @@ import java.util.Objects;
  *            The Third type contained in this Tuple
  * @see Pair
  * @see ModifiableTuple
- * @author Duarte David <deltaduartedavid @ gmail.com>
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public class Tuple<F, S, T> extends Pair<F, S> {
 	protected T third;

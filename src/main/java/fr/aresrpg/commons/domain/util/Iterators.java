@@ -4,7 +4,7 @@ import java.util.*;
 
 /**
  * An util class to use with iterators
- * @author Duarte David <deltaduartedavid @ gmail.com>
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public class Iterators {
 	private static final Iterator<?> EMPTY_ITERATOR = new EmptyIterator();

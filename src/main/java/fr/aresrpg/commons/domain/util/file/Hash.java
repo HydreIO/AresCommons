@@ -6,6 +6,10 @@ import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * A util class for hash
+ * @author Cyril Morlet {@literal <mr.sceat@outlook.com>}
+ */
 public enum Hash {
 
 	MD2("MD2"),
