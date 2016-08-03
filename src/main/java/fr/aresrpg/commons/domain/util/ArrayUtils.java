@@ -1,5 +1,7 @@
 package fr.aresrpg.commons.domain.util;
 
+import fr.aresrpg.commons.domain.condition.Option;
+
 import java.util.*;
 
 /**
@@ -379,5 +381,102 @@ public class ArrayUtils {
 	 */
 	public static List<Character> asList(char[] chars) {
 		return Arrays.asList(toObject(chars));
+	}
+
+	/**
+	 * Get the last value contained in a array
+	 * 
+	 * @param array
+	 *            the array
+	 * @return the last value or null if the array is empty
+	 */
+	public static <T> T lastValue(T[] array) {
+		Objects.requireNonNull(array);
+		if (isEmpty(array)) return null;
+		return array[array.length - 1];
+	}
+
+	/**
+	 * Get the last value contained in the array
+	 * 
+	 * @param array
+	 *            the array
+	 * @return the last value or an empty option if the array is empty
+	 */
+	public static Option<Byte> lastValue(byte[] array) {
+		if (isEmpty(array)) return Option.none();
+		return Option.some(Byte.valueOf(array[array.length - 1]));
+	}
+
+	/**
+	 * Get the last value contained in the array
+	 * 
+	 * @param array
+	 *            the array
+	 * @return the last value or an empty option if the array is empty
+	 */
+	public static Option<Short> lastValue(short[] array) {
+		if (isEmpty(array)) return Option.none();
+		return Option.some(Short.valueOf(array[array.length - 1]));
+	}
+
+	/**
+	 * Get the last value contained in the array
+	 * 
+	 * @param array
+	 *            the array
+	 * @return the last value or an empty option if the array is empty
+	 */
+	public static Option<Long> lastValue(long[] array) {
+		if (isEmpty(array)) return Option.none();
+		return Option.some(Long.valueOf(array[array.length - 1]));
+	}
+
+	/**
+	 * Get the last value contained in the array
+	 * 
+	 * @param array
+	 *            the array
+	 * @return the last value or an empty option if the array is empty
+	 */
+	public static Option<Integer> lastValue(int[] array) {
+		if (isEmpty(array)) return Option.none();
+		return Option.some(Integer.valueOf(array[array.length - 1]));
+	}
+
+	/**
+	 * Get the last value contained in the array
+	 * 
+	 * @param array
+	 *            the array
+	 * @return the last value or an empty option if the array is empty
+	 */
+	public static Option<Float> lastValue(float[] array) {
+		if (isEmpty(array)) return Option.none();
+		return Option.some(Float.valueOf(array[array.length - 1]));
+	}
+
+	/**
+	 * Get the last value contained in the array
+	 * 
+	 * @param array
+	 *            the array
+	 * @return the last value or an empty option if the array is empty
+	 */
+	public static Option<Double> lastValue(double[] array) {
+		if (isEmpty(array)) return Option.none();
+		return Option.some(Double.valueOf(array[array.length - 1]));
+	}
+
+	/**
+	 * Get the last value contained in the array
+	 * 
+	 * @param array
+	 *            the array
+	 * @return the last value or an empty option if the array is empty
+	 */
+	public static Option<Character> lastValue(char[] array) {
+		if (isEmpty(array)) return Option.none();
+		return Option.some(Character.valueOf(array[array.length - 1]));
 	}
 }
