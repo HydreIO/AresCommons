@@ -235,10 +235,10 @@ public class ArrayUtils {
 	}
 
 	/**
-	 * Convert this byte array to a Wrapper int array
+	 * Convert this int array to a Wrapper int array
 	 * 
 	 * @param ints
-	 *            the byte array to convert
+	 *            the int array to convert
 	 * @return a Primitive Wrapper Array
 	 */
 	public static Integer[] toObject(int[] ints) {
@@ -277,7 +277,7 @@ public class ArrayUtils {
 	}
 
 	/**
-	 * Convert this float array to a Wrapper double array
+	 * Convert this double array to a Wrapper double array
 	 * 
 	 * @param doubles
 	 *            the double array to convert
@@ -288,6 +288,20 @@ public class ArrayUtils {
 		for (int i = 0; i < doubles.length; i++)
 			oDoubles[i] = doubles[i];
 		return oDoubles;
+	}
+
+	/**
+	 * Convert this char array to a Wrapper character array
+	 * 
+	 * @param doubles
+	 *            the char array to convert
+	 * @return a Primitive Wrapper Array
+	 */
+	public static Character[] toObject(char[] chars) {
+		Character[] oChar = new Character[chars.length];
+		for (int i = 0; i < chars.length; i++)
+			oChar[i] = chars[i];
+		return oChar;
 	}
 
 	/**
@@ -354,5 +368,16 @@ public class ArrayUtils {
 	 */
 	public static List<Double> asList(double[] doubles) {
 		return Arrays.asList(toObject(doubles));
+	}
+
+	/**
+	 * Convert this doubles array to a double List
+	 *
+	 * @param doubles
+	 *            the byte array to convert
+	 * @return a double List
+	 */
+	public static List<Character> asList(char[] chars) {
+		return Arrays.asList(toObject(chars));
 	}
 }
