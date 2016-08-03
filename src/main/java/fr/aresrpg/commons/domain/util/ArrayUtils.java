@@ -293,7 +293,7 @@ public class ArrayUtils {
 	/**
 	 * Convert this char array to a Wrapper character array
 	 * 
-	 * @param doubles
+	 * @param chars
 	 *            the char array to convert
 	 * @return a Primitive Wrapper Array
 	 */
@@ -319,7 +319,7 @@ public class ArrayUtils {
 	 * Convert this short array to a short List
 	 *
 	 * @param shorts
-	 *            the byte array to convert
+	 *            the short array to convert
 	 * @return a short List
 	 */
 	public static List<Short> asList(short[] shorts) {
@@ -363,7 +363,7 @@ public class ArrayUtils {
 	 * Convert this doubles array to a double List
 	 *
 	 * @param doubles
-	 *            the byte array to convert
+	 *            the double array to convert
 	 * @return a double List
 	 */
 	public static List<Double> asList(double[] doubles) {
@@ -371,11 +371,11 @@ public class ArrayUtils {
 	}
 
 	/**
-	 * Convert this doubles array to a double List
+	 * Convert this char array to a character List
 	 *
-	 * @param doubles
-	 *            the byte array to convert
-	 * @return a double List
+	 * @param chars
+	 *            the char array to convert
+	 * @return a character List
 	 */
 	public static List<Character> asList(char[] chars) {
 		return Arrays.asList(toObject(chars));
