@@ -102,7 +102,7 @@ public class ArrayUtils {
 	}
 
 	/**
-	 * Check if the passed array contains any elements, if @allowNull the we consider that a null element is a valid element
+	 * Check if the passed array contains any elements, if @allowNull then we consider that a null element is a valid element
 	 * 
 	 * @param array
 	 *            the array
