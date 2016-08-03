@@ -14,6 +14,83 @@ public class ArrayUtils {
 	}
 
 	/**
+	 * Check if the passed array contains elements
+	 * 
+	 * @param array
+	 *            the array
+	 * @return true if the array contains some elements
+	 */
+	public static <T> boolean notEmpty(byte[] array) {
+		return !isEmpty(array);
+	}
+
+	/**
+	 * Check if the passed array contains elements
+	 * 
+	 * @param array
+	 *            the array
+	 * @return true if the array contains some elements
+	 */
+	public static <T> boolean notEmpty(short[] array) {
+		return !isEmpty(array);
+	}
+
+	/**
+	 * Check if the passed array contains elements
+	 * 
+	 * @param array
+	 *            the array
+	 * @return true if the array contains some elements
+	 */
+	public static <T> boolean notEmpty(int[] array) {
+		return !isEmpty(array);
+	}
+
+	/**
+	 * Check if the passed array contains elements
+	 * 
+	 * @param array
+	 *            the array
+	 * @return true if the array contains some elements
+	 */
+	public static <T> boolean notEmpty(long[] array) {
+		return !isEmpty(array);
+	}
+
+	/**
+	 * Check if the passed array contains elements
+	 * 
+	 * @param array
+	 *            the array
+	 * @return true if the array contains some elements
+	 */
+	public static <T> boolean notEmpty(float[] array) {
+		return !isEmpty(array);
+	}
+
+	/**
+	 * Check if the passed array contains elements
+	 * 
+	 * @param array
+	 *            the array
+	 * @return true if the array contains some elements
+	 */
+	public static <T> boolean notEmpty(double[] array) {
+		return !isEmpty(array);
+	}
+
+	/**
+	 * Check if the passed array contains elements
+	 * 
+	 * @param array
+	 *            the array
+	 * @return true if the array contains some elements
+	 */
+	public static <T> boolean notEmpty(char[] array) {
+		return !isEmpty(array);
+	}
+
+	/**
 	 * Check if the passed array contains @NonNull elements
 	 * 
 	 * @param array
@@ -49,6 +126,83 @@ public class ArrayUtils {
 	 * @return true if empty
 	 */
 	public static <T> boolean isEmpty(T[] array) {
+		return array.length == 0;
+	}
+
+	/**
+	 * Check if the passed array is empty or not
+	 * 
+	 * @param array
+	 *            the array
+	 * @return true if empty
+	 */
+	public static <T> boolean isEmpty(byte[] array) {
+		return array.length == 0;
+	}
+
+	/**
+	 * Check if the passed array is empty or not
+	 * 
+	 * @param array
+	 *            the array
+	 * @return true if empty
+	 */
+	public static <T> boolean isEmpty(short[] array) {
+		return array.length == 0;
+	}
+
+	/**
+	 * Check if the passed array is empty or not
+	 * 
+	 * @param array
+	 *            the array
+	 * @return true if empty
+	 */
+	public static <T> boolean isEmpty(int[] array) {
+		return array.length == 0;
+	}
+
+	/**
+	 * Check if the passed array is empty or not
+	 * 
+	 * @param array
+	 *            the array
+	 * @return true if empty
+	 */
+	public static <T> boolean isEmpty(long[] array) {
+		return array.length == 0;
+	}
+
+	/**
+	 * Check if the passed array is empty or not
+	 * 
+	 * @param array
+	 *            the array
+	 * @return true if empty
+	 */
+	public static <T> boolean isEmpty(float[] array) {
+		return array.length == 0;
+	}
+
+	/**
+	 * Check if the passed array is empty or not
+	 * 
+	 * @param array
+	 *            the array
+	 * @return true if empty
+	 */
+	public static <T> boolean isEmpty(double[] array) {
+		return array.length == 0;
+	}
+
+	/**
+	 * Check if the passed array is empty or not
+	 * 
+	 * @param array
+	 *            the array
+	 * @return true if empty
+	 */
+	public static <T> boolean isEmpty(char[] array) {
 		return array.length == 0;
 	}
 
