@@ -5,7 +5,7 @@ package fr.aresrpg.commons.domain.config;
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public interface Config {
-
+	
 	// TODO detect config format with extension
 
 }
