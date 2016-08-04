@@ -4,9 +4,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
+/**
+ * A ByteBuffer Input stream
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
+ */
 public class ByteBufferInputStream extends InputStream {
 	private final ByteBuffer buffer;
 
+	/**
+	 * Create a new byte buffer input stream from the provided buffer
+	 * @param buffer the byte buffer to use
+	 */
 	public ByteBufferInputStream(ByteBuffer buffer) {
 		this.buffer = buffer;
 	}
