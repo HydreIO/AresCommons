@@ -7,8 +7,12 @@ import fr.aresrpg.commons.domain.functional.suplier.Supplier;
 import java.util.Iterator;
 import java.util.Objects;
 
+/**
+ * An singleton container
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
+ */
 @FunctionalInterface
-public interface SingletonContainer<E> extends Container<E> , Supplier<E> {
+public interface LambdaSingletonContainer<E> extends Container<E> , Supplier<E> {
 	@Override
 	default boolean unsafeRemove(Object o) {
 		throw new UnsupportedOperationException();

@@ -5,7 +5,15 @@ import fr.aresrpg.commons.domain.util.Iterators;
 
 import java.util.Iterator;
 
+/**
+ * An empty container
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
+ */
 public class EmptyContainer implements Container{
+
+	/**
+	 * The instance of the empty container
+	 */
 	public static final Container INSTANCE = new EmptyContainer();
 
 	private EmptyContainer(){}
