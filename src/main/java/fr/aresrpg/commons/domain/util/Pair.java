@@ -7,7 +7,7 @@ import java.util.Objects;
  *
  * @param <F> First type contained in this pair
  * @param <S> Second type contained in this pair
- * @see Turple
+ * @see Tuple
  * @see Or
  * @see ModifiablePair
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
