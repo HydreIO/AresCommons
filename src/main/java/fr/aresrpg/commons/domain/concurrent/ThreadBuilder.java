@@ -17,6 +17,7 @@ public class ThreadBuilder implements Builder<Thread> {
 	private Boolean daemon;
 	private Integer priority;
 	private Thread.UncaughtExceptionHandler uncaughtExceptionHandler;
+	//Hold the number of threads launched with this builder
 	private AtomicInteger counter = new AtomicInteger(0);
 
 	public ThreadBuilder setRunnable(Runnable runnable) {
