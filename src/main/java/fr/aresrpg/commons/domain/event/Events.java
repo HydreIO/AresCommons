@@ -10,7 +10,7 @@ public class Events {
 	private Events() {}
 
 	/**
-	 * Register all {@link AresEvent} in the provided object
+	 * Register all {@link Subscribe} in the provided object
 	 * @param listener the instance to register
 	 * @throws IllegalArgumentException if the methods are not consumers
 	 * @throws Exception if an exception from the registering occurred
@@ -18,7 +18,7 @@ public class Events {
 	@SuppressWarnings({ "unchecked" })
 	public static void register(Listener listener) throws Exception {
 		for (Method m : listener.getClass().getDeclaredMethods()) {
-			AresEvent event = m.getAnnotation(AresEvent.class);
+			Subscribe event = m.getAnnotation(Subscribe.class);
 			if (event == null)
 				continue;
 			if (m.getParameterCount() != 1)
