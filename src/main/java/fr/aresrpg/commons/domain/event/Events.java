@@ -4,8 +4,18 @@ import fr.aresrpg.commons.domain.log.Logger;
 
 import java.util.Arrays;
 
-public interface Events {
+/**
+ * An util class for events
+ * @author Cyril Morlet {@literal <mr.sceat@outlook.com>}
+ */
+public class Events {
+	private Events() {}
 
+	/**
+	 * Register all {@link AresEvent} in the provided object
+	 * @param c the instance to register
+	 * @throws IllegalArgumentException if the methods are not consumers
+	 */
 	@SuppressWarnings({ "unchecked" })
 	public static void register(Object c) throws IllegalArgumentException {
 		Arrays.stream(c.getClass().getDeclaredMethods()).filter(m -> m.isAnnotationPresent(AresEvent.class)).forEach(m -> {
