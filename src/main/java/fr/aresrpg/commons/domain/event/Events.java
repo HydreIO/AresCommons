@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 /**
  * An util class for events
- * @author Cyril Morlet {@literal <mr.sceat@outlook.com>}
+ * @author Sceat {@literal <sceat@aresrpg.fr>}
  */
 public class Events {
 	private Events() {}
