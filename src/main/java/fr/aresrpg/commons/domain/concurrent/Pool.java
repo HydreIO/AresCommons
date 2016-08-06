@@ -1,15 +1,12 @@
 package fr.aresrpg.commons.domain.concurrent;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadFactory;
-
 import fr.aresrpg.commons.domain.condition.Option;
 import fr.aresrpg.commons.domain.util.Enums;
 
+import java.util.concurrent.*;
+
 /**
- * @author Cyril Morlet {@literal <mr.sceat@outlook.com>}
+ * @author Sceat {@literal <sceat@aresrpg.fr>}
  */
 public class Pool {
 
@@ -24,6 +21,7 @@ public class Pool {
 
 	/**
 	 * Get the main executor service
+	 * 
 	 * @return the executor service
 	 */
 	public ExecutorService getExecutor() {
@@ -32,6 +30,7 @@ public class Pool {
 
 	/**
 	 * Get the main scheduled executor service
+	 * 
 	 * @return the scheduled executor service
 	 */
 	public ScheduledExecutorService getScheduled() {
@@ -40,6 +39,7 @@ public class Pool {
 
 	/**
 	 * Create a new PoolBuilder
+	 * 
 	 * @return a PoolBuilder
 	 */
 	public static PoolBuilder builder() {
@@ -48,7 +48,9 @@ public class Pool {
 
 	/**
 	 * Create a Pool with an executor service
-	 * @param executor the executor to use
+	 * 
+	 * @param executor
+	 *            the executor to use
 	 * @return a Pool instance
 	 */
 	public static Pool create(ExecutorService executor) {
@@ -57,7 +59,9 @@ public class Pool {
 
 	/**
 	 * Create a Pool with an scheduled executor service
-	 * @param scheduled the scheduled executor to use
+	 * 
+	 * @param scheduled
+	 *            the scheduled executor to use
 	 * @return a Pool instance
 	 */
 	public static Pool create(ScheduledExecutorService scheduled) {
@@ -76,7 +80,9 @@ public class Pool {
 
 		/**
 		 * Set the type of the pool
-		 * @param type the type for the pool
+		 * 
+		 * @param type
+		 *            the type for the pool
 		 * @return the builder
 		 */
 		public PoolBuilder setType(PoolType type) {
@@ -86,7 +92,9 @@ public class Pool {
 
 		/**
 		 * Set the name for the this thread pool
-		 * @param name name for this pool
+		 * 
+		 * @param name
+		 *            name for this pool
 		 * @return the builder
 		 * @see ThreadBuilder#setName(String)
 		 */
@@ -99,7 +107,9 @@ public class Pool {
 
 		/**
 		 * For only change the name use {@link PoolBuilder#setName(String)} instead
-		 * @param factory the factory to use
+		 * 
+		 * @param factory
+		 *            the factory to use
 		 * @return the builder
 		 */
 		public PoolBuilder setFactory(ThreadFactory factory) {
@@ -111,7 +121,9 @@ public class Pool {
 
 		/**
 		 * Create a new executor service with the provided number of thread
-		 * @param parallelism number of threads to use
+		 * 
+		 * @param parallelism
+		 *            number of threads to use
 		 * @return the executor service created
 		 */
 		public ExecutorService toService(Option<Integer> parallelism) {

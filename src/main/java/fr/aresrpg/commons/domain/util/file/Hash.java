@@ -8,7 +8,8 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * A util class for hash
- * @author Cyril Morlet {@literal <mr.sceat@outlook.com>}
+ * 
+ * @author Sceat {@literal <sceat@aresrpg.fr>}
  */
 public enum Hash {
 

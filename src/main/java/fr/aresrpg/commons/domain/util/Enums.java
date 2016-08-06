@@ -4,17 +4,22 @@ import java.util.Arrays;
 
 /**
  * A util class for enums
- * @author Cyril Morlet {@literal <mr.sceat@outlook.com>}
+ * 
+ * @author Sceat {@literal <sceat@aresrpg.fr>}
  */
 public class Enums {
 
-	private Enums() {throw new IllegalConstructionException();}
+	private Enums() {
+		throw new IllegalConstructionException();
+	}
 
 	/**
 	 * Equivalent to Objects.requireNonNull
 	 * 
-	 * @param t1 to compare
-	 * @param base enum type wanted
+	 * @param t1
+	 *            to compare
+	 * @param base
+	 *            enum type wanted
 	 * @return the enum to compare
 	 */
 	public static <T extends Enum<T>> T requireType(T t1, T base) {
@@ -25,8 +30,10 @@ public class Enums {
 	/**
 	 * Equivalent to Objects.requireNonNull with a "some of"
 	 * 
-	 * @param t1 the enum to compare
-	 * @param base the array to check
+	 * @param t1
+	 *            the enum to compare
+	 * @param base
+	 *            the array to check
 	 * @return the enum to compare
 	 */
 	@SafeVarargs
