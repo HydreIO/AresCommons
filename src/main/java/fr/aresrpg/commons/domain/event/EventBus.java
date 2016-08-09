@@ -1,26 +1,19 @@
 package fr.aresrpg.commons.domain.event;
 
-import java.lang.invoke.LambdaMetafactory;
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
-import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import fr.aresrpg.commons.domain.util.Consumers;
 import fr.aresrpg.commons.domain.functional.consumer.BiConsumer;
 import fr.aresrpg.commons.domain.functional.consumer.Consumer;
 import fr.aresrpg.commons.domain.unsafe.UnsafeAccessor;
+import fr.aresrpg.commons.domain.util.Consumers;
+
+import java.lang.invoke.*;
+import java.lang.reflect.Method;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * A event bus that dispatch event to subscribers
+ * 
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 @SuppressWarnings("rawtypes")
@@ -34,7 +27,9 @@ public class EventBus<E> {
 
 	/**
 	 * Create a new event bus for the provided owner
-	 * @param owner the owner of the bus
+	 * 
+	 * @param owner
+	 *            the owner of the bus
 	 */
 	public EventBus(Class<E> owner) {
 		registerBus(owner, this);
@@ -44,7 +39,9 @@ public class EventBus<E> {
 
 	/**
 	 * Send an object in this bus
-	 * @param event the object to send
+	 * 
+	 * @param event
+	 *            the object to send
 	 */
 	public void send(E event) {
 		for (Subscriber<E> subscriber : subscribers)
@@ -53,8 +50,11 @@ public class EventBus<E> {
 
 	/**
 	 * Subscribe to this bus using a consumer
-	 * @param consumer the consumer to consume the event
-	 * @param priority the priority of this consumer
+	 * 
+	 * @param consumer
+	 *            the consumer to consume the event
+	 * @param priority
+	 *            the priority of this consumer
 	 * @return a Subscriber instance to use with {@link #unsubscribe(Subscriber)}
 	 */
 	public Subscriber<E> subscribe(Consumer<E> consumer, int priority) {
@@ -65,11 +65,16 @@ public class EventBus<E> {
 
 	/**
 	 * Subscribe to this bus using a method transformed to a lambda using {@link LambdaMetafactory}
-	 * @param method the method to register
-	 * @param instance the instance of the method owner
-	 * @param priority the priority for this method
+	 * 
+	 * @param method
+	 *            the method to register
+	 * @param instance
+	 *            the instance of the method owner
+	 * @param priority
+	 *            the priority for this method
 	 * @return a Subscriber instance to use with {@link #unsubscribe(Subscriber)}
-	 * @throws Exception if an error occurred during the conversion to a lambda
+	 * @throws Exception
+	 *             if an error occurred during the conversion to a lambda
 	 */
 	public Subscriber<E> subscribeMethod(Method method, Object instance, int priority) throws Exception {
 		MethodHandles.Lookup lookup = MethodHandles.lookup();
@@ -78,26 +83,32 @@ public class EventBus<E> {
 
 	/**
 	 * Subscribe to this bus using a method transformed to a lambda using {@link LambdaMetafactory}
-	 * @param lookup the method lookup to use
-	 * @param method the method to register
-	 * @param instance the instance of the method owner
-	 * @param priority the priority for this method
+	 * 
+	 * @param lookup
+	 *            the method lookup to use
+	 * @param method
+	 *            the method to register
+	 * @param instance
+	 *            the instance of the method owner
+	 * @param priority
+	 *            the priority for this method
 	 * @return a Subscriber instance to use with {@link #unsubscribe(Subscriber)}
-	 * @throws Exception if an error occurred during the conversion to a lambda
+	 * @throws Exception
+	 *             if an error occurred during the conversion to a lambda
 	 */
 	@SuppressWarnings("unchecked")
 	public Subscriber<E> subscribeMethod(MethodHandles.Lookup lookup, MethodHandle method, Object instance, int priority) throws Exception {
 		try {
-			if (instance == null) return subscribe(
-					(Consumer<E>) LambdaMetafactory
-							.metafactory(lookup, "accept", MethodType.methodType(Consumer.class), MethodType.methodType(void.class, Object.class), method, MethodType.methodType(void.class, owner))
-							.getTarget().invoke(), priority);
+			if (instance == null) return subscribe((Consumer<E>) LambdaMetafactory
+					.metafactory(lookup, "accept", MethodType.methodType(Consumer.class), MethodType.methodType(void.class, Object.class), method, MethodType.methodType(void.class, owner)).getTarget()
+					.invoke(), priority);
 
 			else return subscribe(
 					Consumers.from(
-							(BiConsumer<Object, E>) LambdaMetafactory
-									.metafactory(lookup, "accept", MethodType.methodType(BiConsumer.class), MethodType.methodType(void.class, Object.class, Object.class), method,
-											MethodType.methodType(void.class, instance.getClass(), owner)).getTarget().invoke(), instance), priority);
+							(BiConsumer<Object, E>) LambdaMetafactory.metafactory(lookup, "accept", MethodType.methodType(BiConsumer.class),
+									MethodType.methodType(void.class, Object.class, Object.class), method, MethodType.methodType(void.class, instance.getClass(), owner)).getTarget().invoke(),
+							instance),
+					priority);
 		} catch (Throwable e) { // NOSONAR
 			throw new ReflectiveOperationException(e);
 		}
@@ -105,7 +116,9 @@ public class EventBus<E> {
 
 	/**
 	 * Deregister the provided subscriber
-	 * @param subscriber the subscriber to remove
+	 * 
+	 * @param subscriber
+	 *            the subscriber to remove
 	 */
 	public void unsubscribe(Subscriber<E> subscriber) {
 		this.subscribers.remove(subscriber);
@@ -113,6 +126,7 @@ public class EventBus<E> {
 
 	/**
 	 * Get all the subscribers of this bus
+	 * 
 	 * @return an immutable collection of the subscribers of this bus
 	 */
 	public Collection<Subscriber<E>> getSubscribers() {
@@ -121,6 +135,7 @@ public class EventBus<E> {
 
 	/**
 	 * Get the number of subscribers on this bus
+	 * 
 	 * @return the number of subscribers
 	 */
 	public int subscribersSize() {
@@ -129,18 +144,23 @@ public class EventBus<E> {
 
 	/**
 	 * Register this bus to set them active
-	 * @param owner the owner of the bus
-	 * @param bus the buis instance
+	 * 
+	 * @param owner
+	 *            the owner of the bus
+	 * @param bus
+	 *            the buis instance
 	 */
 	private static void registerBus(Class<?> owner, EventBus<?> bus) {
-		if (buses.putIfAbsent(owner, bus) == null)
-			new BusRegisterEvent(owner, bus).send();
+		if (buses.putIfAbsent(owner, bus) == null) new BusRegisterEvent(owner, bus).send();
 	}
 
 	/**
 	 * Get the registered bus with the specified owner
-	 * @param owner the owner of the bus
-	 * @param <T> the type of the event
+	 * 
+	 * @param owner
+	 *            the owner of the bus
+	 * @param <T>
+	 *            the type of the event
 	 * @return the event bus or null if not found
 	 */
 	@SuppressWarnings("unchecked")
@@ -151,6 +171,7 @@ public class EventBus<E> {
 
 	/**
 	 * Get all registered buses
+	 * 
 	 * @return a immutable map of all registered buses
 	 */
 	public static Map<Class<?>, EventBus<?>> getBuses() {

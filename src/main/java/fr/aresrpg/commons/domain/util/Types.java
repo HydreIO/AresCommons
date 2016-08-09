@@ -4,16 +4,22 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * A util class to use with Type class
+ * An util class to use with Type class
+ * 
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public class Types {
-	private Types() { throw new IllegalConstructionException();}
+	private Types() {
+		throw new IllegalConstructionException();
+	}
 
 	/**
 	 * Convert a Type if it's possible to a class or null if it's not possible
-	 * @param type the type to convert
-	 * @param <T> The type of return class
+	 * 
+	 * @param type
+	 *            the type to convert
+	 * @param <T>
+	 *            The type of return class
 	 * @return null or the class represented by this type
 	 */
 	@SuppressWarnings("unchecked")
