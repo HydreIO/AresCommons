@@ -11,7 +11,7 @@ import java.util.Iterator;
  */
 public interface Sized<T> extends Iterable<T>{
 	/**
-	 * Get the count of element hold by this object , this value cant be < 0
+	 * Get the count of element hold by this object , this value cant be smaller 0
 	 * @return the count of element hold
 	 */
 	long size();

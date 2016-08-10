@@ -34,6 +34,8 @@ public class Enums {
 	 *            the enum to compare
 	 * @param base
 	 *            the array to check
+	 * @param <T>
+	 *            the type
 	 * @return the enum to compare
 	 */
 	@SafeVarargs

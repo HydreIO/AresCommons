@@ -9,10 +9,9 @@ package fr.aresrpg.commons.domain.reflection;
  * 
  * <pre>
  * <code>
- * Reflected.wrap(new Foo()).replaceMethod("getFoo",()->{}).setField("bar",value);
+ * Reflected.wrap(new Foo()).replaceMethod("getFoo",()λ{}).setField("bar",value);
  * </code>
  * </pre>
- * </p>
  * 
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  * @since 0.6
