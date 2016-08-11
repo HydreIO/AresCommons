@@ -6,7 +6,9 @@ import java.util.function.Predicate;
 
 /**
  * An util class to use predicates
+ * 
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
+ * @author Sceat {@literal <sceat@aresrpg.fr>}
  */
 public class Predicates {
 	private static final Predicate<?> TRUE = o -> true;
@@ -16,15 +18,22 @@ public class Predicates {
 
 	/**
 	 * This constructor can be called
-	 * @throws IllegalConstructionException always
+	 * 
+	 * @throws IllegalConstructionException
+	 *             always
 	 */
-	private Predicates() { throw new IllegalConstructionException();}
+	private Predicates() {
+		throw new IllegalConstructionException();
+	}
 
 	/**
-	 * Get a predicate to test if an integer is in range
-	 * @param min the min value of this range
-	 * @param max the max value of this range
-	 * @return a predicate to test if the int is in this range
+	 * Test if an integer is in range
+	 * 
+	 * @param min
+	 *            the min value of this range
+	 * @param max
+	 *            the max value of this range
+	 * @return a predicate to test if the int is in the given range
 	 */
 	public static IntPredicate range(int min, int max) {
 		return i -> i > min && i < max;
@@ -32,7 +41,9 @@ public class Predicates {
 
 	/**
 	 * Get a predicate witch always return true
-	 * @param <T> the type of the predicate
+	 * 
+	 * @param <T>
+	 *            the type of the tested object
 	 * @return a predicate always true
 	 */
 	@SuppressWarnings("unchecked")
@@ -42,7 +53,9 @@ public class Predicates {
 
 	/**
 	 * Get a predicate witch always return false
-	 * @param <T> the type of the predicate
+	 * 
+	 * @param <T>
+	 *            the type of the tested object
 	 * @return a predicate always false
 	 */
 	@SuppressWarnings("unchecked")
@@ -51,9 +64,12 @@ public class Predicates {
 	}
 
 	/**
-	 * Get a predicate to test if is an instance of the class
-	 * @param clazz the class to test if is an instance of
-	 * @param <T> the type of the predicate
+	 * Test if an object is an instance of the given class
+	 * 
+	 * @param clazz
+	 *            the class that represent the tested instance
+	 * @param <T>
+	 *            the type of the tested object
 	 * @return a predicate always true
 	 */
 	public static <T> Predicate<T> instanceOf(Class<?> clazz) {
@@ -61,30 +77,39 @@ public class Predicates {
 	}
 
 	/**
-	 * Get a predicate to test if is equal
-	 * @param value the value to test if is equal
-	 * @param <T> the type of the predicate
-	 * @return a predicate to test if an object is equals
+	 * Test the equality with a given value
+	 * 
+	 * @param value
+	 *            the value to test if there is an equality
+	 * @param <T>
+	 *            the type of the tested object
+	 * @return a predicate to test if an object is equal to the given value
 	 */
 	public static <T> Predicate<T> is(T value) {
 		return o -> Objects.equals(o, value);
 	}
 
 	/**
-	 * Get a predicate to test if is an not equal
-	 * @param value the value to test if is not equal
-	 * @param <T> the type of the predicate
-	 * @return a predicate to test if an object is not equals
+	 * Test the equality with a given value
+	 * 
+	 * @param value
+	 *            the value to test if there is'nt an equality
+	 * @param <T>
+	 *            the type of the tested object
+	 * @return a predicate to test if an object is not equal the given value
 	 */
 	public static <T> Predicate<T> isNot(T value) {
-		return o -> !Objects.equals(o, value);
+		return is(value).negate();
 	}
 
 	/**
-	 * Get a predicate to test if the value is in values
-	 * @param values the values with the value to test must be in
-	 * @param <T> the type of the predicate
-	 * @return a predicate to test if the value is in values
+	 * Test if a value equals to any of the given values
+	 * 
+	 * @param values
+	 *            an array of the values to test if they contains the tested value
+	 * @param <T>
+	 *            the type of the tested values
+	 * @return a predicate to test if the value is equal to any of the values
 	 */
 	@SafeVarargs
 	public static <T> Predicate<T> in(T... values) {
@@ -96,8 +121,10 @@ public class Predicates {
 	}
 
 	/**
-	 * Get a predicate to test if the value is null
-	 * @param <T> the type of the predicate
+	 * Test if a value is null
+	 * 
+	 * @param <T>
+	 *            the type of the tested value
 	 * @return a predicate to test if the value is null
 	 */
 	@SuppressWarnings("unchecked")
@@ -106,9 +133,11 @@ public class Predicates {
 	}
 
 	/**
-	 * Get a predicate to test if the value is not null
-	 * @param <T> the type of the predicate
-	 * @return a predicate to test if the value is not null
+	 * Test if a value is'nt null
+	 * 
+	 * @param <T>
+	 *            the type of the tested value
+	 * @return a predicate to test if the value is'nt null
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> Predicate<T> isNotNull() {
@@ -116,9 +145,12 @@ public class Predicates {
 	}
 
 	/**
-	 * Get a predicate to test if the value can be tested by all predicates
-	 * @param predicates the predicates witch must be tested
-	 * @param <T> the type of the predicate
+	 * Test if all passed predicates are valid
+	 * 
+	 * @param predicates
+	 *            the predicates which must be tested
+	 * @param <T>
+	 *            the type of the tested value
 	 * @return a predicate to test if the value can be tested by all predicates
 	 */
 	@SafeVarargs
@@ -131,28 +163,47 @@ public class Predicates {
 	}
 
 	/**
-	 * Get a predicate to test if the value can be tested by one of the predicates
-	 * @param predicates the predicates witch must be tested
-	 * @param <T> the type of the predicate
-	 * @return a predicate to test if the value can be tested by one of the predicates
+	 * Test if one of the passed predicates is true
+	 * 
+	 * @param predicates
+	 *            the predicates which must be tested
+	 * @param <T>
+	 *            the type of the tested value
+	 * @return a predicate to test if one of the passed predicates is valid
 	 */
 	@SafeVarargs
 	public static <T> Predicate<T> any(Predicate<T>... predicates) {
-		return o -> {
-			for (Predicate<T> p : predicates)
-				if (p.test(o)) return true;
-			return false;
-		};
+		return none(predicates).negate();
 	}
 
 	/**
-	 * Get a predicate to test if the value can be tested by no one predicate
-	 * @param predicates the predicates witch must be tested
-	 * @param <T> the type of the predicate
+	 * Test if one of the passed predicates is false
+	 * 
+	 * @param predicates
+	 *            the predicates which must be tested
+	 * @param <T>
+	 *            the type of the tested value
+	 * @return a predicate to test if any of the passed predicates is false
+	 */
+	public static <T> Predicate<T> anyFalse(Predicate<T>... predicates) {
+		return all(predicates).negate();
+	}
+
+	/**
+	 * Test if all the passed predicates are false
+	 * 
+	 * @param predicates
+	 *            the predicates witch must be tested
+	 * @param <T>
+	 *            the type of the tested value
 	 * @return a predicate to test if the value can be tested by no one predicate
 	 */
 	@SafeVarargs
 	public static <T> Predicate<T> none(Predicate<T>... predicates) {
-		return all(predicates).negate();
+		return o -> {
+			for (Predicate<T> p : predicates)
+				if (p.test(o)) return false;
+			return true;
+		};
 	}
 }
