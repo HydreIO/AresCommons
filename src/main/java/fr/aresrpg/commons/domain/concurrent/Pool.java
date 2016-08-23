@@ -140,6 +140,18 @@ public class Pool {
 			}
 		}
 
+		/**
+		 * Create a new scheduled thread pool
+		 * 
+		 * @param parralelism
+		 *            number of threads to use
+		 * @return the scheduled executor service
+		 */
+		public ScheduledExecutorService toScheduled(Option<Integer> parralelism) {
+			Enums.requireTypeOr(this.type, PoolType.SCHEDULED);
+			return Executors.newScheduledThreadPool(parralelism.orElse(1), factory);
+		}
+
 	}
 
 	public enum PoolType {
