@@ -29,7 +29,7 @@ public interface Resource {
 	 * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
 	 */
 	class ResourceException extends Exception{
-		private Resource resource;
+		private final transient Resource resource;
 
 		public ResourceException(String message, Resource resource) {
 			super(message);

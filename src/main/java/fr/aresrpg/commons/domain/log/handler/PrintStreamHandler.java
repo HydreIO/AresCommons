@@ -5,6 +5,10 @@ import java.io.PrintStream;
 
 import fr.aresrpg.commons.domain.log.Log;
 
+/**
+ * An handler using print stream
+ * @author Duarte David  {@literal <deltaduartedavid@gmail.com>}
+ */
 public class PrintStreamHandler extends BaseHandler {
 	private PrintStream outStream;
 	private PrintStream errorStream;
