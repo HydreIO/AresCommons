@@ -40,9 +40,9 @@ public class ByteUUIDAdapter implements Adapter<UUID, byte[]>{
 	}
 
 	public long getLong(byte[] b , int offset){
-		return ((((long) b[7+offset]) << 56) | (((long) b[6+offset] & 0xff) << 48) | (((long) b[5+offset] & 0xff) << 40)
+		return (((long) b[7+offset]) << 56) | (((long) b[6+offset] & 0xff) << 48) | (((long) b[5+offset] & 0xff) << 40)
 				| (((long) b[4+offset] & 0xff) << 32) | (((long) b[3+offset] & 0xff) << 24) | (((long) b[2+offset] & 0xff) << 16)
-				| (((long) b[1+offset] & 0xff) << 8) | (((long) b[offset] & 0xff)));
+				| (((long) b[1+offset] & 0xff) << 8) | ((long) b[offset] & 0xff);
 	}
 
 	@Override
