@@ -1,6 +1,7 @@
 node {
+    def name = java.net.URLDecoder.decode(env.JOB_NAME, "UTF-8");
     try{
-        slackSend color: 'good', message: "Downloading ${env.JOB_NAME}"
+        slackSend color: 'good', message: "Downloading ${name}"
 
         // Mark the code checkout 'stage'....
         stage 'Checkout'
@@ -9,7 +10,7 @@ node {
         checkout scm
 
         def gradleHome = tool 'Gradle 2.12'
-        slackSend color: 'good', message: "Building ${env.JOB_NAME}"
+        slackSend color: 'good', message: "Building ${name}"
         stage 'Build'
 
         def tasks = [:]
@@ -24,7 +25,7 @@ node {
         }
 
         parallel tasks
-        slackSend color: 'good', message: "Publishing ${env.JOB_NAME}"
+        slackSend color: 'good', message: "Publishing ${name}"
         stage 'Publish'
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Artifactory', passwordVariable: 'arespass', usernameVariable: 'aresuser']]) {
             sh "${gradleHome}/bin/gradle publish"
