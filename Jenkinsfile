@@ -29,6 +29,8 @@ node {
             sh "${gradleHome}/bin/gradle publish"
         }
     }catch(err){
+        echo "Caught: ${err}"
+        currentBuild.result = 'FAILURE'
         slackSend color: 'danger', message: 'Error while building AresCommons'
     }
 }
