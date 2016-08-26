@@ -24,7 +24,7 @@ node {
         }
 
         parallel tasks
-        slackSend color: 'good', message: 'Publishing ${env.JOB_NAME}'
+        slackSend color: 'good', message: "Publishing ${env.JOB_NAME}"
         stage 'Publish'
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'Artifactory', passwordVariable: 'arespass', usernameVariable: 'aresuser']]) {
             sh "${gradleHome}/bin/gradle publish"
