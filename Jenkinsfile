@@ -1,6 +1,6 @@
 node {
     try{
-        slackSend color: 'good', message: 'Downloading ${env.JOB_NAME}'
+        slackSend color: 'good', message: "Downloading ${env.JOB_NAME}"
 
         // Mark the code checkout 'stage'....
         stage 'Checkout'
@@ -9,7 +9,7 @@ node {
         checkout scm
 
         def gradleHome = tool 'Gradle 2.12'
-        slackSend color: 'good', message: 'Building ${env.JOB_NAME}'
+        slackSend color: 'good', message: "Building ${env.JOB_NAME}"
         stage 'Build'
 
         def tasks = [:]
@@ -32,6 +32,6 @@ node {
     }catch(err){
         echo "Caught: ${err}"
         currentBuild.result = 'FAILURE'
-        slackSend color: 'danger', message: 'Error while building ${env.JOB_NAME}'
+        slackSend color: 'danger', message: "Error while building ${env.JOB_NAME}"
     }
 }
