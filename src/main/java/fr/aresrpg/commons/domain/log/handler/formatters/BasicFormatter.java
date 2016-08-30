@@ -6,23 +6,45 @@ import java.util.Date;
 
 import fr.aresrpg.commons.domain.log.Log;
 
+/**
+ * A default implementation of {@link Formatter}
+ * @author Duarte David  {@literal <deltaduartedavid@gmail.com>}
+ */
 public class BasicFormatter implements Formatter {
-	private static final DateFormat DEFAULT_FORMAT = new SimpleDateFormat("HH:mm:ss");
+	/**
+	 * The default format of this formatter used with {@link #BasicFormatter()}
+	 */
+	public static final DateFormat DEFAULT_FORMAT = new SimpleDateFormat("HH:mm:ss");
 
 	private DateFormat dateFormat;
 
+	/**
+	 * Create a new formatter using the provided DateFormat
+	 * @param dateFormat the format to use
+	 */
 	public BasicFormatter(DateFormat dateFormat) {
 		this.dateFormat = dateFormat;
 	}
 
+	/**
+	 * Create a new formatter using the default DateFormat {@link BasicFormatter#DEFAULT_FORMAT}
+	 */
 	public BasicFormatter() {
 		this(DEFAULT_FORMAT);
 	}
 
+	/**
+	 * Get the date format used by this formatter
+	 * @return the date format used
+	 */
 	public DateFormat getDateFormat() {
 		return dateFormat;
 	}
 
+	/**
+	 * Set the date format to use
+	 * @param dateFormat the date format to use
+	 */
 	public void setDateFormat(DateFormat dateFormat) {
 		this.dateFormat = dateFormat;
 	}

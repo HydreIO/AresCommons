@@ -13,7 +13,6 @@ import fr.aresrpg.commons.domain.log.handler.formatters.Formatter;
  */
 public abstract class BaseHandler implements Handler {
 	private Formatter formatter;
-	// private ErrorFormatter errorFormatter = (e , l) -> "";
 
 	private ErrorFormatter errorFormatter = (e, l) -> {
 		if (l == null) return "[" + e.name() + "] Exception without cause just throwed !";
