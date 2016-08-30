@@ -1,10 +1,10 @@
 package fr.aresrpg.commons.domain.functional;
 
-@FunctionalInterface
 /**
  * A function interface to join to objects
  * @author Duarte David <deltaduartedavid @ gmail.com>
  */
+@FunctionalInterface
 public interface Joiner<T> {
 	/**
      * Join this two values

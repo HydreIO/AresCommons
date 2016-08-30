@@ -3,7 +3,7 @@ package fr.aresrpg.commons.domain.functional.consumer;
 /**
  * A ExecutiveConsumer is a consumer that can instantly consume value in chaining operations
  * 
- * @Since 0.6
+ * @since 0.6
  * @param <T>
  *            the type of the consumed value
  */
@@ -24,7 +24,7 @@ public interface ExecutiveConsumer<T> {
 	 * Used in chaining actions
 	 * 
 	 * @param other
-	 *            The consummer wich will be executed instantly
+	 *            The consumer wich will be executed instantly
 	 * @param u
 	 *            the value for the consumer
 	 * @return an empty consumer to continue chaining
@@ -42,7 +42,7 @@ public interface ExecutiveConsumer<T> {
 	 * </p>
 	 * 
 	 * @param other
-	 *            The consummer wich will be executed instantly
+	 *            The consumer wich will be executed instantly
 	 * @param u
 	 *            the value for the consumer
 	 * @return an empty consumer to continue chaining
@@ -60,7 +60,7 @@ public interface ExecutiveConsumer<T> {
 	 * </p>
 	 * 
 	 * @param other
-	 *            The consummer wich will be executed instantly
+	 *            The consumer wich will be executed instantly
 	 * @param u
 	 *            the value for the consumer
 	 * @return an empty consumer to continue chaining
