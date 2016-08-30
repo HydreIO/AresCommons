@@ -10,6 +10,7 @@ import fr.aresrpg.commons.domain.serialization.formats.Format;
  * @param <T> the type of object to map
  * @param <I> the input type
  * @param <O> the output type
+ * @author Duarte David  {@literal <deltaduartedavid@gmail.com>}
  */
 public interface Serializer<T, I, O> {
 	/**

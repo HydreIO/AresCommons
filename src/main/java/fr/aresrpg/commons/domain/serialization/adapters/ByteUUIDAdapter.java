@@ -4,9 +4,24 @@ import fr.aresrpg.commons.domain.reflection.ParametrizedClass;
 
 import java.util.UUID;
 
+/**
+ * An adapter {@link UUID} to byte array
+ * @author Duarte David  {@literal <deltaduartedavid@gmail.com>}
+ */
 public class ByteUUIDAdapter implements Adapter<UUID, byte[]>{
+	/**
+	 * The instance of this adapter
+	 */
 	public static final Adapter<UUID , byte[]> INSTANCE = new ByteUUIDAdapter();
+
+	/**
+	 * The input type of this adapter
+	 */
 	public static final ParametrizedClass<UUID> IN = new ParametrizedClass<UUID>(){};
+
+	/**
+	 * The output type of this adapter
+	 */
 	public static final ParametrizedClass<byte[]> OUT = new ParametrizedClass<byte[]>(){};
 
 	private ByteUUIDAdapter(){}
