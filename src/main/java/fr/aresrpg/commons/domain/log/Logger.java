@@ -27,6 +27,10 @@ public class Logger {
 	 */
 	public static final Pattern ARGS_PATTERN = Pattern.compile("\\{(\\d+)?(:\\?)?\\}");
 
+	/**
+	 * The logger levels
+	 * @author Duarte David  {@literal <deltaduartedavid@gmail.com>}
+	 */
 	public enum Level {
 		INFO(false),
 		SUCCESS(false),
