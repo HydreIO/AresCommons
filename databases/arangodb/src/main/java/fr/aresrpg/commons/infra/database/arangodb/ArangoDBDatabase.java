@@ -1,12 +1,13 @@
 package fr.aresrpg.commons.infra.database.arangodb;
 
-import com.arangodb.*;
 import fr.aresrpg.commons.domain.database.Collection;
 import fr.aresrpg.commons.domain.database.Database;
 
 import java.io.IOException;
 
-public class ArangoDBDatabase implements Database{
+import com.arangodb.*;
+
+public class ArangoDBDatabase implements Database {
 	private ArangoDriver driver;
 	private String database;
 
@@ -26,12 +27,12 @@ public class ArangoDBDatabase implements Database{
 	@Override
 	public void connect(String host, int port, String user, String password) {
 		ArangoConfigure configure = new ArangoConfigure();
-		configure.setArangoHost(new ArangoHost(host , port));
+		configure.setArangoHost(new ArangoHost(host, port));
 		configure.setUser(user);
 		configure.setPassword(password);
 		configure.init();
 
-		this.driver = new ArangoDriver(configure , database);
+		this.driver = new ArangoDriver(configure, database);
 	}
 
 	@Override
@@ -43,7 +44,7 @@ public class ArangoDBDatabase implements Database{
 	@SuppressWarnings("unchecked")
 	public <T> Collection<T> create(String id, Class<T> clazz) {
 		try {
-			return new ArangoDBCollection(driver.createCollection(id) , driver , clazz);
+			return new ArangoDBCollection(driver.createCollection(id), driver, clazz);
 		} catch (ArangoException e) {
 			throw new IllegalStateException(e);
 		}
@@ -51,7 +52,7 @@ public class ArangoDBDatabase implements Database{
 
 	@Override
 	public <T> Collection<T>[] getCollections() {
-		return (Collection<T>[])new Object[0];
+		return (Collection<T>[]) new Object[0];
 	}
 
 	@Override

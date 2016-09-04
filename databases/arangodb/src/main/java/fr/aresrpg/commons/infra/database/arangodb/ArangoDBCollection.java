@@ -1,20 +1,21 @@
 package fr.aresrpg.commons.infra.database.arangodb;
 
-import com.arangodb.ArangoDriver;
-import com.arangodb.ArangoException;
-import com.arangodb.entity.CollectionEntity;
 import fr.aresrpg.commons.domain.database.Collection;
 import fr.aresrpg.commons.domain.database.Filter;
 
 import java.util.Iterator;
 
-public class ArangoDBCollection<T> implements Collection<T>{
+import com.arangodb.ArangoDriver;
+import com.arangodb.ArangoException;
+import com.arangodb.entity.CollectionEntity;
+
+public class ArangoDBCollection<T> implements Collection<T> {
 
 	private final CollectionEntity collection;
 	private final ArangoDriver driver;
 	private final Class<T> clazz;
 
-	public ArangoDBCollection(CollectionEntity collection, ArangoDriver driver , Class<T> clazz) {
+	public ArangoDBCollection(CollectionEntity collection, ArangoDriver driver, Class<T> clazz) {
 		this.collection = collection;
 		this.driver = driver;
 		this.clazz = clazz;
@@ -23,7 +24,7 @@ public class ArangoDBCollection<T> implements Collection<T>{
 	@Override
 	public void put(T value) {
 		try {
-			driver.createDocument(collection.getName() , value);
+			driver.createDocument(collection.getName(), value);
 		} catch (ArangoException e) {
 			throw new IllegalStateException(e);
 		}
@@ -31,7 +32,7 @@ public class ArangoDBCollection<T> implements Collection<T>{
 
 	@Override
 	public void update(Filter filter, T value) {
-
+		
 	}
 
 	@Override
@@ -52,7 +53,7 @@ public class ArangoDBCollection<T> implements Collection<T>{
 	@Override
 	@SuppressWarnings("unchecked")
 	public T[] find(Filter filter, int max) {
-		return (T[])new Object[0];
+		return (T[]) new Object[0];
 	}
 
 	@Override
@@ -78,8 +79,8 @@ public class ArangoDBCollection<T> implements Collection<T>{
 				@Override
 				public T next() {
 					try {
-						return driver.getDocument(documentHandler.next() , clazz).getEntity();
-					}catch (ArangoException e){
+						return driver.getDocument(documentHandler.next(), clazz).getEntity();
+					} catch (ArangoException e) {
 						throw new IllegalStateException(e);
 					}
 				}
