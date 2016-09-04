@@ -1,7 +1,5 @@
 package fr.aresrpg.commons.domain.config;
 
-import java.io.FileNotFoundException;
-
 /**
  * <p>
  * An interface to provide config who works with a bundle object.
@@ -29,31 +27,29 @@ import java.io.FileNotFoundException;
  */
 public interface Config {
 
-	// TODO detect config format with extension
-
 	/**
 	 * <p>
 	 * Load the configuration and overwrite the bundle object
 	 * </p>
 	 * 
 	 * @return the config for chainage purpose
-	 * @throws FileNotFoundException
-	 *             if the config file was deleted and doesn't exist anymore
-	 * @throws NullPointerException
-	 *             when the given bundle object is null
+	 * @throws ConfigNotFoundException if the config is not found on this source
 	 */
-	Config load() throws FileNotFoundException, NullPointerException;
+	default Config load() throws ConfigNotFoundException{
+		return this;
+	}
 
 	/**
 	 * Write the bundle object wich contains all the configurations field to the config file on the disk
 	 * 
 	 * @return the config for chainage purpose
-	 * @throws FileNotFoundException
-	 *             if the config file was deleted and doesn't exist anymore
-	 * @throws NullPointerException
-	 *             when the given bundle object is null
+	 * @throws ConfigNotFoundException
+	 *             if the config is not found on source
+	 *
 	 */
-	Config save() throws FileNotFoundException, NullPointerException;
+	default Config save() throws ConfigNotFoundException{
+		return this;
+	}
 
 	/**
 	 * <p>
@@ -70,9 +66,20 @@ public interface Config {
 	 * </p>
 	 * 
 	 * @return the config for chainage purpose
-	 * @throws FileNotFoundException
-	 *             if the config file was deleted and doesn't exist anymore
+	 * @throws ConfigNotFoundException
+	 *             if the config is not found on source
 	 */
-	Config clear() throws FileNotFoundException;
+	default Config clear() throws ConfigNotFoundException{
+		return this;
+	}
+
+	/**
+	 * Get this config name that must be used when it's stored
+	 *
+	 * <p>
+	 * This name must be unique to avoid replacement in config source ({@link ConfigSource}
+	 * @return the unique name of this config
+	 */
+	String getName();
 
 }
