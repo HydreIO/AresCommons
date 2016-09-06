@@ -1,6 +1,5 @@
-package fr.aresrpg.commons.domain.serialization.formats;
+package fr.aresrpg.commons.domain.serialization;
 
-import fr.aresrpg.commons.domain.serialization.SerializationContext;
 import fr.aresrpg.commons.domain.types.TypeEnum;
 
 import java.io.IOException;
@@ -29,7 +28,7 @@ public interface Format<I , O>{
 	 * @param context the context of the serialization
 	 * @throws IOException if an error occurred during writing
 	 */
-	void writeValue(O out , String name , TypeEnum type , Object value , SerializationContext<I , O> context) throws IOException;
+	void writeValue(O out , String name , TypeEnum type , Object value , SerializationContext context) throws IOException;
 
 	/**
 	 * Called before the writing of an object
@@ -66,5 +65,5 @@ public interface Format<I , O>{
 	 * @param context the serialization context
 	 * @throws IOException if an error occurred during reading
 	 */
-	void read(I in , Map<String , Object> container , SerializationContext<I , O> context) throws IOException;
+	void read(I in , Map<String , Object> container , SerializationContext context) throws IOException;
 }

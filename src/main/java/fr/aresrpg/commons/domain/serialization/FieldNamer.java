@@ -1,4 +1,4 @@
-package fr.aresrpg.commons.domain.serialization.field;
+package fr.aresrpg.commons.domain.serialization;
 
 /**
  * A field name

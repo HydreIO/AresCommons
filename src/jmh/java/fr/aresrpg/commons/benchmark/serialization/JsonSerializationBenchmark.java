@@ -3,21 +3,24 @@ package fr.aresrpg.commons.benchmark.serialization;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.aresrpg.commons.domain.serialization.Serializer;
-import fr.aresrpg.commons.infra.serialization.factory.BasicSerializationFactory;
 import fr.aresrpg.commons.infra.serialization.formats.json.JsonFormat;
+import fr.aresrpg.commons.infra.serialization.unsafe.UnsafeSerializationFactory;
 import org.boon.json.serializers.impl.JsonSimpleSerializerImpl;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 
 @State(Scope.Benchmark)
 public class JsonSerializationBenchmark {
 
 	public static class Message{
-		private String msg = "Hello, world!";
+		private String msg;
+
+		public Message(String msg) {
+			this.msg = msg;
+		}
 
 		public void setMsg(String msg) {
 			this.msg = msg;
@@ -31,14 +34,14 @@ public class JsonSerializationBenchmark {
 	private Message message;
 	private ObjectMapper jackson;
 	private JsonSimpleSerializerImpl boon;
-	private Serializer<Message , InputStream , OutputStream> ares;
+	private Serializer<Message> ares;
 
 	@Setup(Level.Trial)
 	public void setup(){
-		message = new Message();
+		message = new Message("Hello! World");
 		jackson = new ObjectMapper();
 		boon = new JsonSimpleSerializerImpl();
-		ares = new BasicSerializationFactory<InputStream , OutputStream>().createSerializer(Message.class);
+		ares = new UnsafeSerializationFactory().createSerializer(Message.class);
 	}
 
 	@Benchmark

@@ -3,25 +3,30 @@ package fr.aresrpg.commons.domain.serialization.factory;
 import fr.aresrpg.commons.domain.reflection.ParametrizedClass;
 import fr.aresrpg.commons.domain.serialization.Serializer;
 import fr.aresrpg.commons.domain.serialization.adapters.Adapter;
-import fr.aresrpg.commons.domain.serialization.field.FieldModifier;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * An serialization factory that create {@link Serializer}
- * @param <I> the input type
- * @param <O> the output type
  * @author Duarte David  {@literal <deltaduartedavid@gmail.com>}
  */
-public interface SerializationFactory<I , O> {
-	<T> Serializer<T , I , O> createSerializer(Class<T> clazz);
-	<T> Serializer<T , I , O> createOrGetSerializer(Class<T> clazz);
+public interface SerializationFactory {
+	<T> Serializer<T> createSerializer(Class<T> clazz);
+	<T> Serializer<T> createOrGetSerializer(Class<T> clazz);
 
 	List<Adapter<? , ?>> getAdapters();
 	void addAdapter(Adapter<? , ?> adapter);
 	void removeAdapter(Adapter<? , ?> adapter);
 	<T> Adapter<T , ?> getAdapter(ParametrizedClass<T> clazz);
 
-	FieldModifier getFieldModifier();
-	void setFieldModifier(FieldModifier modifier);
+	default Adapter[] getAdapterChain(ParametrizedClass clazz){
+		Adapter last;
+		List<Adapter> adapters = new ArrayList<>();
+		while ((last = getAdapter(clazz)) != null) {
+			adapters.add(last);
+			clazz = last.getOutType();
+		}
+		return adapters.toArray(new Adapter[adapters.size()]);
+	}
 }
