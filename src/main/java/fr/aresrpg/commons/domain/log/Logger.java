@@ -1,22 +1,24 @@
 package fr.aresrpg.commons.domain.log;
 
+import fr.aresrpg.commons.domain.condition.Option;
+import fr.aresrpg.commons.domain.log.handler.Handler;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import fr.aresrpg.commons.domain.log.handler.Handler;
-
 /**
  * A logger
- * @author Duarte David  {@literal <deltaduartedavid@gmail.com>}
+ * 
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public class Logger {
 	/**
 	 * The logger of AresCommons
 	 */
-	public static final Logger MAIN_LOGGER = new LoggerBuilder("DEFAULT").setUseConsoleHandler(true, true).build();
+	public static final Logger MAIN_LOGGER = new LoggerBuilder("DEFAULT").setUseConsoleHandler(true, true, Option.none(), Option.none()).build();
 	/**
 	 * The default channel of the logs
 	 */
@@ -29,7 +31,8 @@ public class Logger {
 
 	/**
 	 * The logger levels
-	 * @author Duarte David  {@literal <deltaduartedavid@gmail.com>}
+	 * 
+	 * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
 	 */
 	public enum Level {
 		INFO(false),
@@ -55,8 +58,11 @@ public class Logger {
 
 	/**
 	 * Create a new logger
-	 * @param name the name of the logger
-	 * @param handlers the handlers of this logger
+	 * 
+	 * @param name
+	 *            the name of the logger
+	 * @param handlers
+	 *            the handlers of this logger
 	 */
 	public Logger(String name, List<Handler> handlers) {
 		this.name = name;
@@ -69,11 +75,17 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers
-	 * @param level the level of the log
-	 * @param channel the channel of the log
-	 * @param t the throwable of the log
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param level
+	 *            the level of the log
+	 * @param channel
+	 *            the channel of the log
+	 * @param t
+	 *            the throwable of the log
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void log(Level level, String channel, Throwable t, String message, Object... args) {
 		broadcast(level, channel, message, args, t);
@@ -81,10 +93,15 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers to the default channel
-	 * @param level the level of the log
-	 * @param t the throwable of the log
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param level
+	 *            the level of the log
+	 * @param t
+	 *            the throwable of the log
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void log(Level level, Throwable t, String message, Object... args) {
 		log(level, DEFAULT_CHANEL, t, message, args);
@@ -92,10 +109,15 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers
-	 * @param level the level of the log
-	 * @param channel the channel of the log
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param level
+	 *            the level of the log
+	 * @param channel
+	 *            the channel of the log
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void log(Level level, String channel, String message, Object... args) {
 		log(level, channel, null, message, args);
@@ -103,9 +125,13 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers to the default channel
-	 * @param level the level of the log
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param level
+	 *            the level of the log
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void log(Level level, String message, Object... args) {
 		log(level, DEFAULT_CHANEL, message, args);
@@ -113,9 +139,13 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers
-	 * @param level the level of the log
-	 * @param channel the channel of the log
-	 * @param t the throwable of the log
+	 * 
+	 * @param level
+	 *            the level of the log
+	 * @param channel
+	 *            the channel of the log
+	 * @param t
+	 *            the throwable of the log
 	 */
 	public void log(Level level, String channel, Throwable t) {
 		log(level, channel, t, "");
@@ -123,8 +153,11 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers to the default channel
-	 * @param level the level of the log
-	 * @param t the throwable of the log
+	 * 
+	 * @param level
+	 *            the level of the log
+	 * @param t
+	 *            the throwable of the log
 	 */
 	public void log(Level level, Throwable t) {
 		log(level, DEFAULT_CHANEL, t);
@@ -132,10 +165,15 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers with {@link Level#INFO} level
-	 * @param channel the channel of the log
-	 * @param t the throwable of the log
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param channel
+	 *            the channel of the log
+	 * @param t
+	 *            the throwable of the log
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void info(String channel, Throwable t, String message, Object... args) {
 		log(Level.INFO, channel, t, message, args);
@@ -143,9 +181,13 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers to the default channel with {@link Level#INFO} level
-	 * @param t the throwable of the log
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param t
+	 *            the throwable of the log
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void info(Throwable t, String message, Object... args) {
 		log(Level.INFO, t, message, args);
@@ -153,9 +195,13 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers with {@link Level#INFO} level
-	 * @param channel the channel of the log
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param channel
+	 *            the channel of the log
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void info(String channel, String message, Object... args) {
 		log(Level.INFO, channel, message, args);
@@ -163,8 +209,11 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers to the default channel with {@link Level#INFO} level
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void info(String message, Object... args) {
 		log(Level.INFO, message, args);
@@ -172,8 +221,11 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers with {@link Level#INFO} level
-	 * @param channel the channel of the log
-	 * @param t the throwable of the log
+	 * 
+	 * @param channel
+	 *            the channel of the log
+	 * @param t
+	 *            the throwable of the log
 	 */
 	public void info(String channel, Throwable t) {
 		log(Level.INFO, channel, t);
@@ -181,7 +233,9 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers to the default channel with {@link Level#INFO} level
-	 * @param t the throwable of the log
+	 * 
+	 * @param t
+	 *            the throwable of the log
 	 */
 	public void info(Throwable t) {
 		log(Level.INFO, DEFAULT_CHANEL, t);
@@ -189,10 +243,15 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers with {@link Level#SUCCESS} level
-	 * @param channel the channel of the log
-	 * @param t the throwable of the log
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param channel
+	 *            the channel of the log
+	 * @param t
+	 *            the throwable of the log
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void success(String channel, Throwable t, String message, Object... args) {
 		log(Level.SUCCESS, channel, t, message, args);
@@ -200,9 +259,13 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers to the default channel with {@link Level#SUCCESS} level
-	 * @param t the throwable of the log
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param t
+	 *            the throwable of the log
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void success(Throwable t, String message, Object... args) {
 		log(Level.SUCCESS, t, message, args);
@@ -210,9 +273,13 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers with {@link Level#SUCCESS} level
-	 * @param channel the channel of the log
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param channel
+	 *            the channel of the log
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void success(String channel, String message, Object... args) {
 		log(Level.SUCCESS, channel, message, args);
@@ -220,8 +287,11 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers to the default channel with {@link Level#SUCCESS} level
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void success(String message, Object... args) {
 		log(Level.SUCCESS, message, args);
@@ -229,8 +299,11 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers with {@link Level#SUCCESS} level
-	 * @param channel the channel of the log
-	 * @param t the throwable of the log
+	 * 
+	 * @param channel
+	 *            the channel of the log
+	 * @param t
+	 *            the throwable of the log
 	 */
 	public void success(String channel, Throwable t) {
 		log(Level.SUCCESS, channel, t);
@@ -238,10 +311,15 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers with {@link Level#WARNING} level
-	 * @param channel the channel of the log
-	 * @param t the throwable of the log
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param channel
+	 *            the channel of the log
+	 * @param t
+	 *            the throwable of the log
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void warning(String channel, Throwable t, String message, Object... args) {
 		log(Level.WARNING, channel, t, message, args);
@@ -249,9 +327,13 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers to the default channel with {@link Level#WARNING} level
-	 * @param t the throwable of the log
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param t
+	 *            the throwable of the log
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void warning(Throwable t, String message, Object... args) {
 		log(Level.WARNING, t, message, args);
@@ -259,9 +341,13 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers with {@link Level#WARNING} level
-	 * @param channel the channel of the log
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param channel
+	 *            the channel of the log
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void warning(String channel, String message, Object... args) {
 		log(Level.WARNING, channel, message, args);
@@ -269,8 +355,11 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers to the default channel with {@link Level#WARNING} level
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void warning(String message, Object... args) {
 		log(Level.WARNING, message, args);
@@ -278,8 +367,11 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers with {@link Level#WARNING} level
-	 * @param channel the channel of the log
-	 * @param t the throwable of the log
+	 * 
+	 * @param channel
+	 *            the channel of the log
+	 * @param t
+	 *            the throwable of the log
 	 */
 	public void warning(String channel, Throwable t) {
 		log(Level.WARNING, channel, t);
@@ -287,7 +379,9 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers to the default channel with {@link Level#WARNING} level
-	 * @param t the throwable of the log
+	 * 
+	 * @param t
+	 *            the throwable of the log
 	 */
 	public void warning(Throwable t) {
 		log(Level.WARNING, t);
@@ -295,10 +389,15 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers with {@link Level#DEBUG} level
-	 * @param channel the channel of the log
-	 * @param t the throwable of the log
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param channel
+	 *            the channel of the log
+	 * @param t
+	 *            the throwable of the log
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void debug(String channel, Throwable t, String message, Object... args) {
 		log(Level.DEBUG, channel, t, message, args);
@@ -306,9 +405,13 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers to the default channel with {@link Level#DEBUG} level
-	 * @param t the throwable of the log
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param t
+	 *            the throwable of the log
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void debug(Throwable t, String message, Object... args) {
 		log(Level.DEBUG, t, message, args);
@@ -316,9 +419,13 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers with {@link Level#DEBUG} level
-	 * @param channel the channel of the log
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param channel
+	 *            the channel of the log
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void debug(String channel, String message, Object... args) {
 		log(Level.DEBUG, channel, message, args);
@@ -326,8 +433,11 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers to the default channel with {@link Level#DEBUG} level
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void debug(String message, Object... args) {
 		log(Level.DEBUG, message, args);
@@ -335,8 +445,11 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers with {@link Level#DEBUG} level
-	 * @param channel the channel of the log
-	 * @param t the throwable of the log
+	 * 
+	 * @param channel
+	 *            the channel of the log
+	 * @param t
+	 *            the throwable of the log
 	 */
 	public void debug(String channel, Throwable t) {
 		log(Level.DEBUG, channel, t);
@@ -344,7 +457,9 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers to the default channel with {@link Level#DEBUG} level
-	 * @param t the throwable of the log
+	 * 
+	 * @param t
+	 *            the throwable of the log
 	 */
 	public void debug(Throwable t) {
 		log(Level.DEBUG, t);
@@ -352,10 +467,15 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers with {@link Level#ERROR} level
-	 * @param channel the channel of the log
-	 * @param t the throwable of the log
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param channel
+	 *            the channel of the log
+	 * @param t
+	 *            the throwable of the log
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void error(String channel, Throwable t, String message, Object... args) {
 		log(Level.ERROR, channel, t, message, args);
@@ -363,9 +483,13 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers to the default channel with {@link Level#ERROR} level
-	 * @param t the throwable of the log
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param t
+	 *            the throwable of the log
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void error(Throwable t, String message, Object... args) {
 		log(Level.ERROR, t, message, args);
@@ -373,9 +497,13 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers with {@link Level#ERROR} level
-	 * @param channel the channel of the log
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param channel
+	 *            the channel of the log
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void error(String channel, String message, Object... args) {
 		log(Level.ERROR, channel, message, args);
@@ -383,8 +511,11 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers to the default channel with {@link Level#ERROR} level
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void error(String message, Object... args) {
 		log(Level.ERROR, message, args);
@@ -392,8 +523,11 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers with {@link Level#ERROR} level
-	 * @param channel the channel of the log
-	 * @param t the throwable of the log
+	 * 
+	 * @param channel
+	 *            the channel of the log
+	 * @param t
+	 *            the throwable of the log
 	 */
 	public void error(String channel, Throwable t) {
 		log(Level.ERROR, channel, t);
@@ -401,7 +535,9 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers to the default channel with {@link Level#ERROR} level
-	 * @param t the throwable of the log
+	 * 
+	 * @param t
+	 *            the throwable of the log
 	 */
 	public void error(Throwable t) {
 		log(Level.ERROR, t);
@@ -409,10 +545,15 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers with {@link Level#SEVERE} level
-	 * @param channel the channel of the log
-	 * @param t the throwable of the log
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param channel
+	 *            the channel of the log
+	 * @param t
+	 *            the throwable of the log
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void severe(String channel, Throwable t, String message, Object... args) {
 		log(Level.SEVERE, channel, t, message, args);
@@ -420,9 +561,13 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers to the default channel with {@link Level#SEVERE} level
-	 * @param t the throwable of the log
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param t
+	 *            the throwable of the log
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void severe(Throwable t, String message, Object... args) {
 		log(Level.SEVERE, t, message, args);
@@ -430,9 +575,13 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers with {@link Level#SEVERE} level
-	 * @param channel the channel of the log
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param channel
+	 *            the channel of the log
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void severe(String channel, String message, Object... args) {
 		log(Level.SEVERE, channel, message, args);
@@ -440,8 +589,11 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers to the default channel with {@link Level#SEVERE} level
-	 * @param message the message of the log
-	 * @param args the args of the message
+	 * 
+	 * @param message
+	 *            the message of the log
+	 * @param args
+	 *            the args of the message
 	 */
 	public void severe(String message, Object... args) {
 		log(Level.SEVERE, message, args);
@@ -449,8 +601,11 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers with {@link Level#SEVERE} level
-	 * @param channel the channel of the log
-	 * @param t the throwable of the log
+	 * 
+	 * @param channel
+	 *            the channel of the log
+	 * @param t
+	 *            the throwable of the log
 	 */
 	public void severe(String channel, Throwable t) {
 		log(Level.SEVERE, channel, t);
@@ -458,7 +613,9 @@ public class Logger {
 
 	/**
 	 * Send a log to the handlers to the default channel with {@link Level#SEVERE} level
-	 * @param t the throwable of the log
+	 * 
+	 * @param t
+	 *            the throwable of the log
 	 */
 	public void severe(Throwable t) {
 		log(Level.SEVERE, t);
@@ -483,7 +640,9 @@ public class Logger {
 
 	/**
 	 * Add an handler to this logger
-	 * @param handler the handler to add
+	 * 
+	 * @param handler
+	 *            the handler to add
 	 */
 	public void addHandler(Handler handler) {
 		handlers.add(handler);
@@ -504,13 +663,14 @@ public class Logger {
 		for (int i = 1; i < elements.length; i++) {
 			StackTraceElement element = elements[i];
 			if (!element.getClassName().equals(getClass().getName())) // Ignore logger calls
-			return element;
+				return element;
 		}
 		return null;
 	}
 
 	/**
 	 * Get the name of this logger
+	 * 
 	 * @return the name of this logger
 	 */
 	public String getName() {
