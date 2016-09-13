@@ -1,6 +1,7 @@
 package fr.aresrpg.commons.domain.log.handler.formatters;
 
 import fr.aresrpg.commons.domain.log.Logger;
+import fr.aresrpg.commons.domain.log.AnsiColors.AnsiColor;
 import fr.aresrpg.commons.domain.log.AnsiColors;
 import fr.aresrpg.commons.domain.log.Log;
 
@@ -25,28 +26,22 @@ public class ColorFormatter implements Formatter {
 	 * @return the color
 	 */
 	public String getColor(Logger.Level level) {
-		String color;
 		switch (level) {
 			case INFO:
-				color = AnsiColors.getCode(AnsiColors.AnsiColor.YELLOW, null, false);
-				break;
+				return AnsiColors.getCode(AnsiColor.BLUE, null, false);
+			case WARNING:
+				return AnsiColors.getCode(AnsiColor.YELLOW, null, false);
 			case DEBUG:
-				color = AnsiColors.getCode(AnsiColors.AnsiColor.PURPLE, null, false);
-				break;
+				return AnsiColors.getCode(AnsiColor.PURPLE, null, false);
 			case ERROR:
-				color = AnsiColors.getCode(AnsiColors.AnsiColor.RED, null, false);
-				break;
+				return AnsiColors.getCode(AnsiColor.RED, null, false);
 			case SEVERE:
-				color = AnsiColors.getCode(AnsiColors.AnsiColor.RED, null, true);
-				break;
+				return AnsiColors.getCode(AnsiColor.RED, null, true);
 			case SUCCESS:
-				color = AnsiColors.getCode(AnsiColors.AnsiColor.GREEN, null, false);
-				break;
+				return AnsiColors.getCode(AnsiColor.GREEN, null, false);
 			default:
-				color = "";
-				break;
+				return "";
 		}
-		return color;
 	}
 
 	@Override
