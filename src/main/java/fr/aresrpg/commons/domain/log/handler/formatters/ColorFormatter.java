@@ -1,20 +1,21 @@
 package fr.aresrpg.commons.domain.log.handler.formatters;
 
-import fr.aresrpg.commons.domain.log.Logger;
+import fr.aresrpg.commons.domain.log.*;
 import fr.aresrpg.commons.domain.log.AnsiColors.AnsiColor;
-import fr.aresrpg.commons.domain.log.AnsiColors;
-import fr.aresrpg.commons.domain.log.Log;
 
 /**
  * A Proxy class for {@link Formatter} that add ansi colors
- * @author Duarte David  {@literal <deltaduartedavid@gmail.com>}
+ * 
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public class ColorFormatter implements Formatter {
 	private Formatter parent;
 
 	/**
-	 * Create a new color formatter thaht add color to his parent
-	 * @param parent the formatter to add color
+	 * Create a new color formatter that add color to his parent
+	 * 
+	 * @param parent
+	 *            the formatter to add color
 	 */
 	public ColorFormatter(Formatter parent) {
 		this.parent = parent;
@@ -22,7 +23,9 @@ public class ColorFormatter implements Formatter {
 
 	/**
 	 * Get the ansi color for this {@link fr.aresrpg.commons.domain.log.Logger.Level}
-	 * @param level the level to use
+	 * 
+	 * @param level
+	 *            the level to use
 	 * @return the color
 	 */
 	public String getColor(Logger.Level level) {
