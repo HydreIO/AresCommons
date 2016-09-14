@@ -14,7 +14,7 @@ public class ThreadPoolBuilder {
 	private PoolType type;
 	private int parallelism;
 
-	private ThreadPoolBuilder(ThreadBuilder builder) {
+	public ThreadPoolBuilder(ThreadBuilder builder) {
 		type = PoolType.FIXED;
 		parallelism = Runtime.getRuntime().availableProcessors();
 		if (builder.getName() == null) builder.setName("UNNAMED_POOL[thrd:%1$]");
