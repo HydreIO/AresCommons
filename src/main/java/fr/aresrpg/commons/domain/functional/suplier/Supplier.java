@@ -6,6 +6,6 @@ public interface Supplier<T> extends TrySupplier<T> {
 	T get();
 
 	default java.util.function.Supplier<T> toNative() {
-		return this::get
+		return this::get;
 	}
 }
