@@ -1,8 +1,6 @@
 package fr.aresrpg.commons.domain.util.schedule;
 
-import fr.aresrpg.commons.domain.concurrent.Pool;
-import fr.aresrpg.commons.domain.concurrent.Pool.PoolType;
-import fr.aresrpg.commons.domain.condition.Option;
+import fr.aresrpg.commons.domain.concurrent.ThreadPoolBuilder;
 import fr.aresrpg.commons.domain.log.Logger;
 
 import java.util.Arrays;
@@ -12,23 +10,18 @@ import java.util.concurrent.ScheduledExecutorService;
  * The class to launch {@link Scheduled} instance
  * 
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
+ * @author Sceat {@literal <sceat@aresrpg.fr>}
  */
 public class Scheduler {
 
-	private static Scheduler instance = new Scheduler();
+	private ScheduledExecutorService pool;
 
-	private ScheduledExecutorService pool = Pool.builder().setName("Scheduler pool - [Thrd: $1]").setType(PoolType.SCHEDULED).toScheduled(Option.of(50));
-
-	private Scheduler() {
+	public Scheduler(ScheduledExecutorService pool) {
+		this.pool = pool;
 	}
 
-	/**
-	 * Get the scheduler instance
-	 * 
-	 * @return the scheduler instance
-	 */
-	public static Scheduler getScheduler() {
-		return instance;
+	public Scheduler(ThreadPoolBuilder builder) {
+		this.pool = builder.buildAsScheduled();
 	}
 
 	/**
@@ -54,7 +47,7 @@ public class Scheduler {
 				} catch (Exception e) {
 					Logger.MAIN_LOGGER.debug(e, "[Scheduler] Error with " + "//: " + m.getDeclaringClass() + "//:" + m.getName());
 				}
-			}, ns, ns, java.util.concurrent.TimeUnit.NANOSECONDS);
+			} , ns, ns, java.util.concurrent.TimeUnit.NANOSECONDS);
 		});
 	}
 
