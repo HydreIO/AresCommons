@@ -56,7 +56,7 @@ public class ArangoDBDatabase implements Database {
 	}
 
 	@Override
-	public <T> Collection<T> get(String id, Class<T> clazz) {
+	public <T> Collection<T> get(String id, Class<T> clazz) throws IllegalStateException{
 		return null;
 	}
 
