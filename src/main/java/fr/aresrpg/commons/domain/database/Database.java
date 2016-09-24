@@ -27,5 +27,5 @@ public interface Database extends Closeable {
 
 	<T> Collection<T>[] getCollections();
 
-	<T> Collection<T> get(String id, Class<T> clazz);
+	<T> Collection<T> get(String id, Class<T> clazz) throws IllegalStateException;
 }
