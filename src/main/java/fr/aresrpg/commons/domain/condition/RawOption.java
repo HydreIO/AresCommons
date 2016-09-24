@@ -46,6 +46,9 @@ public interface RawOption<T, O extends RawOption<T, ?>> extends Value<T>, Suppl
 
 	/**
 	 * Provide the wrapped value if the condition is valid, return the @param value otherwise
+	 * </p>
+	 * <b>Be careful while using this method and prefer the use of {@linkplain RawOption#whenGet(boolean, Supplier)} when you haven't a primitive value</b>
+	 * </p>
 	 * 
 	 * @param condition
 	 *            the condition
@@ -72,6 +75,9 @@ public interface RawOption<T, O extends RawOption<T, ?>> extends Value<T>, Suppl
 
 	/**
 	 * The passed value is returned if the original wrapped value is null
+	 * </p>
+	 * <b>Be careful while using this method and prefer the use of {@linkplain RawOption#orElseGet(Supplier)} when you haven't a primitive value</b>
+	 * </p>
 	 * 
 	 * @param other
 	 *            the value to return in the case where the wrapped value isn't present
