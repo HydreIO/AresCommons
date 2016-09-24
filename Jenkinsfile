@@ -34,5 +34,9 @@ node {
         echo "Caught: ${err}"
         currentBuild.result = 'FAILURE'
         slackSend color: 'danger', message: "Error while building ${env.JOB_NAME}"
+    }finally {     	
+        step($class: 'InfluxDbPublisher')     	
+        stage 'clean'         
+        step([$class: 'WsCleanup'])     
     }
 }
