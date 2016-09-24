@@ -15,9 +15,9 @@ node {
 
         def tasks = [:]
 
-        tasks["Analyse"] = {
+        /*tasks["Analyse"] = {
              step([$class: 'SonarRunnerBuilder', sonarScannerName: 'SonarQube 2.5.1'])
-        }
+        }*/
 
         tasks["Compile"] ={
             sh "${gradleHome}/bin/gradle clean build"
