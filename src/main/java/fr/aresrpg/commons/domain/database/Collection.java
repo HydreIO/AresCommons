@@ -126,6 +126,11 @@ public interface Collection<T> extends Value<T> {
 	}
 
 	/**
+	 * @return the number of document in the collection
+	 */
+	long count();
+
+	/**
 	 * Get the name of this collection
 	 * 
 	 * @return the id of this collection
