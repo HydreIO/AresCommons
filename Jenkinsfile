@@ -7,8 +7,8 @@ node {
                 slackSend color: 'good', message: "Downloading ${name}"
                 checkout scm
         }
+        def gradleHome = tool 'Gradle 2.12'
         stage ('Build') {
-                def gradleHome = tool 'Gradle 2.12'
                 slackSend color: 'good', message: "Building ${name}"
                 def tasks = [:]
 
