@@ -17,7 +17,7 @@ public class Predicates {
 	private static final Predicate<?> NON_NULL = Objects::nonNull;
 
 	/**
-	 * This constructor can be called
+	 * This constructor can't be called
 	 * 
 	 * @throws IllegalConstructionException
 	 *             always
@@ -40,7 +40,7 @@ public class Predicates {
 	}
 
 	/**
-	 * Get a predicate witch always return true
+	 * Get a predicate which always return true
 	 * 
 	 * @param <T>
 	 *            the type of the tested object
@@ -52,7 +52,7 @@ public class Predicates {
 	}
 
 	/**
-	 * Get a predicate witch always return false
+	 * Get a predicate which always return false
 	 * 
 	 * @param <T>
 	 *            the type of the tested object
@@ -70,7 +70,7 @@ public class Predicates {
 	 *            the class that represent the tested instance
 	 * @param <T>
 	 *            the type of the tested object
-	 * @return a predicate always true
+	 * @return a predicate to test if an object is an instance of the class
 	 */
 	public static <T> Predicate<T> instanceOf(Class<?> clazz) {
 		return clazz::isInstance;
@@ -96,19 +96,19 @@ public class Predicates {
 	 *            the value to test if there is'nt an equality
 	 * @param <T>
 	 *            the type of the tested object
-	 * @return a predicate to test if an object is not equal the given value
+	 * @return a predicate to test if an object is not equal to the given value
 	 */
 	public static <T> Predicate<T> isNot(T value) {
 		return is(value).negate();
 	}
 
 	/**
-	 * Test if a value equals to any of the given values
+	 * Test if a value is equal to any of the given values
 	 * 
 	 * @param values
 	 *            an array of the values to test if they contains the tested value
 	 * @param <T>
-	 *            the type of the tested values
+	 *            the type of the tested value
 	 * @return a predicate to test if the value is equal to any of the values
 	 */
 	@SafeVarargs
