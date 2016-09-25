@@ -17,7 +17,7 @@ node {
                                 "sonar.projectName=AresCommons\n" +
                                 "sonar.projectVersion=0.7\n" +
                                 "sonar.sources=src/main/java\n"
-                     sonarScanner properties: prop + "sonar.analysis.mode=preview" //Report to gitlab
+                     sonarScanner properties: prop + "sonar.analysis.mode=preview\n sonar.gitlab.ref_name=${env.BRANCH_NAME}" //Report to gitlab
                      sonarScanner properties: prop
                  }
 
