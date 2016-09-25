@@ -8,7 +8,7 @@ import java.util.*;
  * A util class to manipulate arrays
  * 
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- * @author MrSceat {@literal <mr.sceat@outlook.com>}
+ * @author Sceat {@literal <sceat@aresrpg.fr>}
  */
 public class ArrayUtils {
 	private ArrayUtils() {
@@ -22,7 +22,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if the array contains some elements
 	 */
-	public static <T> boolean notEmpty(byte[] array) {
+	public static boolean notEmpty(byte[] array) {
 		return !isEmpty(array);
 	}
 
@@ -33,7 +33,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if the array contains some elements
 	 */
-	public static <T> boolean notEmpty(short[] array) {
+	public static boolean notEmpty(short[] array) {
 		return !isEmpty(array);
 	}
 
@@ -44,7 +44,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if the array contains some elements
 	 */
-	public static <T> boolean notEmpty(int[] array) {
+	public static boolean notEmpty(int[] array) {
 		return !isEmpty(array);
 	}
 
@@ -55,7 +55,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if the array contains some elements
 	 */
-	public static <T> boolean notEmpty(long[] array) {
+	public static boolean notEmpty(long[] array) {
 		return !isEmpty(array);
 	}
 
@@ -66,7 +66,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if the array contains some elements
 	 */
-	public static <T> boolean notEmpty(float[] array) {
+	public static boolean notEmpty(float[] array) {
 		return !isEmpty(array);
 	}
 
@@ -77,7 +77,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if the array contains some elements
 	 */
-	public static <T> boolean notEmpty(double[] array) {
+	public static boolean notEmpty(double[] array) {
 		return !isEmpty(array);
 	}
 
@@ -88,7 +88,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if the array contains some elements
 	 */
-	public static <T> boolean notEmpty(char[] array) {
+	public static boolean notEmpty(char[] array) {
 		return !isEmpty(array);
 	}
 
@@ -138,7 +138,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if empty
 	 */
-	public static <T> boolean isEmpty(byte[] array) {
+	public static boolean isEmpty(byte[] array) {
 		return array.length == 0;
 	}
 
@@ -149,7 +149,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if empty
 	 */
-	public static <T> boolean isEmpty(short[] array) {
+	public static boolean isEmpty(short[] array) {
 		return array.length == 0;
 	}
 
@@ -160,7 +160,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if empty
 	 */
-	public static <T> boolean isEmpty(int[] array) {
+	public static boolean isEmpty(int[] array) {
 		return array.length == 0;
 	}
 
@@ -171,7 +171,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if empty
 	 */
-	public static <T> boolean isEmpty(long[] array) {
+	public static boolean isEmpty(long[] array) {
 		return array.length == 0;
 	}
 
@@ -182,7 +182,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if empty
 	 */
-	public static <T> boolean isEmpty(float[] array) {
+	public static boolean isEmpty(float[] array) {
 		return array.length == 0;
 	}
 
@@ -193,7 +193,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if empty
 	 */
-	public static <T> boolean isEmpty(double[] array) {
+	public static boolean isEmpty(double[] array) {
 		return array.length == 0;
 	}
 
@@ -204,7 +204,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if empty
 	 */
-	public static <T> boolean isEmpty(char[] array) {
+	public static boolean isEmpty(char[] array) {
 		return array.length == 0;
 	}
 
