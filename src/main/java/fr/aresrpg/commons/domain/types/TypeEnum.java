@@ -4,10 +4,11 @@ import java.util.Collection;
 
 /**
  * A enum to represent commons types
+ * 
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public enum TypeEnum {
-	//Primitive
+	// Primitive
 	BOOLEAN,
 	BYTE,
 	SHORT,
@@ -18,11 +19,11 @@ public enum TypeEnum {
 	DOUBLE,
 	NULL,
 
-	//Base
+	// Base
 	STRING,
 	COLLECTION,
 
-	//Arrays
+	// Arrays
 	OBJECT_ARRAY,
 	BOOLEAN_ARRAY,
 	BYTE_ARRAY,
@@ -33,56 +34,55 @@ public enum TypeEnum {
 	FLOAT_ARRAY,
 	DOUBLE_ARRAY,
 
-	//Last
+	// Last
 	OBJECT;
 
 	/**
 	 * Get the type enum for this class
-	 * @param clazz the class
+	 * 
+	 * @param clazz
+	 *            the class
 	 * @return the type enum for the class
 	 */
-	public static TypeEnum getType(Class<?> clazz){
+	public static TypeEnum getType(Class<?> clazz) {
 		String name = clazz.getName();
 		TypeEnum type = getType(name);
-		if(type != null)
-			return type;
-		else if(clazz.isArray()){
-			if(clazz.getComponentType().isPrimitive())
-				switch (getPrimitiveType(clazz.getComponentType().getName())){
-					case BOOLEAN:
-						return BOOLEAN_ARRAY;
-					case BYTE:
-						return BYTE_ARRAY;
-					case SHORT:
-						return SHORT_ARRAY;
-					case CHAR:
-						return CHAR_ARRAY;
-					case INT:
-						return INT_ARRAY;
-					case LONG:
-						return LONG_ARRAY;
-					case FLOAT:
-						return FLOAT_ARRAY;
-					case DOUBLE:
-						return DOUBLE_ARRAY;
-					default:
-						throw new IllegalStateException("Unreachable");
-				}
-			else
-				return OBJECT_ARRAY;
-		}else if(name.startsWith("java.util") && Collection.class.isAssignableFrom(clazz))
-			return COLLECTION;
-		else
-			return OBJECT;
+		if (type != null) return type;
+		else if (clazz.isArray()) {
+			if (clazz.getComponentType().isPrimitive()) switch (getPrimitiveType(clazz.getComponentType().getName())) {
+				case BOOLEAN:
+					return BOOLEAN_ARRAY;
+				case BYTE:
+					return BYTE_ARRAY;
+				case SHORT:
+					return SHORT_ARRAY;
+				case CHAR:
+					return CHAR_ARRAY;
+				case INT:
+					return INT_ARRAY;
+				case LONG:
+					return LONG_ARRAY;
+				case FLOAT:
+					return FLOAT_ARRAY;
+				case DOUBLE:
+					return DOUBLE_ARRAY;
+				default:
+					throw new IllegalStateException("Unreachable");
+			}
+			else return OBJECT_ARRAY;
+		} else if (name.startsWith("java.util") && Collection.class.isAssignableFrom(clazz)) return COLLECTION;
+		else return OBJECT;
 	}
 
 	/**
 	 * Get the type enum for this class name
-	 * @param name the name of the class
+	 * 
+	 * @param name
+	 *            the name of the class
 	 * @return the type enum for the class
 	 */
-	public static TypeEnum getType(String name){
-		switch (name){
+	public static TypeEnum getType(String name) {
+		switch (name) {
 			case "java.lang.String":
 				return STRING;
 			case "java.lang.Boolean":
@@ -106,8 +106,13 @@ public enum TypeEnum {
 		}
 	}
 
-	public static TypeEnum getPrimitiveType(String name){
-		switch (name){
+	/**
+	 * @param name
+	 *            the name of the requested type
+	 * @return the TypeEnum corresponding to the passed type name or null if not found
+	 */
+	public static TypeEnum getPrimitiveType(String name) {
+		switch (name) {
 			case "boolean":
 				return BOOLEAN;
 			case "byte":
@@ -128,10 +133,14 @@ public enum TypeEnum {
 				return null;
 		}
 	}
-	public static TypeEnum getType(Object object){
-		if(object == null)
-			return NULL;
-		else
-			return getType(object.getClass());
+
+	/**
+	 * @param object
+	 *            the object to know his type
+	 * @return the type of the object or {@linkplain TypeEnum#NULL} if the object is null
+	 */
+	public static TypeEnum getType(Object object) {
+		if (object == null) return NULL;
+		else return getType(object.getClass());
 	}
 }
