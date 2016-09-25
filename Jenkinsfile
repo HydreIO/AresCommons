@@ -22,8 +22,12 @@ node {
                  }
 
                 tasks["Compile"] ={
-                    sh "${gradleHome}/bin/gradle clean build"
-                    junit '**/build/test-results/TEST-*.xml'
+                    try {
+                        sh "${gradleHome}/bin/gradle clean build javadoc"
+                        step([$class: 'JavadocArchiver', javadocDir: 'build/docs/javadoc', keepAll: false])
+                    } finally {
+                        junit '**/build/test-results/TEST-*.xml'
+                    }
                 }
 
                 parallel tasks
