@@ -18,7 +18,7 @@ node {
                                 "sonar.projectVersion=0.7\n" +
                                 "sonar.sources=src/main/java\n"
                      sonarScanner properties: prop + "sonar.analysis.mode=preview\n sonar.gitlab.commit_sha=${sh(returnStdout: true, script: 'git rev-parse HEAD').trim()}" //Report to gitlab
-                     sonarScanner properties: prop
+                     sonarScanner properties: prop + "sonar.slack.disabled=true"
                  }
 
                 tasks["Compile"] ={
