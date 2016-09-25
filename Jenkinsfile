@@ -13,9 +13,10 @@ node {
                 def tasks = [:]
 
                 tasks["Analyse"] = {
-                     sonarScanner properties: "sonar.projectKey=arescommons:${name}" +
-                                              "sonar.projectName=AresCommons" +
-                                              "sonar.projectVersion=0.7"
+                     sonarScanner properties: "sonar.projectKey=arescommons:${name}\n" +
+                                              "sonar.projectName=AresCommons\n" +
+                                              "sonar.projectVersion=0.7\n" +
+                                              "sonar.sources=src/main/java"
                  }
 
                 tasks["Compile"] ={
