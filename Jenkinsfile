@@ -13,10 +13,12 @@ node {
                 def tasks = [:]
 
                 tasks["Analyse"] = {
-                     sonarScanner properties: "sonar.projectKey=arescommons:${env.BRANCH_NAME.replace('/' ,  '_')}\n" +
-                                              "sonar.projectName=AresCommons\n" +
-                                              "sonar.projectVersion=0.7\n" +
-                                              "sonar.sources=src/main/java"
+                     def prop = "sonar.projectKey=arescommons:${env.BRANCH_NAME.replace('/' ,  '_')}\n" +
+                                "sonar.projectName=AresCommons\n" +
+                                "sonar.projectVersion=0.7\n" +
+                                "sonar.sources=src/main/java\n"
+                     sonarScanner properties: prop + "sonar.analysis.mode=preview" //Report to gitlab
+                     sonarScanner properties: prop
                  }
 
                 tasks["Compile"] ={
