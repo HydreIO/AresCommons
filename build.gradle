@@ -1,4 +1,5 @@
 import java.util.concurrent.TimeUnit
+import proguard.gradle.ProGuardTask
 
 buildscript {
 	repositories(){ mavenCentral() }
@@ -60,8 +61,11 @@ dependencies {
 
 task shaded(type: Jar) {
 	classifier = 'shaded'
-	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it)
-		} }
+	from {
+		configurations.compile.collect {
+			it.isDirectory() ? it : zipTree(it)
+		}
+	}
 	with jar
 }
 
