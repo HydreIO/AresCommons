@@ -107,15 +107,14 @@ public class EventBus<E> {
 					Consumers.from(
 							(BiConsumer<Object, E>) LambdaMetafactory.metafactory(lookup, "accept", MethodType.methodType(BiConsumer.class),
 									MethodType.methodType(void.class, Object.class, Object.class), method, MethodType.methodType(void.class, instance.getClass(), owner)).getTarget().invoke(),
-							instance),
-					priority);
+					instance), priority);
 		} catch (Throwable e) { // NOSONAR
 			throw new ReflectiveOperationException(e);
 		}
 	}
 
 	/**
-	 * Deregister the provided subscriber
+	 * Unregister the provided subscriber
 	 * 
 	 * @param subscriber
 	 *            the subscriber to remove
@@ -134,7 +133,7 @@ public class EventBus<E> {
 	}
 
 	/**
-	 * Get the number of subscribers on this bus
+	 * Get the number of subscribers in this bus
 	 * 
 	 * @return the number of subscribers
 	 */
@@ -143,12 +142,12 @@ public class EventBus<E> {
 	}
 
 	/**
-	 * Register this bus to set them active
+	 * Register this bus to listen it
 	 * 
 	 * @param owner
 	 *            the owner of the bus
 	 * @param bus
-	 *            the buis instance
+	 *            the bus instance
 	 */
 	private static void registerBus(Class<?> owner, EventBus<?> bus) {
 		if (buses.putIfAbsent(owner, bus) == null) new BusRegisterEvent(owner, bus).send();
