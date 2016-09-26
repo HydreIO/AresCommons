@@ -5,7 +5,7 @@ import fr.aresrpg.commons.domain.util.Enums;
 import java.util.concurrent.*;
 
 /**
- * A thread pool builder
+ * A quality thread pool builder ( ͡° ͜ʖ ͡°)
  * 
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  */
