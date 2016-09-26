@@ -14,10 +14,10 @@ import java.io.FileNotFoundException;
  * 
  * 	private MyBundle() {}
  * 	
- *	&#64;Configured("animals.fish")
+ *	&#64;Configured("animals.fish.")
  * 	public String fooFish = "bar";
  *	
- *	&#64;Configured("animals.cat")
+ *	&#64;Configured("animals.cat.")
  * 	public int kitty = 80
  * 
  * }
