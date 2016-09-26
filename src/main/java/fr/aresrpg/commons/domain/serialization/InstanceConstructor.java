@@ -4,16 +4,16 @@ import fr.aresrpg.commons.domain.log.Logger;
 import fr.aresrpg.commons.domain.unsafe.UnsafeAccessor;
 
 /**
- * A class creator
- * @author Duarte David  {@literal <deltaduartedavid@gmail.com>}
+ * An unsafe efficient class creator
+ * 
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 @FunctionalInterface
 public interface InstanceConstructor {
 	/**
 	 * The default {@link InstanceConstructor}
-	 * @author Duarte David  {@literal <deltaduartedavid@gmail.com>}
 	 */
-	class Creators{
+	class Creators {
 		/**
 		 * A creator using unsafe
 		 */
@@ -25,12 +25,16 @@ public interface InstanceConstructor {
 				return null;
 			}
 		};
-		private Creators(){}
+
+		private Creators() {
+		}
 	}
 
 	/**
 	 * Create a new instance of the provided class
-	 * @param clazz the class
+	 * 
+	 * @param clazz
+	 *            the class
 	 * @return a instance of the class
 	 */
 	Object create(Class<?> clazz);
