@@ -48,6 +48,7 @@ public class Filter {
 
 	/**
 	 * Get the name of this filter
+	 * 
 	 * @return the name of this filter
 	 */
 	public String getName() {
@@ -56,6 +57,7 @@ public class Filter {
 
 	/**
 	 * Get the type of this filter
+	 * 
 	 * @return the type
 	 */
 	public Type getType() {
@@ -64,16 +66,28 @@ public class Filter {
 
 	/**
 	 * Get the value of this filter
+	 * 
 	 * @return the value
 	 */
 	public Object getValue() {
 		return value;
 	}
 
-
 	/**
-	 * Create a filter that combine all the filters
-	 * @param filters the filters to combine
+	 * The filtered object must match all the filters
+	 * 
+	 * <pre>
+	 * Filter.and(Filter.eq("name", "ororo munroe"), Filter.eq("husband", "blackpanther"));
+	 * </pre>
+	 * 
+	 * is equivalent to
+	 * 
+	 * <pre>
+	 * return Object if Object.name.equals("ororo munroe") && Object.husband.equals("blackpanther")
+	 * </pre>
+	 * 
+	 * @param filters
+	 *            the filters to combine
 	 * @return the created filter
 	 */
 	public static Filter and(Filter... filters) {
@@ -81,17 +95,41 @@ public class Filter {
 	}
 
 	/**
-	 * Create a filter that match one or all the filters
-	 * @param filters the filters to combine
+	 * The filtered object must match one of the filters
+	 * 
+	 * <pre>
+	 * Filter.any(Filter.eq("name", "ororo munroe"), Filter.eq("husband", "blackpanther"));
+	 * </pre>
+	 * 
+	 * is equivalent to
+	 * 
+	 * <pre>
+	 * return Object if Object.name.equals("ororo munroe") || Object.husband.equals("blackpanther")
+	 * </pre>
+	 * 
+	 * @param filters
+	 *            the filters to combine
 	 * @return the created filter
 	 */
-	public static Filter or(Filter... filters) {
+	public static Filter any(Filter... filters) {
 		return new Filter(null, Type.OR, filters);
 	}
 
 	/**
-	 * Create a filter that match one of the filters
-	 * @param filters the filters to combine
+	 * The filtered object musn't match any of the filters
+	 * 
+	 * <pre>
+	 * Filter.nor(Filter.eq("name", "ororo munroe"), Filter.eq("husband", "blackpanther"));
+	 * </pre>
+	 * 
+	 * is equivalent to
+	 * 
+	 * <pre>
+	 * return Object if !Object.name.equals("ororo munroe") && !Object.husband.equals("blackpanther")
+	 * </pre>
+	 * 
+	 * @param filters
+	 *            the filters to combine
 	 * @return the created filter
 	 */
 	public static Filter nor(Filter... filters) {
@@ -99,9 +137,12 @@ public class Filter {
 	}
 
 	/**
-	 * Create a filter that match if the field has one of the values
-	 * @param fieldName the name of the fields
-	 * @param values the values to match
+	 * The filtered object need to have the given field set to one of the values
+	 * 
+	 * @param fieldName
+	 *            the name of the fields
+	 * @param values
+	 *            the values to match
 	 * @return the created filter
 	 */
 	public static Filter in(String fieldName, Object... values) {
@@ -109,9 +150,12 @@ public class Filter {
 	}
 
 	/**
-	 * Create a filter that match if the field don't have one of the values
-	 * @param fieldName the name of the fields
-	 * @param values the values to match
+	 * The filtered object can't have the field set to one of the values
+	 * 
+	 * @param fieldName
+	 *            the name of the fields
+	 * @param values
+	 *            the values to match
 	 * @return the created filter
 	 */
 	public static Filter nin(String fieldName, Object... values) {
@@ -119,8 +163,10 @@ public class Filter {
 	}
 
 	/**
-	 * Create a filter that match if the field is equal to one of the values
-	 * @param fieldName the name of the fields
+	 * The filtered object must have his field to be equal to the given value
+	 * 
+	 * @param fieldName
+	 *            the name of the fields
 	 * @return the created filter
 	 */
 	public static Filter eq(String fieldName, Object value) {
@@ -128,9 +174,12 @@ public class Filter {
 	}
 
 	/**
-	 * Create a filter that match if the field is greater than the value
-	 * @param fieldName the name of the fields
-	 * @param value the value to match
+	 * The filtered object must have his field greater than the given value
+	 * 
+	 * @param fieldName
+	 *            the name of the fields
+	 * @param value
+	 *            the value to match
 	 * @return the created filter
 	 */
 	public static Filter gt(String fieldName, Object value) {
@@ -138,9 +187,12 @@ public class Filter {
 	}
 
 	/**
-	 * Create a filter that match if the field is greater or equal than the value
-	 * @param fieldName the name of the fields
-	 * @param value the value to match
+	 * The filtered object must have his field greater than or equal to the given value
+	 * 
+	 * @param fieldName
+	 *            the name of the fields
+	 * @param value
+	 *            the value to match
 	 * @return the created filter
 	 */
 	public static Filter gte(String fieldName, Object value) {
@@ -148,9 +200,12 @@ public class Filter {
 	}
 
 	/**
-	 * Create a filter that match if the field is less than than the value
-	 * @param fieldName the name of the fields
-	 * @param value the value to match
+	 * The filtered object must have his field lesser than the given value
+	 * 
+	 * @param fieldName
+	 *            the name of the fields
+	 * @param value
+	 *            the value to match
 	 * @return the created filter
 	 */
 	public static Filter lt(String fieldName, Object value) {
@@ -158,9 +213,12 @@ public class Filter {
 	}
 
 	/**
-	 * Create a filter that match if the field is less than or equal than the value
-	 * @param fieldName the name of the fields
-	 * @param value the value to match
+	 * The filtered object must have his field greater than or equal to the given value
+	 * 
+	 * @param fieldName
+	 *            the name of the fields
+	 * @param value
+	 *            the value to match
 	 * @return the created filter
 	 */
 	public static Filter lte(String fieldName, Object value) {
@@ -168,9 +226,12 @@ public class Filter {
 	}
 
 	/**
-	 * Create a filter that match if the field exist
-	 * @param fieldName the name of the fields
-	 * @param exists if the field exist
+	 * The filtered object need to exist if the @param exists is set to true, and opposite otherwise
+	 * 
+	 * @param fieldName
+	 *            the name of the fields
+	 * @param exists
+	 *            if the field exist
 	 * @return the created filter
 	 */
 	public static Filter exists(String fieldName, boolean exists) {
@@ -178,8 +239,10 @@ public class Filter {
 	}
 
 	/**
-	 * Create a filter that match if the field exist
-	 * @param fieldName the name of the fields
+	 * The filtered object need to exist
+	 * 
+	 * @param fieldName
+	 *            the name of the fields
 	 * @return the created filter
 	 */
 	public static Filter exists(String fieldName) {
@@ -187,9 +250,12 @@ public class Filter {
 	}
 
 	/**
-	 * Create a filter that match if the field has the given size
-	 * @param fieldName the name of the fields
-	 * @param size the size to match
+	 * The filtered array must have the given size
+	 * 
+	 * @param fieldName
+	 *            the name of the fields
+	 * @param size
+	 *            the size to match
 	 * @return the created filter
 	 */
 	public static Filter size(String fieldName, int size) {
@@ -197,9 +263,12 @@ public class Filter {
 	}
 
 	/**
-	 * Create a filter that match if the field has the text
-	 * @param fieldName the name of the fields
-	 * @param text the text to match
+	 * The filtered object need to have his field set to the given text
+	 * 
+	 * @param fieldName
+	 *            the name of the fields
+	 * @param text
+	 *            the text to match
 	 * @return the created filter
 	 */
 	public static Filter text(String fieldName, String text) {
@@ -207,9 +276,12 @@ public class Filter {
 	}
 
 	/**
-	 * Create a filter that match if the field match the regex
-	 * @param fieldName the name of the fields
-	 * @param regex the text to match
+	 * The filtered object need to have his field matching the given regex
+	 * 
+	 * @param fieldName
+	 *            the name of the fields
+	 * @param regex
+	 *            the text to match
 	 * @return the created filter
 	 */
 	public static Filter regex(String fieldName, String regex) {
