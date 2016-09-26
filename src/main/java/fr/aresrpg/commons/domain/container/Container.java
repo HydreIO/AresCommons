@@ -1,11 +1,11 @@
 package fr.aresrpg.commons.domain.container;
 
 import fr.aresrpg.commons.domain.container.empty.EmptyContainer;
-import fr.aresrpg.commons.domain.container.immutable.ImmutableContainer;
-import fr.aresrpg.commons.domain.container.singleton.SingletonContainer;
+import fr.aresrpg.commons.domain.container.immutable.LambdaImmutableContainer;
+import fr.aresrpg.commons.domain.container.singleton.LambdaSingletonContainer;
 import fr.aresrpg.commons.domain.Sized;
 import fr.aresrpg.commons.domain.Value;
-import fr.aresrpg.commons.domain.condition.functional.suplier.Supplier;
+import fr.aresrpg.commons.domain.functional.suplier.Supplier;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -84,6 +84,10 @@ public interface Container<E> extends Sized<E> , Value<E>{
 
 	default java.util.Collection<E> toJava() {
 		return (JavaAdapter<E>) () -> this;
+	}
+
+	default java.util.Collection<E> toAdvancedJava() {
+		return null;
 	}
 
 	@Override
@@ -175,12 +179,12 @@ public interface Container<E> extends Sized<E> , Value<E>{
 	}
 
 	static <T> Container<T> singleton(T value){
-		return (SingletonContainer<T>) () -> value;
+		return (LambdaSingletonContainer<T>) () -> value;
 	}
 
 	@SafeVarargs
 	static <T> Container<T> immutable(T... values){
-		return (ImmutableContainer<T>) () -> values;
+		return (LambdaImmutableContainer<T>) () -> values;
 	}
 
 	@SuppressWarnings("unchecked")
