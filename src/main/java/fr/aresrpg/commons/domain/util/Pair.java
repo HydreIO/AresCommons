@@ -1,5 +1,8 @@
 package fr.aresrpg.commons.domain.util;
 
+import fr.aresrpg.commons.domain.functional.consumer.BiConsumer;
+import fr.aresrpg.commons.domain.functional.consumer.Consumer;
+
 import java.util.Objects;
 
 /**
@@ -30,6 +33,36 @@ public class Pair<F, S> {
 	public Pair(F first, S second) {
 		this.first = first;
 		this.second = second;
+	}
+
+	/**
+	 * Perform actions on the first element
+	 * 
+	 * @param cons
+	 *            the consumer
+	 */
+	public void consumeFirst(Consumer<F> cons) {
+		cons.accept(getFirst());
+	}
+
+	/**
+	 * Perform actions on the second element
+	 * 
+	 * @param cons
+	 *            the consumer
+	 */
+	public void consumeSecond(Consumer<S> cons) {
+		cons.accept(getSecond());
+	}
+
+	/**
+	 * Perform actions on both elements
+	 * 
+	 * @param cons
+	 *            the consumer
+	 */
+	public void consumeBoth(BiConsumer<F, S> cons) {
+		cons.accept(getFirst(), getSecond());
 	}
 
 	/**

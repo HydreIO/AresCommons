@@ -1,5 +1,7 @@
 package fr.aresrpg.commons.domain.util;
 
+import fr.aresrpg.commons.domain.functional.consumer.Consumer;
+
 /**
  * A pair to contain the first value , the second, or twice
  * 
@@ -28,6 +30,16 @@ public class Or<F, S> extends Pair<F, S> {
 	 */
 	public boolean containFirst() {
 		return first != null;
+	}
+
+	/**
+	 * Consume the present value
+	 * 
+	 * @param cons
+	 *            the consumer
+	 */
+	public void consumePresent(Consumer cons) {
+		cons.accept(containFirst() ? getFirst() : getSecond());
 	}
 
 	/**
