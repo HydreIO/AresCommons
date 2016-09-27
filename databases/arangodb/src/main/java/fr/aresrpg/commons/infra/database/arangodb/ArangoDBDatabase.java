@@ -39,19 +39,10 @@ public class ArangoDBDatabase implements Database{
 
 	}
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public <T> Collection<T> create(String id, Class<T> clazz) {
-		try {
-			return new ArangoDBCollection(driver.createCollection(id) , driver , clazz);
-		} catch (ArangoException e) {
-			throw new IllegalStateException(e);
-		}
-	}
 
 	@Override
-	public <T> Collection<T>[] getCollections() {
-		return (Collection<T>[])new Object[0];
+	public Collection<?>[] getCollections() {
+		return (Collection<?>[])new Object[0];
 	}
 
 	@Override

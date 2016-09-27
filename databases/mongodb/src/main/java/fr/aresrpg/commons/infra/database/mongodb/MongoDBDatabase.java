@@ -51,12 +51,6 @@ public class MongoDBDatabase implements Database{
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> Collection<T> create(String id, Class<T> type) {
-		return get(id , type);
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
     public Collection<?>[] getCollections() {
         return collections.values().toArray((Collection<?>[]) new Object[collections.size()]);
     }
