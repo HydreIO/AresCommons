@@ -61,6 +61,16 @@ public class ArangoDBCollection<T> implements Collection<T>{
 	}
 
 	@Override
+	public long count() {
+		return 0;
+	}
+
+	@Override
+	public String getId() {
+		return collection.getName();
+	}
+
+	@Override
 	public boolean isEmpty() {
 		return false;
 	}

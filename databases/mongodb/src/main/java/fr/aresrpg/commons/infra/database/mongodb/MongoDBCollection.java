@@ -5,7 +5,7 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Filters;
 import fr.aresrpg.commons.domain.database.Collection;
 import fr.aresrpg.commons.domain.database.Filter;
-import fr.aresrpg.commons.domain.Iterators;
+import fr.aresrpg.commons.domain.util.Iterators;
 import fr.aresrpg.commons.infra.database.mongodb.serialization.DocumentFormat;
 import fr.aresrpg.commons.domain.log.Logger;
 import fr.aresrpg.commons.domain.serialization.Serializer;
@@ -104,10 +104,15 @@ public class MongoDBCollection<T> implements Collection<T>{
         return i;
     }
 
-    /*@Override
+    @Override
+    public long count() {
+        return 0;
+    }
+
+    @Override
     public String getId() {
-        return null;
-    }*/
+        return collection.getNamespace().getCollectionName();
+    }
 
     private static Bson toMongoDBFilter(Filter filter){
         if(filter == null)
