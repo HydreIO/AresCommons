@@ -57,7 +57,7 @@ public interface RawOption<T, O extends RawOption<T, ?>> extends Value<T>, Suppl
 	 * @return the value or the wrapped value
 	 */
 	default T when(boolean condition, T value) {
-		return condition ? get() : value;
+		return condition ? value : get();
 	}
 
 	/**
