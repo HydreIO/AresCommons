@@ -1,8 +1,10 @@
 package fr.aresrpg.commons.domain.util;
 
 import fr.aresrpg.commons.domain.condition.Option;
+import fr.aresrpg.commons.domain.functional.function.Function;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * A util class to manipulate arrays
@@ -13,6 +15,81 @@ import java.util.*;
 public class ArrayUtils {
 	private ArrayUtils() {
 		throw new IllegalConstructionException();
+	}
+
+	/**
+	 * Check if an object is inside an array
+	 * 
+	 * @param value
+	 *            the object
+	 * @param array
+	 *            the array
+	 * @return true if the object is equal to an object into the array
+	 */
+	public static <T> boolean contains(T value, T... array) {
+		for (T t : array)
+			if (t.equals(value)) return true;
+		return false;
+	}
+
+	/**
+	 * Check if a byte is inside an array
+	 * 
+	 * @param b
+	 *            the byte
+	 * @param array
+	 *            the array
+	 * @return true if the byte is inside the array
+	 */
+	public static boolean contains(byte b, byte... array) {
+		for (byte bt : array)
+			if (b == bt) return true;
+		return false;
+	}
+
+	/**
+	 * Check if a short is inside an array
+	 * 
+	 * @param b
+	 *            the short
+	 * @param array
+	 *            the array
+	 * @return true if the short is inside the array
+	 */
+	public static boolean contains(short b, short... array) {
+		for (short bt : array)
+			if (b == bt) return true;
+		return false;
+	}
+
+	/**
+	 * Check if an int is inside an array
+	 * 
+	 * @param b
+	 *            the int
+	 * @param array
+	 *            the array
+	 * @return true if the int is inside the array
+	 */
+	public static boolean contains(int b, int... array) {
+		for (int bt : array)
+			if (b == bt) return true;
+		return false;
+	}
+
+	/**
+	 * Check if a long is inside an array
+	 * 
+	 * @param b
+	 *            the long
+	 * @param array
+	 *            the array
+	 * @return true if the long is inside the array
+	 */
+	public static boolean contains(long b, long... array) {
+		for (long bt : array)
+			if (b == bt) return true;
+		return false;
 	}
 
 	/**
@@ -477,6 +554,26 @@ public class ArrayUtils {
 	 */
 	public static Option<Character> lastValue(char[] array) {
 		if (isEmpty(array)) return Option.none();
+
 		return Option.some(Character.valueOf(array[array.length - 1]));
+	}
+
+	/**
+	 * Join all values from an array with a mapper
+	 * </p>
+	 * Exemple of use:
+	 * 
+	 * <pre>
+	 * ArrayUtils.toString(Object::toString,4,5,6);
+	 * 
+	 * Output: [4,5,6]
+	 * </pre>
+	 * 
+	 * @param mapper
+	 * @param array
+	 * @return
+	 */
+	public static <T> String toSring(Function<T, String> mapper, T... array) {
+		return Arrays.stream(array).map(mapper::apply).collect(Collectors.joining("[", ",", "]"));
 	}
 }
