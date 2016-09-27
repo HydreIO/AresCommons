@@ -6,6 +6,7 @@ import java.lang.annotation.*;
 
 /**
  * A lang annotation for the language
+ * 
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 @LangAnnotation(language = "zh")

@@ -14,13 +14,13 @@ public class Types {
 	}
 
 	/**
-	 * Convert a Type if it's possible to a class or null if it's not possible
+	 * Try to convert a Type to a class
 	 * 
 	 * @param type
 	 *            the type to convert
 	 * @param <T>
-	 *            The type of return class
-	 * @return null or the class represented by this type
+	 *            The type of the class to return
+	 * @return the class represented by this type or null if not found
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> Class<T> getClazz(Type type) {

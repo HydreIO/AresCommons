@@ -2,19 +2,31 @@ package fr.aresrpg.commons.domain.serialization;
 
 import java.io.IOException;
 
+import fr.aresrpg.commons.domain.serialization.formats.Format;
+
 /**
  * A serialization context
- * @author Duarte David  {@literal <deltaduartedavid@gmail.com>}
+ *
+ * @param <I>
+ *            the input type
+ * @param <O>
+ *            the output type
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
-public interface SerializationContext {
+public interface SerializationContext<I, O> {
 	/**
 	 * Serialize this value using the provided format
-	 * @param out the output
-	 * @param value the value to serialize
-	 * @param format the format to use
-	 * @param <T> the type of the value
-	 * @param <O> the output type
-	 * @throws IOException if the write to the output fal
+	 *
+	 * @param out
+	 *            the output
+	 * @param value
+	 *            the value to serialize
+	 * @param format
+	 *            the format to use
+	 * @param <T>
+	 *            the type of the value
+	 * @throws IOException
+	 *             when the output writing fails
 	 */
 	<T , O> void serialize(O out, T value, Format<? , O> format) throws IOException;
 }

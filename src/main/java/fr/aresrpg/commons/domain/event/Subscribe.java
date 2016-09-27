@@ -3,7 +3,7 @@ package fr.aresrpg.commons.domain.event;
 import java.lang.annotation.*;
 
 /**
- * Represent a method that is a {@link Event} consumer
+ * Represent a method that is an {@link Event} consumer
  * 
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  */

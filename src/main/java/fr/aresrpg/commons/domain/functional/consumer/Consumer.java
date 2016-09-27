@@ -2,20 +2,27 @@ package fr.aresrpg.commons.domain.functional.consumer;
 
 /**
  * A consumer
- * @param <T> the type of the argument
+ * 
+ * @param <T>
+ *            the type of the argument
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
+ * @author Sceat {@literal <sceat@aresrpg.fr>}
  */
 @FunctionalInterface
 public interface Consumer<T> {
 	/**
 	 * Run an action
-	 * @param a an argument
+	 * 
+	 * @param a
+	 *            an argument
 	 */
 	void accept(T a);
 
 	/**
-	 * Create an new consumer that execute this consumer an after an other
-	 * @param w the consumer to execute after
+	 * Create an new consumer which will be executed after the current one
+	 * 
+	 * @param w
+	 *            the consumer to execute after
 	 * @return a new consumer
 	 */
 	default Consumer<T> then(Consumer<T> w) {
@@ -27,7 +34,9 @@ public interface Consumer<T> {
 
 	/**
 	 * Create an empty consumer
-	 * @param <T> the type of the consumer
+	 * 
+	 * @param <T>
+	 *            the type of the consumer
 	 * @return an empty consumer
 	 */
 	static <T> Consumer<T> empty() {
@@ -36,6 +45,7 @@ public interface Consumer<T> {
 
 	/**
 	 * Convert this consumer to a java consumer
+	 * 
 	 * @return a java consumer
 	 */
 	default java.util.function.Consumer<T> toNative() {

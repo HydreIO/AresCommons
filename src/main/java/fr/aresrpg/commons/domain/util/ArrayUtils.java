@@ -1,14 +1,16 @@
 package fr.aresrpg.commons.domain.util;
 
 import fr.aresrpg.commons.domain.condition.Option;
+import fr.aresrpg.commons.domain.functional.function.Function;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * A util class to manipulate arrays
  * 
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
- * @author MrSceat {@literal <mr.sceat@outlook.com>}
+ * @author Sceat {@literal <sceat@aresrpg.fr>}
  */
 public class ArrayUtils {
 	private ArrayUtils() {
@@ -16,13 +18,88 @@ public class ArrayUtils {
 	}
 
 	/**
+	 * Check if an object is inside an array
+	 * 
+	 * @param value
+	 *            the object
+	 * @param array
+	 *            the array
+	 * @return true if the object is equal to an object into the array
+	 */
+	public static <T> boolean contains(T value, T... array) {
+		for (T t : array)
+			if (t.equals(value)) return true;
+		return false;
+	}
+
+	/**
+	 * Check if a byte is inside an array
+	 * 
+	 * @param b
+	 *            the byte
+	 * @param array
+	 *            the array
+	 * @return true if the byte is inside the array
+	 */
+	public static boolean contains(byte b, byte... array) {
+		for (byte bt : array)
+			if (b == bt) return true;
+		return false;
+	}
+
+	/**
+	 * Check if a short is inside an array
+	 * 
+	 * @param b
+	 *            the short
+	 * @param array
+	 *            the array
+	 * @return true if the short is inside the array
+	 */
+	public static boolean contains(short b, short... array) {
+		for (short bt : array)
+			if (b == bt) return true;
+		return false;
+	}
+
+	/**
+	 * Check if an int is inside an array
+	 * 
+	 * @param b
+	 *            the int
+	 * @param array
+	 *            the array
+	 * @return true if the int is inside the array
+	 */
+	public static boolean contains(int b, int... array) {
+		for (int bt : array)
+			if (b == bt) return true;
+		return false;
+	}
+
+	/**
+	 * Check if a long is inside an array
+	 * 
+	 * @param b
+	 *            the long
+	 * @param array
+	 *            the array
+	 * @return true if the long is inside the array
+	 */
+	public static boolean contains(long b, long... array) {
+		for (long bt : array)
+			if (b == bt) return true;
+		return false;
+	}
+
+	/**
 	 * Check if the passed array contains elements
 	 * 
 	 * @param array
 	 *            the array
 	 * @return true if the array contains some elements
 	 */
-	public static <T> boolean notEmpty(byte[] array) {
+	public static boolean notEmpty(byte[] array) {
 		return !isEmpty(array);
 	}
 
@@ -33,7 +110,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if the array contains some elements
 	 */
-	public static <T> boolean notEmpty(short[] array) {
+	public static boolean notEmpty(short[] array) {
 		return !isEmpty(array);
 	}
 
@@ -44,7 +121,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if the array contains some elements
 	 */
-	public static <T> boolean notEmpty(int[] array) {
+	public static boolean notEmpty(int[] array) {
 		return !isEmpty(array);
 	}
 
@@ -55,7 +132,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if the array contains some elements
 	 */
-	public static <T> boolean notEmpty(long[] array) {
+	public static boolean notEmpty(long[] array) {
 		return !isEmpty(array);
 	}
 
@@ -66,7 +143,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if the array contains some elements
 	 */
-	public static <T> boolean notEmpty(float[] array) {
+	public static boolean notEmpty(float[] array) {
 		return !isEmpty(array);
 	}
 
@@ -77,7 +154,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if the array contains some elements
 	 */
-	public static <T> boolean notEmpty(double[] array) {
+	public static boolean notEmpty(double[] array) {
 		return !isEmpty(array);
 	}
 
@@ -88,7 +165,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if the array contains some elements
 	 */
-	public static <T> boolean notEmpty(char[] array) {
+	public static boolean notEmpty(char[] array) {
 		return !isEmpty(array);
 	}
 
@@ -138,7 +215,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if empty
 	 */
-	public static <T> boolean isEmpty(byte[] array) {
+	public static boolean isEmpty(byte[] array) {
 		return array.length == 0;
 	}
 
@@ -149,7 +226,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if empty
 	 */
-	public static <T> boolean isEmpty(short[] array) {
+	public static boolean isEmpty(short[] array) {
 		return array.length == 0;
 	}
 
@@ -160,7 +237,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if empty
 	 */
-	public static <T> boolean isEmpty(int[] array) {
+	public static boolean isEmpty(int[] array) {
 		return array.length == 0;
 	}
 
@@ -171,7 +248,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if empty
 	 */
-	public static <T> boolean isEmpty(long[] array) {
+	public static boolean isEmpty(long[] array) {
 		return array.length == 0;
 	}
 
@@ -182,7 +259,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if empty
 	 */
-	public static <T> boolean isEmpty(float[] array) {
+	public static boolean isEmpty(float[] array) {
 		return array.length == 0;
 	}
 
@@ -193,7 +270,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if empty
 	 */
-	public static <T> boolean isEmpty(double[] array) {
+	public static boolean isEmpty(double[] array) {
 		return array.length == 0;
 	}
 
@@ -204,7 +281,7 @@ public class ArrayUtils {
 	 *            the array
 	 * @return true if empty
 	 */
-	public static <T> boolean isEmpty(char[] array) {
+	public static boolean isEmpty(char[] array) {
 		return array.length == 0;
 	}
 
@@ -477,6 +554,26 @@ public class ArrayUtils {
 	 */
 	public static Option<Character> lastValue(char[] array) {
 		if (isEmpty(array)) return Option.none();
+
 		return Option.some(Character.valueOf(array[array.length - 1]));
+	}
+
+	/**
+	 * Join all values from an array with a mapper
+	 * </p>
+	 * Exemple of use:
+	 * 
+	 * <pre>
+	 * ArrayUtils.toString(Object::toString,4,5,6);
+	 * 
+	 * Output: [4,5,6]
+	 * </pre>
+	 * 
+	 * @param mapper
+	 * @param array
+	 * @return
+	 */
+	public static <T> String toSring(Function<T, String> mapper, T... array) {
+		return Arrays.stream(array).map(mapper::apply).collect(Collectors.joining("[", ",", "]"));
 	}
 }

@@ -3,7 +3,7 @@ package fr.aresrpg.commons.domain.util;
 import java.util.Arrays;
 
 /**
- * A util class for enums
+ * A util class for enums which act like Objects.*
  * 
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  */

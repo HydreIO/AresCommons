@@ -4,16 +4,21 @@ import java.util.*;
 
 /**
  * An util class to use with iterators
+ * 
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public class Iterators {
 	private static final Iterator<?> EMPTY_ITERATOR = new EmptyIterator();
 
-	private Iterators() {throw new IllegalConstructionException();}
+	private Iterators() {
+		throw new IllegalConstructionException();
+	}
 
 	/**
 	 * Get an empty iterator , it contain nothing
-	 * @param <T> the type of the iterator
+	 * 
+	 * @param <T>
+	 *            the type of the iterator
 	 * @return an empty iterator
 	 */
 	@SuppressWarnings("unchecked")
@@ -23,8 +28,11 @@ public class Iterators {
 
 	/**
 	 * Get an iterator of the provided values
-	 * @param values values with the iterator , must contains
-	 * @param <T> the type of the iterator
+	 * 
+	 * @param values
+	 *            values with the iterator , must contains
+	 * @param <T>
+	 *            the type of the iterator
 	 * @return an iterator of the provided values
 	 */
 	@SafeVarargs
@@ -34,9 +42,13 @@ public class Iterators {
 
 	/**
 	 * Add all iterator value in an array
-	 * @param iterator the iterator to get the values
-	 * @param array the array to add value
-	 * @param <T> the type of the iterator
+	 * 
+	 * @param iterator
+	 *            the iterator to get the values
+	 * @param array
+	 *            the array to add value
+	 * @param <T>
+	 *            the type of the iterator
 	 * @return an array with iterator value
 	 */
 	@SuppressWarnings("unchecked")
@@ -48,9 +60,13 @@ public class Iterators {
 
 	/**
 	 * Transform an iterator into a sorted iterator
-	 * @param it the iterator which must be sorted
-	 * @param comparator the comparator to sort the iterator
-	 * @param <T> the type of the iterator
+	 * 
+	 * @param it
+	 *            the iterator which must be sorted
+	 * @param comparator
+	 *            the comparator to sort the iterator
+	 * @param <T>
+	 *            the type of the iterator
 	 * @return a sorted iterator
 	 */
 	public static <T> Iterator<T> sortedIterator(Iterator<T> it, Comparator<? super T> comparator) {

@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 
 /**
  * A Byte Buffer Output Stream
+ * 
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public class ByteBufferOutputStream extends OutputStream {
@@ -13,7 +14,9 @@ public class ByteBufferOutputStream extends OutputStream {
 
 	/**
 	 * Create a new byte buffer output stream from the provided buffer
-	 * @param buffer the byte buffer to use
+	 * 
+	 * @param buffer
+	 *            the byte buffer to use
 	 */
 	public ByteBufferOutputStream(ByteBuffer buffer) {
 		this.buffer = buffer;

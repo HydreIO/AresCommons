@@ -1,32 +1,23 @@
 package fr.aresrpg.commons.domain.util.stream.bistream;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Optional;
-import java.util.Spliterator;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.BiPredicate;
-import java.util.function.BinaryOperator;
-import java.util.function.IntFunction;
-import java.util.function.Supplier;
-import java.util.function.ToDoubleBiFunction;
-import java.util.function.ToIntBiFunction;
-import java.util.function.ToLongBiFunction;
-import java.util.stream.BaseStream;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
+/**
+ * Represent a bi stream
+ * 
+ * @author Sceat {@literal <sceat@aresrpg.fr>}
+ * @Since 0.5
+ * @param <T>
+ *            The type of the first value
+ * @param <U>
+ *            The type of the second value
+ */
 public interface BiStream<T, U> extends BaseStream<BiStream.BiValue<T, U>, BiStream<T, U>> {
 
 	/**
-	 * A Value in a BiStream
+	 * A BiValue in a BiStream
 	 * 
 	 * @param <T>
 	 *            The First value of BiStream

@@ -6,6 +6,7 @@ package fr.aresrpg.commons.domain.functional.consumer;
  * @since 0.6
  * @param <T>
  *            the type of the consumed value
+ * @author Sceat {@literal <sceat@aresrpg.fr>}
  */
 @SuppressWarnings({ "unchecked", "rawtypes" })
 @FunctionalInterface

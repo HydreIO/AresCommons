@@ -5,25 +5,27 @@ import fr.aresrpg.commons.domain.reflection.ParametrizedClass;
 
 /**
  * An adapter {@link Class} to {@link String}
- * @author Duarte David  {@literal <deltaduartedavid@gmail.com>}
+ * 
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
-public class ClassAdapter implements Adapter<Class<?> , String> {
+public class ClassAdapter implements Adapter<Class<?>, String> {
 	/**
 	 * The instance of this adapter
 	 */
-	public static final Adapter<Class<?> , String> INSTANCE = new ClassAdapter();
+	public static final Adapter<Class<?>, String> INSTANCE = new ClassAdapter();
 
 	/**
 	 * The input type of this adapter
 	 */
-	public static final ParametrizedClass<Class<?>> IN = new ParametrizedClass<Class<?>>(){};
+	public static final ParametrizedClass<Class<?>> IN = new ParametrizedClass<Class<?>>() {};
 
 	/**
 	 * The output type of this adapter
 	 */
-	public static final ParametrizedClass<String> OUT = new ParametrizedClass<String>(){};
+	public static final ParametrizedClass<String> OUT = new ParametrizedClass<String>() {};
 
-	private ClassAdapter(){}
+	private ClassAdapter() {
+	}
 
 	@Override
 	public String adaptTo(Class<?> in) {
