@@ -36,6 +36,17 @@ public class Pair<F, S> {
 	}
 
 	/**
+	 * Construct a new pair containing the values of the given pair
+	 * 
+	 * @param pair
+	 *            the pair to copy
+	 */
+	public Pair(Pair<F, S> pair) {
+		this.first = pair.first;
+		this.second = pair.second;
+	}
+
+	/**
 	 * Perform actions on the first element
 	 * 
 	 * @param cons
@@ -63,17 +74,6 @@ public class Pair<F, S> {
 	 */
 	public void consumeBoth(BiConsumer<F, S> cons) {
 		cons.accept(getFirst(), getSecond());
-	}
-
-	/**
-	 * Construct a new pair containing the values of the given pair
-	 * 
-	 * @param pair
-	 *            the pair to copy
-	 */
-	public Pair(Pair<F, S> pair) {
-		this.first = pair.first;
-		this.second = pair.second;
 	}
 
 	/**
