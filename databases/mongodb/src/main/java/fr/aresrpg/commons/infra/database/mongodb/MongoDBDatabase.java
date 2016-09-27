@@ -57,12 +57,10 @@ public class MongoDBDatabase implements Database{
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> Collection<T> get(String id , Class<T> type) {
-        if(database == null)
-            throw new IllegalStateException("Not connected to database use connect()");
+    public <T> Collection<T> get(String id , Class<T> type) throws IllegalStateException {
+        if(database == null) throw new IllegalStateException("Unable to get the collection ! The database is not connected.");
         MongoDBCollection<T> collection = collections.get(id);
-	    if(collection != null)
-		    return collection;
+	    if(collection != null) return collection;
         collection = new MongoDBCollection<>(database.getCollection(id) , factory.createSerializer(type));
 	    collections.put(id , collection);
 	    return collection;
