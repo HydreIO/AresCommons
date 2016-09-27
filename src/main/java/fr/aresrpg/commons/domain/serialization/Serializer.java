@@ -3,8 +3,6 @@ package fr.aresrpg.commons.domain.serialization;
 import java.io.IOException;
 import java.util.Map;
 
-import fr.aresrpg.commons.domain.serialization.formats.Format;
-
 /**
  * An object mapper, serializer and deserializer
  *

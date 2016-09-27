@@ -1,6 +1,5 @@
-package fr.aresrpg.commons.domain.serialization.formats;
+package fr.aresrpg.commons.domain.serialization;
 
-import fr.aresrpg.commons.domain.serialization.SerializationContext;
 import fr.aresrpg.commons.domain.types.TypeEnum;
 
 import java.io.IOException;

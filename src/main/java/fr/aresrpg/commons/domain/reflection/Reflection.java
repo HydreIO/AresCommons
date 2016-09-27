@@ -1,5 +1,7 @@
 package fr.aresrpg.commons.domain.reflection;
 
+import java.lang.reflect.Modifier;
+
 /**
  * An util class for reflection
  */

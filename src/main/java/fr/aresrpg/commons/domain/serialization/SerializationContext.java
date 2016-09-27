@@ -2,18 +2,12 @@ package fr.aresrpg.commons.domain.serialization;
 
 import java.io.IOException;
 
-import fr.aresrpg.commons.domain.serialization.formats.Format;
-
 /**
  * A serialization context
  *
- * @param <I>
- *            the input type
- * @param <O>
- *            the output type
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
-public interface SerializationContext<I, O> {
+public interface SerializationContext {
 	/**
 	 * Serialize this value using the provided format
 	 *
