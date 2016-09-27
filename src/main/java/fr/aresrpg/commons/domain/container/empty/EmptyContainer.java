@@ -1,14 +1,24 @@
 package fr.aresrpg.commons.domain.container.empty;
 
 import fr.aresrpg.commons.domain.container.Container;
-import fr.aresrpg.commons.domain.Iterators;
+import fr.aresrpg.commons.domain.util.Iterators;
 
 import java.util.Iterator;
 
-public class EmptyContainer implements Container{
+/**
+ * An empty container
+ * 
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
+ */
+public class EmptyContainer implements Container {
+
+	/**
+	 * The instance of the empty container
+	 */
 	public static final Container INSTANCE = new EmptyContainer();
 
-	private EmptyContainer(){}
+	private EmptyContainer() {
+	}
 
 	@Override
 	public boolean unsafeRemove(Object o) {
@@ -16,7 +26,7 @@ public class EmptyContainer implements Container{
 	}
 
 	@Override
-	public boolean unsafeRemoveAll(Iterable o){
+	public boolean unsafeRemoveAll(Iterable o) {
 		return false;
 	}
 
@@ -71,7 +81,7 @@ public class EmptyContainer implements Container{
 	}
 
 	@Override
-	public boolean isConcurrent(){
+	public boolean isConcurrent() {
 		return true;
 	}
 }

@@ -1,5 +1,10 @@
 package fr.aresrpg.commons.domain.event;
 
+/**
+ * A event fired when a bus is registered in an {@link EventBus}
+ * 
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
+ */
 @SuppressWarnings("rawtypes")
 public class BusRegisterEvent implements Event<BusRegisterEvent> {
 	public static final EventBus<BusRegisterEvent> BUS = new EventBus<>(BusRegisterEvent.class);
@@ -7,15 +12,33 @@ public class BusRegisterEvent implements Event<BusRegisterEvent> {
 	private final Class<?> owner;
 	private final EventBus registeredBus;
 
+	/**
+	 * Create a new bus register event
+	 * 
+	 * @param owner
+	 *            the owner of the bus
+	 * @param registeredBus
+	 *            the instance of the registered bus
+	 */
 	public BusRegisterEvent(Class<?> owner, EventBus registeredBus) {
 		this.owner = owner;
 		this.registeredBus = registeredBus;
 	}
 
+	/**
+	 * Get the registered bus owner
+	 * 
+	 * @return the registered bus owner
+	 */
 	public Class<?> getBusOwner() {
 		return owner;
 	}
 
+	/**
+	 * Get the registered bus
+	 * 
+	 * @return the registered bus
+	 */
 	public EventBus getRegisteredBus() {
 		return registeredBus;
 	}
@@ -33,7 +56,7 @@ public class BusRegisterEvent implements Event<BusRegisterEvent> {
 	@Override
 	public void send() {
 		if (getBus() != null) // For self registering
-		Event.super.send();
+			Event.super.send();
 	}
 
 	@Override

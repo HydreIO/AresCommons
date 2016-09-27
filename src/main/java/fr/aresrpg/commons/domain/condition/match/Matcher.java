@@ -3,8 +3,8 @@ package fr.aresrpg.commons.domain.condition.match;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import fr.aresrpg.commons.domain.Predicates;
-import fr.aresrpg.commons.domain.condition.functional.Executable;
+import fr.aresrpg.commons.domain.util.Predicates;
+import fr.aresrpg.commons.domain.functional.Executable;
 
 public class Matcher<T, R> {
 	private Case<T, R>[] cases;

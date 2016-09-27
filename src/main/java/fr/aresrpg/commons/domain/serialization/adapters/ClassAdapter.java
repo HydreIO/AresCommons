@@ -3,12 +3,29 @@ package fr.aresrpg.commons.domain.serialization.adapters;
 import fr.aresrpg.commons.domain.log.Logger;
 import fr.aresrpg.commons.domain.reflection.ParametrizedClass;
 
-public class ClassAdapter implements Adapter<Class<?> , String> {
-	public static final Adapter<Class<?> , String> INSTANCE = new ClassAdapter();
-	public static final ParametrizedClass<Class<?>> IN = new ParametrizedClass<Class<?>>(){};
-	public static final ParametrizedClass<String> OUT = new ParametrizedClass<String>(){};
+/**
+ * An adapter {@link Class} to {@link String}
+ * 
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
+ */
+public class ClassAdapter implements Adapter<Class<?>, String> {
+	/**
+	 * The instance of this adapter
+	 */
+	public static final Adapter<Class<?>, String> INSTANCE = new ClassAdapter();
 
-	private ClassAdapter(){}
+	/**
+	 * The input type of this adapter
+	 */
+	public static final ParametrizedClass<Class<?>> IN = new ParametrizedClass<Class<?>>() {};
+
+	/**
+	 * The output type of this adapter
+	 */
+	public static final ParametrizedClass<String> OUT = new ParametrizedClass<String>() {};
+
+	private ClassAdapter() {
+	}
 
 	@Override
 	public String adaptTo(Class<?> in) {

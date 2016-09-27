@@ -2,10 +2,15 @@ package fr.aresrpg.commons.domain.util;
 
 import java.util.Arrays;
 
+/**
+ * A util class for enums which act like Objects.*
+ * 
+ * @author Sceat {@literal <sceat@aresrpg.fr>}
+ */
 public class Enums {
 
 	private Enums() {
-
+		throw new IllegalConstructionException();
 	}
 
 	/**
@@ -15,7 +20,7 @@ public class Enums {
 	 *            to compare
 	 * @param base
 	 *            enum type wanted
-	 * @return
+	 * @return the enum to compare
 	 */
 	public static <T extends Enum<T>> T requireType(T t1, T base) {
 		if (t1 != base) throw new NotEqualsException("The enum t1 is not equal to base");
@@ -29,7 +34,9 @@ public class Enums {
 	 *            the enum to compare
 	 * @param base
 	 *            the array to check
-	 * @return
+	 * @param <T>
+	 *            the type
+	 * @return the enum to compare
 	 */
 	@SafeVarargs
 	public static <T extends Enum<T>> T requireTypeOr(T t1, T... base) {
@@ -38,7 +45,6 @@ public class Enums {
 	}
 
 	static class NotEqualsException extends RuntimeException {
-		private static final long serialVersionUID = 4844003664180909056L;
 
 		public NotEqualsException() {
 			super();

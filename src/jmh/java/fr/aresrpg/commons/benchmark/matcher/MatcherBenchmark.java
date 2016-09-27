@@ -1,6 +1,6 @@
 package fr.aresrpg.commons.benchmark.matcher;
 
-import static fr.aresrpg.commons.domain.Predicates.is;
+import static fr.aresrpg.commons.domain.util.Predicates.is;
 import static fr.aresrpg.commons.domain.condition.match.Matcher.match;
 import static fr.aresrpg.commons.domain.condition.match.Matcher.when;
 
