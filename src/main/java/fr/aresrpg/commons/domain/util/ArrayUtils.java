@@ -574,6 +574,6 @@ public class ArrayUtils {
 	 * @return
 	 */
 	public static <T> String toSring(Function<T, String> mapper, T... array) {
-		return Arrays.stream(array).map(mapper::apply).collect(Collectors.joining("[", ",", "]"));
+		return Arrays.stream(array).map(mapper::apply).collect(Collectors.joining(",", "[", "]"));
 	}
 }

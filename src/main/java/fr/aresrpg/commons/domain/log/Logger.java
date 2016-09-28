@@ -634,7 +634,8 @@ public class Logger {
 				return sb.toString();
 			}
 			String n = matcher.group(1);
-			sb.append(message.substring(index, matcher.start())).append(args[n == null ? i++ : Integer.parseInt(n)]);
+			sb.append(message.substring(index, matcher.start()));
+			if (args.length != 0) sb.append(args[n == null ? i++ : Integer.parseInt(n)]);
 			index = matcher.end();
 		}
 	}
