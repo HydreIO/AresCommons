@@ -576,4 +576,35 @@ public class ArrayUtils {
 	public static <T> String toSring(Function<T, String> mapper, T... array) {
 		return Arrays.stream(array).map(mapper::apply).collect(Collectors.joining(",", "[", "]"));
 	}
+
+	/**
+	 * Merge two arrays
+	 * 
+	 * @param first
+	 *            the first array
+	 * @param second
+	 *            the second array
+	 * @return an array which contains all elements from the two passed arrays
+	 */
+	public static <T> T[] merge(T[] first, T[] second) {
+		T[] result = Arrays.copyOf(first, first.length + second.length);
+		System.arraycopy(second, 0, result, first.length, second.length);
+		return result;
+	}
+
+	/**
+	 * Merge all arrays
+	 * 
+	 * @param first
+	 *            the first array
+	 * @param others
+	 *            the others arrays
+	 * @return an array which contains all elements from first and others arrays
+	 */
+	public static <T> T[] merge(T[] first, T[]... others) {
+		T[] result = first;
+		for (T[] t : others)
+			result = merge(first, t);
+		return result;
+	}
 }

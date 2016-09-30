@@ -43,7 +43,7 @@ public interface RawOption<T, O extends RawOption<T, ?>> extends Value<T>, Suppl
 		if (isPresent()) consumer.accept(get());
 		return (O) this;
 	}
-
+	
 	/**
 	 * Provide the wrapped value if the condition is valid, return the @param value otherwise
 	 * </p>
