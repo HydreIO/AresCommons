@@ -6,6 +6,7 @@ import java.lang.annotation.*;
 
 /**
  * A lang annotation for the English language
+ * 
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 @LangAnnotation(language = "en")
@@ -15,6 +16,7 @@ import java.lang.annotation.*;
 public @interface En {
 	/**
 	 * The message in English
+	 * 
 	 * @return The message in English
 	 */
 	String value();

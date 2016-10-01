@@ -11,7 +11,9 @@ public interface Try<T> extends RawOption<T, Try<T>> {
 
 	/**
 	 * Test the provided executable
-	 * @param executable the executable to test
+	 * 
+	 * @param executable
+	 *            the executable to test
 	 * @return a Try representing the state of the execution
 	 */
 	static Try<Object> test(TryExecutable executable) {
@@ -25,7 +27,9 @@ public interface Try<T> extends RawOption<T, Try<T>> {
 
 	/**
 	 * Test the provided executable
-	 * @param supplier the supplier to test
+	 * 
+	 * @param supplier
+	 *            the supplier to test
 	 * @return a Try representing the state of the execution
 	 */
 	@SuppressWarnings("unchecked")
@@ -39,8 +43,11 @@ public interface Try<T> extends RawOption<T, Try<T>> {
 
 	/**
 	 * Create a try of the provided value
-	 * @param value the return value of this try
-	 * @param <T> the type of the try
+	 * 
+	 * @param value
+	 *            the return value of this try
+	 * @param <T>
+	 *            the type of the try
 	 * @return a try
 	 */
 	static <T> Try<T> of(T value) {
@@ -49,8 +56,11 @@ public interface Try<T> extends RawOption<T, Try<T>> {
 
 	/**
 	 * Create a try of the provided throwable
-	 * @param value the throwable of the fail
-	 * @param <T> the type of the try
+	 * 
+	 * @param value
+	 *            the throwable of the fail
+	 * @param <T>
+	 *            the type of the try
 	 * @return a try
 	 */
 	@SuppressWarnings("unchecked")
@@ -66,16 +76,22 @@ public interface Try<T> extends RawOption<T, Try<T>> {
 
 	/**
 	 * Catch the exception if present
-	 * @param clazz the class of the exception
-	 * @param consumer the consumer of the exception if present
-	 * @param <E> the type of the catched throwable
+	 * 
+	 * @param clazz
+	 *            the class of the exception
+	 * @param consumer
+	 *            the consumer of the exception if present
+	 * @param <E>
+	 *            the type of the catched throwable
 	 * @return this
 	 */
 	<E extends Throwable> Try<T> catchEx(Class<E> clazz, Consumer<E> consumer);
 
 	/**
 	 * Catch the exception
-	 * @param consumer the consumer of the throwable
+	 * 
+	 * @param consumer
+	 *            the consumer of the throwable
 	 * @return this
 	 */
 	default Try<T> catchEx(Consumer<Throwable> consumer) {
@@ -84,24 +100,28 @@ public interface Try<T> extends RawOption<T, Try<T>> {
 
 	/**
 	 * Get the raw of a test
-	 * @return the value if it was a suces
-	 * @throws Throwable if it was a fail
+	 * 
+	 * @return the value if it was a success
+	 * @throws Throwable
+	 *             if it was a fail
 	 */
 	T getRaw() throws Throwable;
 
 	/**
 	 * Get the error of this try or null if not present
+	 * 
 	 * @return a throwable or null
 	 */
 	Throwable getError();
 
 	/**
 	 * Convert the Try to a Or
+	 * 
 	 * @return a or representing from try
 	 */
-	Or<T , Throwable> toOr();
+	Or<T, Throwable> toOr();
 
-	class Ok<T> extends Some<T, Try<T>> implements Try<T> {
+	class Ok<T> extends Some<T, Try<T>>implements Try<T> {
 
 		Ok(T value) {
 			super(value);
@@ -128,7 +148,7 @@ public interface Try<T> extends RawOption<T, Try<T>> {
 		}
 	}
 
-	class Error extends None<Try<Object>> implements Try<Object> {
+	class Error extends None<Try<Object>>implements Try<Object> {
 		private final Throwable value;
 
 		Error(Throwable value) {

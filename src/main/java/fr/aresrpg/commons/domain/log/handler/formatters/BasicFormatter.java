@@ -1,14 +1,15 @@
 package fr.aresrpg.commons.domain.log.handler.formatters;
 
+import fr.aresrpg.commons.domain.log.Log;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import fr.aresrpg.commons.domain.log.Log;
-
 /**
  * A default implementation of {@link Formatter}
- * @author Duarte David  {@literal <deltaduartedavid@gmail.com>}
+ * 
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public class BasicFormatter implements Formatter {
 	/**
@@ -20,7 +21,9 @@ public class BasicFormatter implements Formatter {
 
 	/**
 	 * Create a new formatter using the provided DateFormat
-	 * @param dateFormat the format to use
+	 * 
+	 * @param dateFormat
+	 *            the format to use
 	 */
 	public BasicFormatter(DateFormat dateFormat) {
 		this.dateFormat = dateFormat;
@@ -35,6 +38,7 @@ public class BasicFormatter implements Formatter {
 
 	/**
 	 * Get the date format used by this formatter
+	 * 
 	 * @return the date format used
 	 */
 	public DateFormat getDateFormat() {
@@ -43,7 +47,9 @@ public class BasicFormatter implements Formatter {
 
 	/**
 	 * Set the date format to use
-	 * @param dateFormat the date format to use
+	 * 
+	 * @param dateFormat
+	 *            the date format to use
 	 */
 	public void setDateFormat(DateFormat dateFormat) {
 		this.dateFormat = dateFormat;

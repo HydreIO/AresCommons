@@ -1,13 +1,14 @@
 package fr.aresrpg.commons.domain.log.handler;
 
+import fr.aresrpg.commons.domain.log.Log;
+
 import java.io.IOException;
 import java.io.PrintStream;
 
-import fr.aresrpg.commons.domain.log.Log;
-
 /**
  * An handler using print stream
- * @author Duarte David  {@literal <deltaduartedavid@gmail.com>}
+ * 
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public class PrintStreamHandler extends BaseHandler {
 	private PrintStream outStream;
@@ -15,8 +16,11 @@ public class PrintStreamHandler extends BaseHandler {
 
 	/**
 	 * Create a new PrintStream Handler
-	 * @param outStream the output {@link PrintStream} (stdout)
-	 * @param errorStream the error {@link PrintStream} (stderr)
+	 * 
+	 * @param outStream
+	 *            the output {@link PrintStream} (stdout)
+	 * @param errorStream
+	 *            the error {@link PrintStream} (stderr)
 	 */
 	public PrintStreamHandler(PrintStream outStream, PrintStream errorStream) {
 		this.outStream = outStream;
@@ -25,7 +29,9 @@ public class PrintStreamHandler extends BaseHandler {
 
 	/**
 	 * Create a new PrintStream Handler with same stdout and stderr
-	 * @param stream the output {@link PrintStream}
+	 * 
+	 * @param stream
+	 *            the output {@link PrintStream}
 	 */
 	public PrintStreamHandler(PrintStream stream) {
 		this(stream, stream);

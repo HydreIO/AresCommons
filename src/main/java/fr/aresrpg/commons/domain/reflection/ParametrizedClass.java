@@ -1,7 +1,7 @@
 package fr.aresrpg.commons.domain.reflection;
 
-import fr.aresrpg.commons.domain.util.Iterators;
 import fr.aresrpg.commons.domain.Value;
+import fr.aresrpg.commons.domain.util.Iterators;
 import fr.aresrpg.commons.domain.util.Types;
 
 import java.lang.reflect.ParameterizedType;
@@ -32,7 +32,7 @@ public class ParametrizedClass<T> implements Value<Class<T>> {
 
 	/**
 	 * Create a new ParametrizedClass with the specifier type
-	 * @param type the type represented by the parametrised class
+	 * @param type the type represented by the parameterized class
 	 */
 	public ParametrizedClass(Type type) {
 		this.type = type;
@@ -40,7 +40,7 @@ public class ParametrizedClass<T> implements Value<Class<T>> {
 	}
 
 	/**
-	 * Get the type hold by this parametrized class
+	 * Get the type hold by this parameterized class
 	 * @return the type
 	 */
 	public final Type getType() {
@@ -48,7 +48,8 @@ public class ParametrizedClass<T> implements Value<Class<T>> {
 	}
 
 	/**
-	 * Get the raw class hold by this parametrized class
+	 * Get the raw class hold by this parameterized class
+	 * 
 	 * @return the raw class
 	 */
 	public final Class<T> getRaw(){

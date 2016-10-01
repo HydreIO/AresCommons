@@ -6,6 +6,7 @@ import java.lang.annotation.*;
 
 /**
  * A lang annotation for the Italian language
+ * 
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 @LangAnnotation(language = "it")
@@ -14,8 +15,9 @@ import java.lang.annotation.*;
 @Documented
 public @interface It {
 	/**
-	 * The message in Italiano
-	 * @return The message in Italiano
+	 * The message in Italian
+	 * 
+	 * @return The message in Italian
 	 */
 	String value();
 }

@@ -18,7 +18,9 @@ public interface Adapter<I , O> {
 
 	/**
 	 * Convert back the output into the value
-	 * @param out the converted value
+	 * 
+	 * @param out
+	 *            the converted value
 	 * @return the value
 	 */
 	I adaptFrom(O out);

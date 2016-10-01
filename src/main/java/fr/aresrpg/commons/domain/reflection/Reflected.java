@@ -19,4 +19,6 @@ package fr.aresrpg.commons.domain.reflection;
  */
 public interface Reflected {
 
+	// TODO et bin mon con t'es pas sortit du merdier pour coder ça
+
 }

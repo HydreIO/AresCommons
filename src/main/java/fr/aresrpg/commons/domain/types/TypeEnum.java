@@ -1,6 +1,7 @@
 package fr.aresrpg.commons.domain.types;
 
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * A enum to represent commons types
@@ -104,6 +105,12 @@ public enum TypeEnum {
 			default:
 				return getPrimitiveType(name);
 		}
+	}
+
+	public static TypeEnum getPrimitiveType(Class clazz){
+		Objects.requireNonNull(clazz);
+		TypeEnum value = getPrimitiveType(clazz.getName());
+		return value == null ? OBJECT : value;
 	}
 
 	public static TypeEnum getPrimitiveType(String name){

@@ -2,6 +2,7 @@ package fr.aresrpg.commons.domain.event;
 
 /**
  * A event fired when a bus is registered in an {@link EventBus}
+ * 
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 @SuppressWarnings("rawtypes")
@@ -13,8 +14,11 @@ public class BusRegisterEvent implements Event<BusRegisterEvent> {
 
 	/**
 	 * Create a new bus register event
-	 * @param owner the owner of the bus
-	 * @param registeredBus the instance of the registered bus
+	 * 
+	 * @param owner
+	 *            the owner of the bus
+	 * @param registeredBus
+	 *            the instance of the registered bus
 	 */
 	public BusRegisterEvent(Class<?> owner, EventBus registeredBus) {
 		this.owner = owner;
@@ -23,6 +27,7 @@ public class BusRegisterEvent implements Event<BusRegisterEvent> {
 
 	/**
 	 * Get the registered bus owner
+	 * 
 	 * @return the registered bus owner
 	 */
 	public Class<?> getBusOwner() {
@@ -31,6 +36,7 @@ public class BusRegisterEvent implements Event<BusRegisterEvent> {
 
 	/**
 	 * Get the registered bus
+	 * 
 	 * @return the registered bus
 	 */
 	public EventBus getRegisteredBus() {

@@ -2,7 +2,8 @@ package fr.aresrpg.commons.domain.log;
 
 /**
  * A logger message with is context
- * @author Duarte David  {@literal <deltaduartedavid@gmail.com>}
+ * 
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public class Log {
 	private Logger.Level level;
@@ -18,16 +19,27 @@ public class Log {
 
 	/**
 	 * Create a new logged message
-	 * @param level the level of this log
-	 * @param channel the channel witch the message is logged
-	 * @param message the message of this log
-	 * @param baseMessage the base message without replaced variables
-	 * @param args the args passed to this log
-	 * @param throwable the throwable of this log
-	 * @param millis the time of the log
-	 * @param thread the thread with the log has bean created
-	 * @param source the source stack trace
-	 * @param logger the logger used
+	 * 
+	 * @param level
+	 *            the level of this log
+	 * @param channel
+	 *            the channel were the message is logged
+	 * @param message
+	 *            the message of this log
+	 * @param baseMessage
+	 *            the base message without replaced variables
+	 * @param args
+	 *            the args passed to this log
+	 * @param throwable
+	 *            the throwable of this log
+	 * @param millis
+	 *            the time of the log
+	 * @param thread
+	 *            the thread were the log has bean created
+	 * @param source
+	 *            the source stack trace
+	 * @param logger
+	 *            the logger used
 	 */
 	public Log(Logger.Level level, String channel, String message, String baseMessage, Object[] args, Throwable throwable, long millis, Thread thread, StackTraceElement source, Logger logger) {
 		this.level = level;
@@ -44,6 +56,7 @@ public class Log {
 
 	/**
 	 * Get the level of this log
+	 * 
 	 * @return the level
 	 */
 	public Logger.Level getLevel() {
@@ -52,6 +65,7 @@ public class Log {
 
 	/**
 	 * Get the channel of this log
+	 * 
 	 * @return the channel
 	 */
 	public String getChannel() {
@@ -60,6 +74,7 @@ public class Log {
 
 	/**
 	 * Get the message of this log
+	 * 
 	 * @return the message
 	 */
 	public String getMessage() {
@@ -68,6 +83,7 @@ public class Log {
 
 	/**
 	 * Get the message without argument replaced of this log
+	 * 
 	 * @return the message
 	 */
 	public String getBaseMessage() {
@@ -76,6 +92,7 @@ public class Log {
 
 	/**
 	 * Get the args passed to this log
+	 * 
 	 * @return the args
 	 */
 	public Object[] getArgs() {
@@ -84,6 +101,7 @@ public class Log {
 
 	/**
 	 * Get the throwable of this log
+	 * 
 	 * @return the throwable of this log
 	 */
 	public Throwable getThrowable() {
@@ -92,6 +110,7 @@ public class Log {
 
 	/**
 	 * Get the time of the log
+	 * 
 	 * @return the time
 	 */
 	public long getMillis() {
@@ -100,6 +119,7 @@ public class Log {
 
 	/**
 	 * Get the thread of this log
+	 * 
 	 * @return the thread
 	 */
 	public Thread getThread() {
@@ -108,6 +128,7 @@ public class Log {
 
 	/**
 	 * Get the source of this log
+	 * 
 	 * @return the source
 	 */
 	public StackTraceElement getSource() {
@@ -116,6 +137,7 @@ public class Log {
 
 	/**
 	 * Get the logger of this log
+	 * 
 	 * @return the logger
 	 */
 	public Logger getLogger() {
