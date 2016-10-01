@@ -71,7 +71,8 @@ public interface Config {
 	 * @throws ConfigNotFoundException
 	 *             if the config is not found on source
 	 */
-	default Config clear() throws ConfigNotFoundException{
+	default Config clear(ConfigSource source) throws ConfigNotFoundException{
+		source.clear(this);
 		return this;
 	}
 

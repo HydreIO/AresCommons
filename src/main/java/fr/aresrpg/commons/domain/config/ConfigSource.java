@@ -1,7 +1,9 @@
 package fr.aresrpg.commons.domain.config;
 
-interface ConfigSource {
-	void load(Config config);
+public interface ConfigSource {
+	void load(Config config) throws ConfigNotFoundException;
 
-	void save(Config config);
+	void save(Config config) throws ConfigNotFoundException;
+
+	void clear(Config config) throws ConfigNotFoundException;
 }
