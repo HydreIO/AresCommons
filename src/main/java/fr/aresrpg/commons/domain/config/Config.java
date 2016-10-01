@@ -35,7 +35,8 @@ public interface Config {
 	 * @return the config for chainage purpose
 	 * @throws ConfigNotFoundException if the config is not found on this source
 	 */
-	default Config load() throws ConfigNotFoundException{
+	default Config load(ConfigSource source) throws ConfigNotFoundException {
+		source.load(this);
 		return this;
 	}
 
@@ -47,7 +48,8 @@ public interface Config {
 	 *             if the config is not found on source
 	 *
 	 */
-	default Config save() throws ConfigNotFoundException{
+	default Config save(ConfigSource source) throws ConfigNotFoundException{
+		source.save(this);
 		return this;
 	}
 

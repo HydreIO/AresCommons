@@ -1,5 +1,7 @@
 package fr.aresrpg.commons.domain.config;
 
-public interface ConfigSource {
-	String DEFAULT_SOURCE = "fr.aresrpg.commons.infra.config.FileDataSource";
+interface ConfigSource {
+	void load(Config config);
+
+	void save(Config config);
 }
