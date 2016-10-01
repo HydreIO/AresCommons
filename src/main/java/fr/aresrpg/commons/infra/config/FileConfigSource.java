@@ -34,7 +34,7 @@ public class FileConfigSource implements ConfigSource {
 			save(config);
 		try {
 			factory.createOrGetSerializer((Class<Config>)config.getClass())
-					.deserialize(new FileInputStream(f) , JsonFormat.INSTANCE); //TODO: Change this
+					.deserialize(new FileInputStream(f) , config, JsonFormat.INSTANCE); //TODO: Change this
 		} catch (IOException e) {
 			throw new ConfigNotFoundException(config.getName() , this , e);
 		}
