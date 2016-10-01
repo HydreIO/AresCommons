@@ -74,8 +74,7 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 	private void init(Field[] fields , SerializationFactory factory){
 		for(int i = 0 ; i < fields.length ; i++){
 			Field field = fields[i];
-			SerializedName sname = field.getAnnotation(SerializedName.class);
-			names[i] = sname == null ? field.getName() : sname.value();
+			names[i] = factory.getFieldNamer().getName(field);
 			Adapter[] chain = factory.getAdapterChain(new ParametrizedClass(field.getGenericType()));
 			long offset = UNSAFE.objectFieldOffset(field);
 			boolean volatileField = Reflection.isVolatileClass(field.getType());

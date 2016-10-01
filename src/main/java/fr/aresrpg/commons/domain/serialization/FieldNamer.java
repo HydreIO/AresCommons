@@ -1,5 +1,7 @@
 package fr.aresrpg.commons.domain.serialization;
 
+import java.lang.reflect.Field;
+
 /**
  * A field name
  * 
@@ -8,11 +10,10 @@ package fr.aresrpg.commons.domain.serialization;
 @FunctionalInterface
 public interface FieldNamer {
 	/**
-	 * Transform the name of the field
+	 * Get the name of the field
 	 * 
-	 * @param name
-	 *            the source name
+	 * @param field the source field
 	 * @return a transformed name
 	 */
-	String transform(String name);
+	String getName(Field field);
 }

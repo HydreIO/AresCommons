@@ -1,6 +1,7 @@
 package fr.aresrpg.commons.domain.serialization.factory;
 
 import fr.aresrpg.commons.domain.reflection.ParametrizedClass;
+import fr.aresrpg.commons.domain.serialization.FieldNamer;
 import fr.aresrpg.commons.domain.serialization.Serializer;
 import fr.aresrpg.commons.domain.serialization.adapters.Adapter;
 
@@ -19,6 +20,10 @@ public interface SerializationFactory {
 	void addAdapter(Adapter<? , ?> adapter);
 	void removeAdapter(Adapter<? , ?> adapter);
 	<T> Adapter<T , ?> getAdapter(ParametrizedClass<T> clazz);
+
+	FieldNamer getFieldNamer();
+
+	void setFieldNamer(FieldNamer namer);
 
 	default Adapter[] getAdapterChain(ParametrizedClass clazz){
 		Adapter last;
