@@ -28,6 +28,22 @@ public interface Serializer<T> {
 	<O> void serialize(O output, T object, Format<?, O> format) throws IOException;
 
 	/**
+	 * Map the object and deserialize it in the provided object using the passed format from the input
+	 *
+	 * @param input
+	 *            input
+	 * @param object
+	 *            the object to write in
+	 * @param format
+	 *            the format to use in deserialization
+	 * @param <I> the input type
+	 * @return the mapped object
+	 * @throws IOException
+	 *             if an exception occurred
+	 */
+	<I> T deserialize(I input, T object , Format<I, ?> format) throws IOException;
+
+	/**
 	 * Map the object and deserialize it using the passed format from the input
 	 *
 	 * @param input

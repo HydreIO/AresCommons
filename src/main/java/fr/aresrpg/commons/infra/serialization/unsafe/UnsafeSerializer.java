@@ -29,6 +29,7 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 	private final BiConsumer<T , ?>[] setters;
 	private final TypeEnum[] types;
 	private final SerializationContext context;
+	private final Class<T> clazz;
 
 	public UnsafeSerializer(Class<T> clazz , SerializationFactory factory) {
 		Field[] fields = Reflection.isInnerClass(clazz) ?
@@ -42,6 +43,7 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 		types = new TypeEnum[fields.length];
 		context = new BasicSerializationContext(factory);
 		init(fields , factory);
+		this.clazz = clazz;
 	}
 
 	@Override
@@ -61,9 +63,19 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 	}
 
 	@Override
-	public <I> T deserialize(I input, Format<I, ?> format) throws IOException {
+	public <I> T deserialize(I input, T object, Format<I, ?> format) throws IOException {
 		return null;
 	}
+
+	@Override
+	public <I> T deserialize(I input, Format<I, ?> format) throws IOException {
+		try {
+			return deserialize(input , (T) UNSAFE.allocateInstance(clazz) , format);
+		} catch (InstantiationException e) {
+			throw new IOException(e);
+		}
+	}
+
 
 	@Override
 	public T deserialize(Map<String, Object> values) throws IOException {
