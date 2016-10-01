@@ -1,23 +1,28 @@
 package fr.aresrpg.commons.domain.serialization.factory;
 
 import fr.aresrpg.commons.domain.reflection.ParametrizedClass;
+import fr.aresrpg.commons.domain.serialization.FieldNamer;
 import fr.aresrpg.commons.domain.serialization.Serializer;
 import fr.aresrpg.commons.domain.serialization.adapters.Adapter;
+import fr.aresrpg.commons.domain.serialization.annotations.SerializedNameFieldNamer;
 
 import java.util.*;
 
 public abstract class AbstractSerializationFactory implements SerializationFactory {
 	private List<Adapter<?, ?>> adapters;
 	private Map<Class<?>, Serializer<?>> cache;
+	private FieldNamer namer;
 
 	public AbstractSerializationFactory(List<Adapter<?, ?>> adapters) {
 		this.adapters = new ArrayList<>(adapters);
 		this.cache = new HashMap<>();
+		this.namer = new SerializedNameFieldNamer();
 	}
 
 	public AbstractSerializationFactory() {
 		this.adapters = new ArrayList<>();
 		this.cache = new HashMap<>();
+		this.namer = new SerializedNameFieldNamer();
 	}
 
 	@Override
@@ -62,5 +67,15 @@ public abstract class AbstractSerializationFactory implements SerializationFacto
 	public void removeAdapter(Adapter<?, ?> adapter) {
 		if(adapters.remove(adapter))
 			cache.clear();
+	}
+
+	@Override
+	public FieldNamer getFieldNamer() {
+		return namer;
+	}
+
+	@Override
+	public void setFieldNamer(FieldNamer namer) {
+		this.namer = namer;
 	}
 }
