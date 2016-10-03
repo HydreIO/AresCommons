@@ -1,10 +1,15 @@
 package fr.aresrpg.commons.domain.config;
 
+import java.lang.annotation.*;
+
 /**
  * A configured field in {@link Config}
  * 
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
+ * @author Sceat {@literal <sceat@aresrpg.fr>}
  */
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
 public @interface Configured {
 	/**
 	 * The path
