@@ -50,7 +50,7 @@ public class LoggerBuilder implements Builder<Logger> {
 		if (!use) return this;
 		handlers.add(() -> {
 			ConsoleHandler handler = new ConsoleHandler();
-			Formatter fm = formatter.orElse((colored ? new ColorFormatter(new BasicFormatter()) : new BasicFormatter()));
+			Formatter fm = formatter.orElse(colored ? new ColorFormatter(new BasicFormatter()) : new BasicFormatter());
 			errorFormatter.ifPresent(handler::setErrorFormatter);
 			handler.setFormatter(fm);
 			return handler;

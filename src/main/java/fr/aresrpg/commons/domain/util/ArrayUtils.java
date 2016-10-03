@@ -33,6 +33,21 @@ public class ArrayUtils {
 	}
 
 	/**
+	 * Check if a boolean is inside an array
+	 * 
+	 * @param b
+	 *            the boolean
+	 * @param array
+	 *            the array
+	 * @return true if the boolean is inside the array
+	 */
+	public static boolean contains(boolean b, boolean... array) {
+		for (boolean bt : array)
+			if (bt == b) return true;
+		return false;
+	}
+
+	/**
 	 * Check if a byte is inside an array
 	 * 
 	 * @param b
@@ -574,6 +589,37 @@ public class ArrayUtils {
 	 * @return
 	 */
 	public static <T> String toSring(Function<T, String> mapper, T... array) {
-		return Arrays.stream(array).map(mapper::apply).collect(Collectors.joining("[", ",", "]"));
+		return Arrays.stream(array).map(mapper::apply).collect(Collectors.joining(",", "[", "]"));
+	}
+
+	/**
+	 * Merge two arrays
+	 * 
+	 * @param first
+	 *            the first array
+	 * @param second
+	 *            the second array
+	 * @return an array which contains all elements from the two passed arrays
+	 */
+	public static <T> T[] merge(T[] first, T[] second) {
+		T[] result = Arrays.copyOf(first, first.length + second.length);
+		System.arraycopy(second, 0, result, first.length, second.length);
+		return result;
+	}
+
+	/**
+	 * Merge all arrays
+	 * 
+	 * @param first
+	 *            the first array
+	 * @param others
+	 *            the others arrays
+	 * @return an array which contains all elements from first and others arrays
+	 */
+	public static <T> T[] merge(T[] first, T[]... others) {
+		T[] result = first;
+		for (T[] t : others)
+			result = merge(first, t);
+		return result;
 	}
 }
