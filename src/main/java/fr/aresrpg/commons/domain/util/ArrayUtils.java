@@ -33,6 +33,21 @@ public class ArrayUtils {
 	}
 
 	/**
+	 * Check if a boolean is inside an array
+	 * 
+	 * @param b
+	 *            the boolean
+	 * @param array
+	 *            the array
+	 * @return true if the boolean is inside the array
+	 */
+	public static boolean contains(boolean b, boolean... array) {
+		for (boolean bt : array)
+			if (bt == b) return true;
+		return false;
+	}
+
+	/**
 	 * Check if a byte is inside an array
 	 * 
 	 * @param b
