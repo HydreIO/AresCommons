@@ -69,17 +69,6 @@ public interface Collection<T> extends Value<T> {
 	T[] find(Filter filter, int max);
 
 	/**
-	 * Find the values in the collection
-	 * 
-	 * @param filter
-	 *            the filter to use
-	 * @return the values found or null if there was no values
-	 */
-	default T[] find(Filter filter) {
-		return find(filter, Integer.MAX_VALUE);
-	}
-
-	/**
 	 * Find the first value corresponding to the filter
 	 * 
 	 * @param filter
@@ -122,7 +111,7 @@ public interface Collection<T> extends Value<T> {
 	 * @return true if the value exist
 	 */
 	default boolean exist(Filter filter) {
-		return find(filter).length != 0;
+		return find(filter, 1).length != 0;
 	}
 
 	/**
