@@ -13,7 +13,7 @@ public class AnsiColors {
 	/**
 	 * The ansi color reset char
 	 */
-	public static final String ANSI_RESET = ANSI_CHAR + "B[0m";
+	public static final String ANSI_RESET = ANSI_CHAR + "[0m";
 
 	/**
 	 * An ansi available colors enum
