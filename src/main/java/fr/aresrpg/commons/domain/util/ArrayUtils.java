@@ -24,6 +24,8 @@ public class ArrayUtils {
 	 *            the object
 	 * @param array
 	 *            the array
+	 * @param <T>
+	 *            the type of the array
 	 * @return true if the object is equal to an object into the array
 	 */
 	public static <T> boolean contains(T value, T... array) {
@@ -189,6 +191,8 @@ public class ArrayUtils {
 	 * 
 	 * @param array
 	 *            the array
+	 * @param <T>
+	 *            the type of the array
 	 * @return true if the array contains some elements
 	 */
 	public static <T> boolean notEmpty(T[] array) {
@@ -202,6 +206,8 @@ public class ArrayUtils {
 	 *            the array
 	 * @param allowNull
 	 *            if null elements are allowed (alias= considerNullLikeAnElement)
+	 * @param <T>
+	 *            the type of the array
 	 * @return true if the array contains any element
 	 */
 	public static <T> boolean notEmpty(T[] array, boolean allowNull) {
@@ -217,6 +223,8 @@ public class ArrayUtils {
 	 * 
 	 * @param array
 	 *            the array
+	 * @param <T>
+	 *            the type of the array
 	 * @return true if empty
 	 */
 	public static <T> boolean isEmpty(T[] array) {
@@ -480,6 +488,8 @@ public class ArrayUtils {
 	 * 
 	 * @param array
 	 *            the array
+	 * @param <T>
+	 *            the type of the array
 	 * @return the last value or null if the array is empty
 	 */
 	public static <T> T lastValue(T[] array) {
@@ -574,6 +584,7 @@ public class ArrayUtils {
 	}
 
 	/**
+	 * <p>
 	 * Join all values from an array with a mapper
 	 * </p>
 	 * Exemple of use:
@@ -585,8 +596,12 @@ public class ArrayUtils {
 	 * </pre>
 	 * 
 	 * @param mapper
+	 *            the mapper
 	 * @param array
-	 * @return
+	 *            the array
+	 * @param <T>
+	 *            the type of the array
+	 * @return the content of the array depending to the mapper
 	 */
 	public static <T> String toSring(Function<T, String> mapper, T... array) {
 		return Arrays.stream(array).map(mapper::apply).collect(Collectors.joining(",", "[", "]"));
@@ -599,6 +614,8 @@ public class ArrayUtils {
 	 *            the first array
 	 * @param second
 	 *            the second array
+	 * @param <T>
+	 *            the type of the array
 	 * @return an array which contains all elements from the two passed arrays
 	 */
 	public static <T> T[] merge(T[] first, T[] second) {
@@ -614,6 +631,8 @@ public class ArrayUtils {
 	 *            the first array
 	 * @param others
 	 *            the others arrays
+	 * @param <T>
+	 *            the type of the array
 	 * @return an array which contains all elements from first and others arrays
 	 */
 	public static <T> T[] merge(T[] first, T[]... others) {

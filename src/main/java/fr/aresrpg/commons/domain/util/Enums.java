@@ -20,6 +20,8 @@ public class Enums {
 	 *            to compare
 	 * @param base
 	 *            enum type wanted
+	 * @param <T>
+	 *            the type enum
 	 * @return the enum to compare
 	 */
 	public static <T extends Enum<T>> T requireType(T t1, T base) {
