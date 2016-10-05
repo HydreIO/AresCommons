@@ -49,7 +49,7 @@ public class Tuple<F, S, T> extends Pair<F, S> {
 	/**
 	 * Construct a copy of the Tuple passed in argument
 	 * 
-	 * @param Tuple
+	 * @param tuple
 	 *            the Tuple to copy
 	 */
 	public Tuple(Tuple<F, S, T> tuple) {

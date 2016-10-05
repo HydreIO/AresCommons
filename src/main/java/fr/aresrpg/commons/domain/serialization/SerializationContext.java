@@ -7,8 +7,6 @@ import java.io.IOException;
 /**
  * A serialization context
  * 
- * @param <I>
- *            the input type
  * @param <O>
  *            the output type
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
