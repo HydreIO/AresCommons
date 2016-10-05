@@ -71,6 +71,7 @@ public class LoggerBuilder implements Builder<Logger> {
 	}
 
 	/**
+	 * <p>
 	 * Add an handler to the logger
 	 * </p>
 	 * we use a supplier to execute actions only in the build method
