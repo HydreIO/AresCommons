@@ -28,6 +28,8 @@ public interface ExecutiveConsumer<T> {
 	 *            The consumer wich will be executed instantly
 	 * @param u
 	 *            the value for the consumer
+	 * @param <U>
+	 *            the new type
 	 * @return an empty consumer to continue chaining
 	 */
 	default <U> ExecutiveConsumer<T> then(ExecutiveConsumer<U> other, U u) {
@@ -46,6 +48,10 @@ public interface ExecutiveConsumer<T> {
 	 *            The consumer wich will be executed instantly
 	 * @param u
 	 *            the value for the consumer
+	 * @param <U>
+	 *            the type of the consumer arg
+	 * @param <A>
+	 *            the new type of the returned consumer
 	 * @return an empty consumer to continue chaining
 	 */
 	default <U, A> ExecutiveConsumer<A> thenCommon(Consumer<U> other, U u) {
@@ -64,6 +70,10 @@ public interface ExecutiveConsumer<T> {
 	 *            The consumer wich will be executed instantly
 	 * @param u
 	 *            the value for the consumer
+	 * @param <U>
+	 *            the type of the passed consumer
+	 * @param <A>
+	 *            the type of the returned consumer
 	 * @return an empty consumer to continue chaining
 	 */
 	default <U, A> ExecutiveConsumer<A> thenNative(java.util.function.Consumer<U> other, U u) {
