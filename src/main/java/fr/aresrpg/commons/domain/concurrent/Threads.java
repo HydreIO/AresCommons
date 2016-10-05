@@ -15,6 +15,7 @@ public final class Threads {
 	}
 
 	/**
+	 * <p>
 	 * Switch the name of a thread before a submission, useful to know exactly what a thread is actually processing and not spend hours while debuging
 	 * </p>
 	 * The old name is replaced after execution.
@@ -22,9 +23,11 @@ public final class Threads {
 	 * Example of use:
 	 * 
 	 * <pre>
-	 * CompletableFutur.supplyAsync(threadContextSwitch("Processing-$myResultName"), () -> myResult);
+	 * {@literal CompletableFutur.supplyAsync(threadContextSwitch("Processing-$myResultName"), () -> myResult);}
 	 * </pre>
 	 * 
+	 * @param <T>
+	 *            the type of your supplier
 	 * @param newname
 	 *            the new name to indicate what the thread is currently doing
 	 * @param logic
