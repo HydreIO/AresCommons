@@ -6,7 +6,7 @@ import java.io.InputStream;
 /**
  * Represent a writable input
  * 
- * @Since 0.6
+ * @since 0.6
  */
 public class WritableInputStream extends InputStream {
 	@Override
