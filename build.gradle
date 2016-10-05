@@ -4,7 +4,7 @@ apply plugin: 'idea'
 apply plugin: 'maven-publish'
 
 group = 'fr.aresrpg'
-version = '0.6'
+version = '0.7'
 
 compileJava.options.encoding = 'UTF-8'
 
@@ -12,99 +12,99 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 sourceSets {
-    jmh
-    shared //Shared between test and jmh
+	jmh
+	shared //Shared between test and jmh
 }
 
 jar {
-    version = System.getenv("BUILD_NUMBER") == null ? project.version : System.getenv("BUILD_NUMBER");
+	version = System.getenv("BUILD_NUMBER") == null ? project.version : System.getenv("BUILD_NUMBER");
 }
 
 repositories {
-    mavenLocal()
-    mavenCentral()
+	mavenLocal()
+	mavenCentral()
 }
 
 dependencies {
-    compile 'com.getsentry.raven:raven:7.2.3'
-    compile 'org.ow2.asm:asm:5.1'
+	compile 'com.getsentry.raven:raven:7.2.3'
+	compile 'org.ow2.asm:asm:5.1'
 
-    testCompile sourceSets.shared.output
-    testCompile 'junit:junit:4.12'
+	testCompile sourceSets.shared.output
+	testCompile 'junit:junit:4.12'
 
-    jmhCompile sourceSets.main.output
-    jmhCompile sourceSets.shared.output
-    jmhCompile 'org.openjdk.jmh:jmh-core:1.12'
-    jmhCompile 'org.openjdk.jmh:jmh-generator-annprocess:1.12'
-    jmhCompile 'io.fastjson:boon:0.33'
-    jmhCompile 'com.fasterxml.jackson.core:jackson-databind:2.7.1-1'
+	jmhCompile sourceSets.main.output
+	jmhCompile sourceSets.shared.output
+	jmhCompile 'org.openjdk.jmh:jmh-core:1.12'
+	jmhCompile 'org.openjdk.jmh:jmh-generator-annprocess:1.12'
+	jmhCompile 'io.fastjson:boon:0.33'
+	jmhCompile 'com.fasterxml.jackson.core:jackson-databind:2.7.1-1'
 }
 
 task shaded(type: Jar) {
-    classifier = 'shaded'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
+	classifier = 'shaded'
+	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it)
+		} }
+	with jar
 }
 
 task jmh(type:JavaExec) {
-    description 'Execute jmh on this project'
-    main 'org.openjdk.jmh.Main'
-    classpath = sourceSets.jmh.runtimeClasspath
+	description 'Execute jmh on this project'
+	main 'org.openjdk.jmh.Main'
+	classpath = sourceSets.jmh.runtimeClasspath
 }
 
 task jmhJar(type: Jar) {
-    classifier = "jmh"
+	classifier = "jmh"
 
-    manifest {
-        attributes 'Implementation-Title': 'JMH FastReflection Benchmark',
-                'Implementation-Version': version,
-                'Main-Class': 'org.openjdk.jmh.Main'
-    }
+	manifest {
+		attributes 'Implementation-Title': 'JMH FastReflection Benchmark',
+		'Implementation-Version': version,
+		'Main-Class': 'org.openjdk.jmh.Main'
+	}
 
-    from configurations.jmhCompile.collect {
-        it.mkdirs();
-        it.isDirectory() ?
-                it :
-                zipTree(it)
-    }
+	from configurations.jmhCompile.collect {
+		it.mkdirs();
+		it.isDirectory() ?
+				it :
+				zipTree(it)
+	}
 
-    from sourceSets.jmh.output
+	from sourceSets.jmh.output
 }
 
 idea {
-    module {
-        scopes.PROVIDED.plus  += [configurations.jmhCompile , configurations.sharedCompile]
-    }
+	module {
+		scopes.PROVIDED.plus  += [configurations.jmhCompile , configurations.sharedCompile]
+	}
 }
 
 eclipse {
-    classpath {
-        plusConfigurations += [configurations.jmhCompile , configurations.sharedCompile]
-    }
+	classpath {
+		plusConfigurations += [configurations.jmhCompile , configurations.sharedCompile]
+	}
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
+	classifier = 'javadoc'
+	from javadoc.destinationDir
 }
 
 publishing {
-    repositories {
-        maven {
-            url 'https://artifactory.aresrpg.fr/libraries'
+	repositories {
+		maven {
+			url 'https://artifactory.aresrpg.fr/libraries'
 
-            credentials {
-                username project.hasProperty('aresuser') ? aresuser : System.getenv('aresuser')
-                password project.hasProperty('arespass') ? arespass : System.getenv('arespass')
-            }
-        }
+			credentials {
+				username project.hasProperty('aresuser') ? aresuser : System.getenv('aresuser')
+				password project.hasProperty('arespass') ? arespass : System.getenv('arespass')
+			}
+		}
+	}
 
-    }
-
-    publications {
-        lib(MavenPublication) {
-            from components.java
-            artifact javadocJar
-        }
-    }
+	publications {
+		lib(MavenPublication) {
+			from components.java
+			artifact javadocJar
+		}
+	}
 }
