@@ -12,6 +12,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Configured {
 	/**
+	 * <p>
 	 * The path
 	 * </p>
 	 * Use dot for subpath ex : <code>@Configured(foo.bar.config)</code>
