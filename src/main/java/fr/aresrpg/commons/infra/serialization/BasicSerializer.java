@@ -1,13 +1,5 @@
 package fr.aresrpg.commons.infra.serialization;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import fr.aresrpg.commons.domain.log.Logger;
 import fr.aresrpg.commons.domain.reflection.ParametrizedClass;
 import fr.aresrpg.commons.domain.serialization.SerializationContext;
@@ -19,6 +11,11 @@ import fr.aresrpg.commons.domain.serialization.field.FieldModifier;
 import fr.aresrpg.commons.domain.serialization.formats.Format;
 import fr.aresrpg.commons.domain.types.TypeEnum;
 import fr.aresrpg.commons.domain.unsafe.UnsafeAccessor;
+
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.*;
 
 @SuppressWarnings("rawtypes")
 public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {
@@ -140,9 +137,9 @@ public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {
 		public void setValue(FieldModifier modifier, Object instance, Object value) {
 			if (value == null) return;
 			Object o = value;
-			if(adapters.length > 0)
+			if (adapters.length > 0)
 				for (int i = adapters.length; i >= 0; i--)
-					o = adapters[i].adaptFrom(o);
+				o = adapters[i].adaptFrom(o);
 			modifier.setValue(field, instance, o);
 		}
 
@@ -156,7 +153,7 @@ public class BasicSerializer<T, I, O> implements Serializer<T, I, O> {
 		}
 	}
 
-	private class BasicSerializationContext implements SerializationContext<I, O> {
+	private class BasicSerializationContext implements SerializationContext<O> {
 
 		@Override
 		@SuppressWarnings("unchecked")

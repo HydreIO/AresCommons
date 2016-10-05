@@ -1,17 +1,12 @@
 package fr.aresrpg.commons.infra.serialization.formats.json;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
-
 import fr.aresrpg.commons.domain.log.Logger;
 import fr.aresrpg.commons.domain.serialization.SerializationContext;
 import fr.aresrpg.commons.domain.serialization.formats.Format;
 import fr.aresrpg.commons.domain.types.TypeEnum;
+
+import java.io.*;
+import java.util.*;
 
 public class JsonFormat implements Format<InputStream, OutputStream> {
 	public static final JsonFormat INSTANCE = new JsonFormat();
@@ -46,7 +41,7 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 	}
 
 	@Override
-	public void writeValue(OutputStream out, String name, TypeEnum type, Object value, SerializationContext<InputStream , OutputStream> context) throws IOException {
+	public void writeValue(OutputStream out, String name, TypeEnum type, Object value, SerializationContext<OutputStream> context) throws IOException { // NOSONAR can't reduce complexity due to implementation
 		if (name != null) {
 			out.write(STRING_DELIMITER);
 			out.write(name.getBytes(ENCODING));
@@ -82,7 +77,7 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 				writeCollection(out, (Collection<?>) value, context);
 				break;
 			case OBJECT_ARRAY:
-				writeObjectArray(out, (Object[]) value , context);
+				writeObjectArray(out, (Object[]) value, context);
 				break;
 			case BYTE_ARRAY:
 				writeByteArray(out, (byte[]) value);
@@ -106,12 +101,12 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 				writeDoubleArray(out, (double[]) value);
 				break;
 			case OBJECT:
-				context.serialize(out , value , this);
+				context.serialize(out, value, this);
+				break;
 			default:
 				break;
 		}
 	}
-
 
 	@Override
 	public void writeBeginObject(OutputStream out) throws IOException {
@@ -133,7 +128,7 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 		// Ignore
 	}
 
-	public void writeCollection(OutputStream out, Collection<?> collection, SerializationContext<InputStream , OutputStream> context) throws IOException {
+	public void writeCollection(OutputStream out, Collection<?> collection, SerializationContext<OutputStream> context) throws IOException {
 		out.write(BEGIN_ARRAY);
 		Iterator<?> it = collection.iterator();
 		if (it.hasNext()) {
@@ -146,11 +141,11 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 		out.write(END_ARRAY);
 	}
 
-	private void writeObjectArray(OutputStream out, Object[] objects, SerializationContext<InputStream , OutputStream> context) throws IOException {
+	private void writeObjectArray(OutputStream out, Object[] objects, SerializationContext<OutputStream> context) throws IOException {
 		out.write(BEGIN_ARRAY);
 		int end = objects.length - 1;
 		for (int i = 0; i < objects.length; i++) {
-			context.serialize(out , objects[i] , this);
+			context.serialize(out, objects[i], this);
 			if (i != end) out.write(ARRAY_SEPARATOR);
 		}
 		out.write(END_ARRAY);
@@ -227,7 +222,7 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 	}
 
 	@Override
-	public void read(InputStream in, Map<String, Object> container, SerializationContext<InputStream , OutputStream> context) throws IOException {
+	public void read(InputStream in, Map<String, Object> container, SerializationContext<OutputStream> context) throws IOException {
 
 	}
 }

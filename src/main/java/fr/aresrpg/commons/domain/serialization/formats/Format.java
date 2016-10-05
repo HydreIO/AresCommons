@@ -42,7 +42,7 @@ public interface Format<I, O> {
 	 * @throws IOException
 	 *             if an error occurred during writing
 	 */
-	void writeValue(O out, String name, TypeEnum type, Object value, SerializationContext<I, O> context) throws IOException;
+	void writeValue(O out, String name, TypeEnum type, Object value, SerializationContext<O> context) throws IOException;
 
 	/**
 	 * Called before an object's writing
@@ -100,5 +100,5 @@ public interface Format<I, O> {
 	 * @throws IOException
 	 *             if an error occurred during reading
 	 */
-	void read(I in, Map<String, Object> container, SerializationContext<I, O> context) throws IOException;
+	void read(I in, Map<String, Object> container, SerializationContext<O> context) throws IOException;
 }

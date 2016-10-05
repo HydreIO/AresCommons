@@ -13,7 +13,8 @@ import java.io.IOException;
  *            the output type
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
-public interface SerializationContext<I, O> {
+@FunctionalInterface
+public interface SerializationContext<O> {
 	/**
 	 * Serialize this value using the provided format
 	 * 
