@@ -35,6 +35,8 @@ public interface FieldModifier {
 	/**
 	 * Test if this field can be processed
 	 * 
+	 * @param f
+	 *            the field
 	 * @return true if the field can be processed
 	 */
 	boolean canProcess(Field f);

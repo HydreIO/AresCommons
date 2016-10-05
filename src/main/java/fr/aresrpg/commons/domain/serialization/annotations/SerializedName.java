@@ -3,6 +3,7 @@ package fr.aresrpg.commons.domain.serialization.annotations;
 import java.lang.annotation.*;
 
 /**
+ * <p>
  * A serialized name is used to provide a generic name to a field after his serialization.
  * </p>
  * For example in a database you may want to use a custom field name instead of the native one

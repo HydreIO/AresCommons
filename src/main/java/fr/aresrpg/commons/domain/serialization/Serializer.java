@@ -51,6 +51,7 @@ public interface Serializer<T, I, O> {
 	 *            the values to map
 	 * @return the mapped object
 	 * @throws IOException
+	 *             if an exception occured
 	 */
 	T deserialize(Map<String, Object> values) throws IOException;
 }
