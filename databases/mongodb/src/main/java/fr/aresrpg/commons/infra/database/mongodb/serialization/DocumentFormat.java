@@ -22,7 +22,7 @@ public class DocumentFormat implements Format<Document, Document> {
 	}
 
 	@Override
-	public void writeValue(Document doc, String name, TypeEnum typeEnum, Object o, SerializationContext<Document, Document> serializationContext) throws IOException {
+	public void writeValue(Document doc, String name, TypeEnum typeEnum, Object o, SerializationContext<Document> serializationContext) throws IOException {
 		if (typeEnum == TypeEnum.OBJECT) {
 			Document d = new Document();
 			serializationContext.serialize(d, o, this);
@@ -52,7 +52,7 @@ public class DocumentFormat implements Format<Document, Document> {
 	}
 
 	@Override
-	public void read(Document document, Map<String, Object> map, SerializationContext<Document, Document> serializationContext) throws IOException {
+	public void read(Document document, Map<String, Object> map, SerializationContext<Document> serializationContext) throws IOException {
 		for (Map.Entry<String, Object> e : document.entrySet()) {
 			if (e instanceof Document) {
 				Map<String, Object> m = new LinkedHashMap<>();
