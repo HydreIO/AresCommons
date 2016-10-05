@@ -43,10 +43,12 @@ public interface RawOption<T, O extends RawOption<T, ?>> extends Value<T>, Suppl
 		if (isPresent()) consumer.accept(get());
 		return (O) this;
 	}
-	
+
 	/**
+	 * <p>
 	 * Provide the wrapped value if the condition is valid, return the @param value otherwise
 	 * </p>
+	 * <p>
 	 * <b>Be careful while using this method and prefer the use of {@linkplain RawOption#whenGet(boolean, Supplier)} when you haven't a primitive value</b>
 	 * </p>
 	 * 
@@ -74,8 +76,10 @@ public interface RawOption<T, O extends RawOption<T, ?>> extends Value<T>, Suppl
 	}
 
 	/**
+	 * <p>
 	 * The passed value is returned if the original wrapped value is null
 	 * </p>
+	 * <p>
 	 * <b>Be careful while using this method and prefer the use of {@linkplain RawOption#orElseGet(Supplier)} when you haven't a primitive value</b>
 	 * </p>
 	 * 
@@ -121,6 +125,7 @@ public interface RawOption<T, O extends RawOption<T, ?>> extends Value<T>, Suppl
 	}
 
 	/**
+	 * <p>
 	 * Change the type of the wrapped value using a function
 	 * </p>
 	 * Example of transforming an Integer to a String :
