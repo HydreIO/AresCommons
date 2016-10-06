@@ -8,7 +8,6 @@ import fr.aresrpg.commons.domain.serialization.Format;
 import fr.aresrpg.commons.domain.serialization.SerializationContext;
 import fr.aresrpg.commons.domain.serialization.Serializer;
 import fr.aresrpg.commons.domain.serialization.adapters.Adapter;
-import fr.aresrpg.commons.domain.serialization.annotations.SerializedName;
 import fr.aresrpg.commons.domain.serialization.factory.SerializationFactory;
 import fr.aresrpg.commons.domain.types.TypeEnum;
 import fr.aresrpg.commons.domain.unsafe.UnsafeAccessor;
