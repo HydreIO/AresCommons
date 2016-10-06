@@ -19,17 +19,21 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings("unchecked")
-public class UnsafeSerializer<T> implements Serializer<T>{
+public class UnsafeSerializer<T> implements Serializer<T> {
 	private static final Unsafe UNSAFE = UnsafeAccessor.getUnsafe();
 	private final String[] names;
-	private final Function<T , ?>[] getters;
-	private final BiConsumer<T , ?>[] setters;
-	private final TypeEnum[] types;
+	private final Function<T , Object>[] getters;
+	private final TypeEnum[] types; //For serialization
+
+	private final BiConsumer<T , Object>[] setters;
+	private final Class[] classes; //For deserialization
 	private final SerializationContext context;
 	private final Class<T> clazz;
+	private final SerializationFactory factory;
 
 	public UnsafeSerializer(Class<T> clazz , SerializationFactory factory) {
 		Field[] fields = Reflection.isInnerClass(clazz) ?
@@ -41,9 +45,11 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 		getters = new Function[fields.length];
 		setters = new BiConsumer[fields.length];
 		types = new TypeEnum[fields.length];
+		classes = new Class[fields.length];
 		context = new BasicSerializationContext(factory);
 		init(fields , factory);
 		this.clazz = clazz;
+		this.factory = factory;
 	}
 
 	@Override
@@ -63,14 +69,18 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 	}
 
 	@Override
-	public <I> T deserialize(I input, T object, Format<I, ?> format) throws IOException {
-		return null;
+	public <I> void deserialize(I input, T object, Format<I, ?> format) throws IOException {
+		Map<String , Object> map = new HashMap<>();
+		format.read(input , map , context);
+		deserialize(map , object);
 	}
 
 	@Override
 	public <I> T deserialize(I input, Format<I, ?> format) throws IOException {
 		try {
-			return deserialize(input , (T) UNSAFE.allocateInstance(clazz) , format);
+			T object = (T) UNSAFE.allocateInstance(clazz);
+			deserialize(input , object , format);
+			return object;
 		} catch (InstantiationException e) {
 			throw new IOException(e);
 		}
@@ -79,7 +89,26 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 
 	@Override
 	public T deserialize(Map<String, Object> values) throws IOException {
-		return null;
+		try {
+			T object = (T) UNSAFE.allocateInstance(clazz);
+			deserialize(values , object);
+			return object;
+		} catch (InstantiationException e) {
+			throw new IOException(e);
+		}
+	}
+
+	@Override
+	public void deserialize(Map<String, Object> values, T object) throws IOException {
+		for(int i = 0 ; i < names.length ; i++) {
+			Object o = values.get(names[i]);
+			if(o instanceof Map) {
+				Class<?> c = classes[i];
+				if(!Map.class.isAssignableFrom(c))
+					o = factory.createOrGetSerializer(c).deserialize((Map)o);
+			}
+			setters[i].accept(object , o);
+		}
 	}
 
 
@@ -129,15 +158,21 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 					setters[i] = generateObjectSetter(chain , offset , volatileField);
 					break;
 			}
+			if(chain.length == 0){
+				classes[i] = field.getType();
+				types[i] = TypeEnum.getType(field.getType());
+			}else {
+				classes[i] = chain[chain.length -2].getInType().getRaw();
+				types[i] = TypeEnum.getType(chain[chain.length -2].getOutType().getRaw());
+			}
 
-			types[i] = TypeEnum.getType(chain.length == 0 ? field.getType() : chain[chain.length -2].getOutType().getRaw());
 		}
 	}
 
-	private static <T> BiConsumer<T, ?> generateBooleanSetter(Adapter[] chain, long offset, boolean volatileField) {
+	private static <T> BiConsumer<T, Object> generateBooleanSetter(Adapter[] chain, long offset, boolean volatileField) {
 		if(chain.length == 0){
-			return volatileField ? (BiConsumer<T, Boolean>)(i , v) -> UNSAFE.putBooleanVolatile(i , offset , v) :
-					(BiConsumer<T, Boolean>)(i , v) -> UNSAFE.putBoolean(i , offset , v);
+			return volatileField ? (i , v) -> UNSAFE.putBooleanVolatile(i , offset , (Boolean)v) :
+					(i , v) -> UNSAFE.putBoolean(i , offset , (Boolean)v);
 		}else {
 			if(volatileField){
 				return (inst , v) -> {
@@ -155,10 +190,10 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 		}
 	}
 
-	private static <T> BiConsumer<T, ?> generateByteSetter(Adapter[] chain, long offset, boolean volatileField) {
+	private static <T> BiConsumer<T, Object> generateByteSetter(Adapter[] chain, long offset, boolean volatileField) {
 		if(chain.length == 0){
-			return volatileField ? (BiConsumer<T, Byte>)(i , v) -> UNSAFE.putByteVolatile(i , offset , v) :
-					(BiConsumer<T, Byte>)(i , v) -> UNSAFE.putByte(i , offset , v);
+			return volatileField ? (i , v) -> UNSAFE.putByteVolatile(i , offset , (Byte)v) :
+					(i , v) -> UNSAFE.putByte(i , offset , (Byte)v);
 		}else {
 			if(volatileField){
 				return (inst , v) -> {
@@ -176,10 +211,10 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 		}
 	}
 
-	private static <T> BiConsumer<T, ?> generateShortSetter(Adapter[] chain, long offset, boolean volatileField) {
+	private static <T> BiConsumer<T, Object> generateShortSetter(Adapter[] chain, long offset, boolean volatileField) {
 		if(chain.length == 0){
-			return volatileField ? (BiConsumer<T, Short>)(i , v) -> UNSAFE.putShortVolatile(i , offset , v) :
-					(BiConsumer<T, Short>)(i , v) -> UNSAFE.putShort(i , offset , v);
+			return volatileField ? (i , v) -> UNSAFE.putShortVolatile(i , offset , (Short)v) :
+					(i , v) -> UNSAFE.putShort(i , offset , (Short)v);
 		}else {
 			if(volatileField){
 				return (inst , v) -> {
@@ -197,10 +232,10 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 		}
 	}
 
-	private static <T> BiConsumer<T, ?> generateCharSetter(Adapter[] chain, long offset, boolean volatileField) {
+	private static <T> BiConsumer<T, Object> generateCharSetter(Adapter[] chain, long offset, boolean volatileField) {
 		if(chain.length == 0){
-			return volatileField ? (BiConsumer<T, Character>)(i , v) -> UNSAFE.putCharVolatile(i , offset , v) :
-					(BiConsumer<T, Character>)(i , v) -> UNSAFE.putChar(i , offset , v);
+			return volatileField ? (i , v) -> UNSAFE.putCharVolatile(i , offset , (Character)v) :
+					(i , v) -> UNSAFE.putChar(i , offset , (Character)v);
 		}else {
 			if(volatileField){
 				return (inst , v) -> {
@@ -218,10 +253,10 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 		}
 	}
 
-	private static <T> BiConsumer<T, ?> generateIntSetter(Adapter[] chain, long offset, boolean volatileField) {
+	private static <T> BiConsumer<T, Object> generateIntSetter(Adapter[] chain, long offset, boolean volatileField) {
 		if(chain.length == 0){
-			return volatileField ? (BiConsumer<T, Integer>)(i , v) -> UNSAFE.putIntVolatile(i , offset , v) :
-					(BiConsumer<T, Integer>)(i , v) -> UNSAFE.putInt(i , offset , v);
+			return volatileField ? (i , v) -> UNSAFE.putIntVolatile(i , offset , (Integer)v) :
+					(i , v) -> UNSAFE.putInt(i , offset , (Integer)v);
 		}else {
 			if(volatileField){
 				return (inst , v) -> {
@@ -239,10 +274,10 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 		}
 	}
 
-	private static <T> BiConsumer<T, ?> generateLongSetter(Adapter[] chain, long offset, boolean volatileField) {
+	private static <T> BiConsumer<T, Object> generateLongSetter(Adapter[] chain, long offset, boolean volatileField) {
 		if(chain.length == 0){
-			return volatileField ? (BiConsumer<T, Long>)(i , v) -> UNSAFE.putLongVolatile(i , offset , v) :
-					(BiConsumer<T, Long>)(i , v) -> UNSAFE.putLong(i , offset , v);
+			return volatileField ? (i , v) -> UNSAFE.putLongVolatile(i , offset , (Long)v) :
+					(i , v) -> UNSAFE.putLong(i , offset , (Long)v);
 		}else {
 			if(volatileField){
 				return (inst , v) -> {
@@ -260,10 +295,10 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 		}
 	}
 
-	private static <T> BiConsumer<T, ?> generateFloatSetter(Adapter[] chain, long offset, boolean volatileField) {
+	private static <T> BiConsumer<T, Object> generateFloatSetter(Adapter[] chain, long offset, boolean volatileField) {
 		if(chain.length == 0){
-			return volatileField ? (BiConsumer<T, Float>)(i , v) -> UNSAFE.putFloatVolatile(i , offset , v) :
-					(BiConsumer<T, Float>)(i , v) -> UNSAFE.putFloat(i , offset , v);
+			return volatileField ? (i , v) -> UNSAFE.putFloatVolatile(i , offset , (Float)v) :
+					(i , v) -> UNSAFE.putFloat(i , offset , (Float)v);
 		}else {
 			if(volatileField){
 				return (inst , v) -> {
@@ -281,10 +316,10 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 		}
 	}
 
-	private static <T> BiConsumer<T, ?> generateDoubleSetter(Adapter[] chain, long offset, boolean volatileField) {
+	private static <T> BiConsumer<T, Object> generateDoubleSetter(Adapter[] chain, long offset, boolean volatileField) {
 		if(chain.length == 0){
-			return volatileField ? (BiConsumer<T, Double>)(i , v) -> UNSAFE.putDoubleVolatile(i , offset , v) :
-					(BiConsumer<T, Double>)(i , v) -> UNSAFE.putDouble(i , offset , v);
+			return volatileField ? (i , v) -> UNSAFE.putDoubleVolatile(i , offset , (Double)v) :
+					(i , v) -> UNSAFE.putDouble(i , offset , (Double)v);
 		}else {
 			if(volatileField){
 				return (inst , v) -> {
@@ -302,7 +337,7 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 		}
 	}
 
-	private static <T> BiConsumer<T, ?> generateObjectSetter(Adapter[] chain, long offset, boolean volatileField) {
+	private static <T> BiConsumer<T, Object> generateObjectSetter(Adapter[] chain, long offset, boolean volatileField) {
 		if(chain.length == 0){
 			return volatileField ? (i , v) -> UNSAFE.putObjectVolatile(i , offset , v) :
 					(i , v) -> UNSAFE.putObject(i , offset , v);
@@ -311,19 +346,19 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 				return (inst , v) -> {
 					for (int i = chain.length; i >= 0; i--)
 						v = chain[i].adaptFrom(v);
-					UNSAFE.putObjectVolatile(inst , offset , (Double)v);
+					UNSAFE.putObjectVolatile(inst , offset , v);
 				};
 			}else {
 				return (inst , v) -> {
 					for (int i = chain.length; i >= 0; i--)
 						v = chain[i].adaptFrom(v);
-					UNSAFE.putObject(inst , offset , (Double)v);
+					UNSAFE.putObject(inst , offset , v);
 				};
 			}
 		}
 	}
 
-	private static <T> Function<T , ?> generateBooleanGetter(Adapter[] chain, long offset , boolean volatileField) {
+	private static <T> Function<T , Object> generateBooleanGetter(Adapter[] chain, long offset , boolean volatileField) {
 		if(chain.length == 0){
 			return volatileField ? i -> UNSAFE.getBooleanVolatile(i , offset) :
 					i -> UNSAFE.getBoolean(i , offset);
@@ -346,7 +381,7 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 		}
 	}
 
-	private static <T> Function<T , ?> generateByteGetter(Adapter[] chain, long offset , boolean volatileField) {
+	private static <T> Function<T , Object> generateByteGetter(Adapter[] chain, long offset , boolean volatileField) {
 		if(chain.length == 0){
 			return volatileField ? i -> UNSAFE.getByteVolatile(i , offset) :
 					i -> UNSAFE.getByte(i , offset);
@@ -369,7 +404,7 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 		}
 	}
 
-	private static <T> Function<T , ?> generateShortGetter(Adapter[] chain, long offset , boolean volatileField) {
+	private static <T> Function<T , Object> generateShortGetter(Adapter[] chain, long offset , boolean volatileField) {
 		if(chain.length == 0){
 			return volatileField ? i -> UNSAFE.getShortVolatile(i , offset) :
 					i -> UNSAFE.getShort(i , offset);
@@ -392,7 +427,7 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 		}
 	}
 
-	private static <T> Function<T , ?> generateCharGetter(Adapter[] chain, long offset , boolean volatileField) {
+	private static <T> Function<T , Object> generateCharGetter(Adapter[] chain, long offset , boolean volatileField) {
 		if(chain.length == 0){
 			return volatileField ? i -> UNSAFE.getCharVolatile(i , offset) :
 					i -> UNSAFE.getChar(i , offset);
@@ -415,7 +450,7 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 		}
 	}
 
-	private static <T> Function<T , ?> generateIntGetter(Adapter[] chain, long offset , boolean volatileField) {
+	private static <T> Function<T , Object> generateIntGetter(Adapter[] chain, long offset , boolean volatileField) {
 		if(chain.length == 0){
 			return volatileField ? i -> UNSAFE.getIntVolatile(i , offset) :
 					i -> UNSAFE.getInt(i , offset);
@@ -438,7 +473,7 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 		}
 	}
 
-	private static <T> Function<T , ?> generateLongGetter(Adapter[] chain, long offset , boolean volatileField) {
+	private static <T> Function<T , Object> generateLongGetter(Adapter[] chain, long offset , boolean volatileField) {
 		if(chain.length == 0){
 			return volatileField ? i -> UNSAFE.getLongVolatile(i , offset) :
 					i -> UNSAFE.getLong(i , offset);
@@ -461,7 +496,7 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 		}
 	}
 
-	private static <T> Function<T , ?> generateFloatGetter(Adapter[] chain, long offset , boolean volatileField) {
+	private static <T> Function<T , Object> generateFloatGetter(Adapter[] chain, long offset , boolean volatileField) {
 		if(chain.length == 0){
 			return volatileField ? i -> UNSAFE.getFloatVolatile(i , offset) :
 					i -> UNSAFE.getFloat(i , offset);
@@ -484,7 +519,7 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 		}
 	}
 
-	private static <T> Function<T , ?> generateDoubleGetter(Adapter[] chain, long offset , boolean volatileField) {
+	private static <T> Function<T , Object> generateDoubleGetter(Adapter[] chain, long offset , boolean volatileField) {
 		if(chain.length == 0){
 			return volatileField ? i -> UNSAFE.getDoubleVolatile(i , offset) :
 					i -> UNSAFE.getDouble(i , offset);
@@ -507,7 +542,7 @@ public class UnsafeSerializer<T> implements Serializer<T>{
 		}
 	}
 
-	private static <T> Function<T , ?> generateObjectGetter(Adapter[] chain, long offset , boolean volatileField) {
+	private static <T> Function<T , Object> generateObjectGetter(Adapter[] chain, long offset , boolean volatileField) {
 		if(chain.length == 0){
 			return volatileField ? i -> UNSAFE.getObjectVolatile(i , offset) :
 					i -> UNSAFE.getObject(i , offset);
