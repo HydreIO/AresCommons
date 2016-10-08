@@ -3,7 +3,7 @@ package fr.aresrpg.commons.benchmark.serialization;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.aresrpg.commons.domain.serialization.Serializer;
-import fr.aresrpg.commons.infra.serialization.formats.json.JsonFormat;
+import fr.aresrpg.commons.infra.serialization.formats.JsonFormat;
 import fr.aresrpg.commons.infra.serialization.unsafe.UnsafeSerializationFactory;
 import org.boon.json.serializers.impl.JsonSimpleSerializerImpl;
 import org.openjdk.jmh.annotations.*;

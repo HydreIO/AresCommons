@@ -1,13 +1,12 @@
-package fr.aresrpg.commons.infra.serialization.formats.json;
+package fr.aresrpg.commons.infra.serialization.formats;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
+import fr.aresrpg.commons.domain.io.IO;
 import fr.aresrpg.commons.domain.log.Logger;
 import fr.aresrpg.commons.domain.serialization.SerializationContext;
 import fr.aresrpg.commons.domain.serialization.Format;
@@ -27,6 +26,9 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 	private static final byte[] JSON_TRUE = getBytes("true");
 	private static final byte[] JSON_FALSE = getBytes("false");
 	private static final byte[] JSON_NULL = getBytes("null");
+	public static final char BEGIN_TRUE = 't';
+	public static final char BEGIN_FALSE = 'f';
+	public static final char BEGIN_NULL = 'n';
 
 	private JsonFormat() {
 	}
@@ -228,6 +230,132 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 
 	@Override
 	public void read(InputStream in, Map<String, Object> container, SerializationContext context) throws IOException {
+		container.putAll(parseObjectContent(in));
+	}
+
+	private Map<String, Object> parseObjectContent(InputStream in) throws IOException {
+		Map<String , Object> map = new HashMap<>();
+		assumeToken(in, BEGIN_OBJECT);
+		while(true) {
+			String name = readStringContent(in);
+			assumeToken(in , SEPARATOR);
+			map.put(name , parseValue(in));
+			char c;
+			switch (( c = nextToken(in , false))){
+				case FIELD_SEPARATOR:
+					continue;
+				case END_OBJECT:
+					return map;
+				default:
+					throw new IOException("Found illegal character " + c);
+			}
+		}
+	}
+
+	private String readStringContent(InputStream in) throws IOException {
+		StringBuilder sb = new StringBuilder();
+		assumeToken(in , STRING_DELIMITER);
+		while(true){
+			char c = (char) in.read();
+			if(c == STRING_DELIMITER)
+				break;
+			else
+				sb.append(c);
+		}
+		return sb.toString();
+	}
+
+	private Object parseValue(InputStream in) throws  IOException {
+		Object value;
+		char c;
+		switch ((c = nextToken(in ,true))) {
+			case BEGIN_OBJECT:
+				value = parseObjectContent(in);
+				break;
+			case BEGIN_ARRAY:
+				value = parseArrayContent(in);
+				break;
+			case STRING_DELIMITER:
+				value = readStringContent(in);
+				break;
+			case BEGIN_TRUE:
+				checkTokenEq(in , JSON_TRUE);
+				value = true;
+				break;
+			case BEGIN_FALSE:
+				checkTokenEq(in , JSON_FALSE);
+				value = true;
+				break;
+			case BEGIN_NULL:
+				checkTokenEq(in , JSON_NULL);
+				value = null;
+				break;
+			default:
+				if(c >= '0' && c <= '9')
+					value = parseNumber(in);
+				else
+					throw new IOException("Found illegal character " + c);
+		}
+		return value;
+	}
+
+	private Object parseNumber(InputStream in) throws IOException {
+		StringBuilder sb = new StringBuilder();
+		while(true){
+			in.mark(1);
+			char c = (char) in.read();
+			if(c >= '0' && c <= '9')
+				sb.append(c);
+			else
+				break;
+		}
+		in.reset();
+		long l = Long.parseLong(sb.toString());
+		if(l <= Integer.MAX_VALUE && l >= Integer.MIN_VALUE)
+			return (int)l;
+		else
+			return l;
+	}
+
+	private Object[] parseArrayContent(InputStream in) throws IOException {
+		List<Object> list = new ArrayList<>();
+		assumeToken(in , BEGIN_ARRAY);
+		while(true) {
+			list.add(parseValue(in));
+			char c;
+			switch (( c = nextToken(in , false))){
+				case ARRAY_SEPARATOR:
+					continue;
+				case END_ARRAY:
+					return list.toArray(new Object[list.size()]);
+				default:
+					throw new IOException("Found illegal character " + c);
+			}
+		}
+
+	}
+
+	private void checkTokenEq(InputStream in, byte[] bytes) throws IOException{
+		int c;
+		for(int i = 0 ; i < bytes.length ; i++)
+			if((c = in.read()) != bytes[i])
+				throw new IOException("Expected " + (char)bytes[i] + " but found " + (char)c);
+	}
+
+	private char nextToken(InputStream in , boolean reset) throws IOException {
+		int c;
+		do {
+			if(reset)in.mark(1);
+			c = in.read();
+		} while (c == '\n' || c == ' '|| c == '\t');
+		if(reset)in.reset();
+		return (char) c;
+	}
+
+	private void assumeToken(InputStream in , char e) throws IOException {
+		char c = nextToken(in , false);
+		if(c != e)
+			throw new IOException("Expected " + e + " but found " + c);
 
 	}
 }
