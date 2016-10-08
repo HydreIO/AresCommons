@@ -5,7 +5,7 @@ import fr.aresrpg.commons.domain.config.ConfigNotFoundException;
 import fr.aresrpg.commons.domain.config.ConfigSource;
 import fr.aresrpg.commons.domain.config.ConfiguredFieldNamer;
 import fr.aresrpg.commons.domain.serialization.factory.SerializationFactory;
-import fr.aresrpg.commons.infra.serialization.formats.json.JsonFormat;
+import fr.aresrpg.commons.infra.serialization.formats.JsonFormat;
 
 import java.io.*;
 
