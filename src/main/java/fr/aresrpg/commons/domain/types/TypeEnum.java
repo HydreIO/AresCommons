@@ -1,6 +1,7 @@
 package fr.aresrpg.commons.domain.types;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -22,6 +23,7 @@ public enum TypeEnum {
 	//Base
 	STRING,
 	COLLECTION,
+	MAP,
 
 	//Arrays
 	OBJECT_ARRAY,
@@ -71,8 +73,12 @@ public enum TypeEnum {
 				}
 			else
 				return OBJECT_ARRAY;
-		}else if(name.startsWith("java.util") && Collection.class.isAssignableFrom(clazz))
-			return COLLECTION;
+		}else if(name.startsWith("java.util"))
+			if(Collection.class.isAssignableFrom(clazz))
+				return COLLECTION;
+			else if(Map.class.isAssignableFrom(clazz))
+				return MAP;
+			else return OBJECT;
 		else
 			return OBJECT;
 	}

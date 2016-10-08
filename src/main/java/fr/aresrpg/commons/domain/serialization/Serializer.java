@@ -37,11 +37,10 @@ public interface Serializer<T> {
 	 * @param format
 	 *            the format to use in deserialization
 	 * @param <I> the input type
-	 * @return the mapped object
 	 * @throws IOException
 	 *             if an exception occurred
 	 */
-	<I> T deserialize(I input, T object , Format<I, ?> format) throws IOException;
+	<I> void deserialize(I input, T object , Format<I, ?> format) throws IOException;
 
 	/**
 	 * Map the object and deserialize it using the passed format from the input
@@ -66,4 +65,14 @@ public interface Serializer<T> {
 	 * @throws IOException
 	 */
 	T deserialize(Map<String, Object> values) throws IOException;
+
+	/**
+	 * Map the object passed in argument
+	 *
+	 * @param values
+	 *            the values to map
+	 * @param object the mapped object
+	 * @throws IOException
+	 */
+	void deserialize(Map<String, Object> values , T object) throws IOException;
 }
