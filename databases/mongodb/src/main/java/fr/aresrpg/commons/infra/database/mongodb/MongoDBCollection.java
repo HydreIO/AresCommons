@@ -96,8 +96,7 @@ public class MongoDBCollection<T> implements Collection<T> {
 	@Override
 	@SuppressWarnings("unchecked")
 	public T[] find(Filter filter, int limit) {
-		if (limit == 0) return (T[]) new Object[0];
-
+		if (limit == 0) return (T[]) Array.newInstance(getClazz(), 0);
 		try {
 			T[] found = (T[]) Array.newInstance(getClazz(), limit);
 			MongoCursor<Document> cursor;
@@ -111,7 +110,7 @@ public class MongoDBCollection<T> implements Collection<T> {
 			return Arrays.copyOf(found, i);
 		} catch (IOException e) {
 			Logger.MAIN_LOGGER.severe(FIELD_MONGO, e, "Could'not deserialize");
-			return (T[]) new Object[0];
+			return (T[]) Array.newInstance(getClazz(), 0);
 		}
 	}
 
