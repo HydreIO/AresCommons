@@ -52,14 +52,14 @@ public class DocumentFormat implements Format<Document, Document> {
 	}
 
 	@Override
-	public void read(Document doc, Map<String, Object> container, SerializationContext context) throws IOException {
+	public Object read(Document doc) throws IOException {
+		Map<String, Object> map = new LinkedHashMap<>();
 		for (Map.Entry<String, Object> e : doc.entrySet()) {
 			if (e instanceof Document) {
-				Map<String, Object> m = new LinkedHashMap<>();
-				read((Document) e, m, context);
-				container.put(e.getKey(), m);
-			} else container.put(e.getKey(), e.getValue());
+				map.put(e.getKey(), read((Document) e));
+			} else map.put(e.getKey(), e.getValue());
 		}
+		return map;
 	}
 
 }

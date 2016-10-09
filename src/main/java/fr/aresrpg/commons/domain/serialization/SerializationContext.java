@@ -1,13 +1,13 @@
 package fr.aresrpg.commons.domain.serialization;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * A serialization context
  *
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
-@FunctionalInterface
 public interface SerializationContext {
 	/**
 	 * Serialize this value using the provided format

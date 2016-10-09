@@ -224,10 +224,11 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 	}
 
 	@Override
-	public void read(InputStream in, Map<String, Object> container, SerializationContext context) throws IOException {
-		container.putAll(parseObjectContent(in));
+	public Object read(InputStream in) throws IOException {
+		return parseValue(in);
 	}
 
+	@SuppressWarnings("unchecked")
 	private Map<String, Object> parseObjectContent(InputStream in) throws IOException {
 		Map<String, Object> map = new HashMap<>();
 		assumeToken(in, BEGIN_OBJECT);

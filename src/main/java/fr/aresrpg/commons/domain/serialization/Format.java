@@ -92,12 +92,9 @@ public interface Format<I, O> {
 	 *
 	 * @param in
 	 *            the input
-	 * @param container
-	 *            the container for the object representation
-	 * @param context
-	 *            the serialization context
+	 * @return an object of representing type (For object an Map is returned)
 	 * @throws IOException
 	 *             if an error occurred during reading
 	 */
-	void read(I in , Map<String , Object> container , SerializationContext context) throws IOException;
+	Object read(I in) throws IOException;
 }
