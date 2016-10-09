@@ -3,7 +3,6 @@ package fr.aresrpg.commons.domain.serialization;
 import fr.aresrpg.commons.domain.types.TypeEnum;
 
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * A serialization format
@@ -41,7 +40,7 @@ public interface Format<I, O> {
 	 * @throws IOException
 	 *             if an error occurred during writing
 	 */
-	void writeValue(O out , String name , TypeEnum type , Object value , SerializationContext context) throws IOException;
+	void writeValue(O out, String name, TypeEnum type, Object value, SerializationContext context) throws IOException;
 
 	/**
 	 * Called before an object's writing
