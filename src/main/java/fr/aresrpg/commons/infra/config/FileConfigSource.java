@@ -31,7 +31,7 @@ public class FileConfigSource implements ConfigSource {
 		File f = searchFile(config.getName());
 		if(f == null)
 			throw new ConfigNotFoundException(config.getName() , this , null);
-		try(FileInputStream fis = new FileInputStream(f)) {
+		try(InputStream fis = new BufferedInputStream(new FileInputStream(f))) {
 			factory.createOrGetSerializer((Class<Config>)config.getClass())
 					.deserialize(fis , config, JsonFormat.INSTANCE); //TODO: Change this
 		} catch (IOException e) {
