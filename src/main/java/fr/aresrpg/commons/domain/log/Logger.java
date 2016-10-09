@@ -18,7 +18,7 @@ public class Logger {
 	/**
 	 * The logger of AresCommons
 	 */
-	public static final Logger MAIN_LOGGER = new LoggerBuilder("DEFAULT").setUseConsoleHandler(true, true, Option.none(), Option.some((level, throwable) -> /* TODO @DeltaEvo error formatter */""))
+	public static final Logger MAIN_LOGGER = new LoggerBuilder("DEFAULT").setUseConsoleHandler(true, true, Option.none(), Option.none())
 			.build();
 	/**
 	 * The default channel of the logs

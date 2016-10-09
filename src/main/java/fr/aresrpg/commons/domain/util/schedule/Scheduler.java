@@ -1,6 +1,7 @@
 package fr.aresrpg.commons.domain.util.schedule;
 
 import fr.aresrpg.commons.domain.concurrent.ThreadPoolBuilder;
+import fr.aresrpg.commons.domain.log.Logger;
 
 import java.util.Arrays;
 import java.util.concurrent.ScheduledExecutorService;
@@ -81,8 +82,7 @@ public class Scheduler {
 				try {
 					m.invoke(scheduled, new Object[m.getParameterCount()]);
 				} catch (Exception e) {
-					e.printStackTrace();
-					// TODO @DeltaEvo
+					Logger.MAIN_LOGGER.debug("Error in scheduled execution" , e);
 				}
 			} , s.unit().toNanos(s.rate()));
 		});
