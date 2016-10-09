@@ -4,9 +4,6 @@ import fr.aresrpg.commons.domain.log.Log;
 import fr.aresrpg.commons.domain.log.handler.formatters.ErrorFormatter;
 import fr.aresrpg.commons.domain.log.handler.formatters.Formatter;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 /**
  * An abstract implementation of an handler providing some formatters
  * 

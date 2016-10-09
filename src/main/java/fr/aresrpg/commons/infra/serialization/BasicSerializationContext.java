@@ -5,7 +5,6 @@ import fr.aresrpg.commons.domain.serialization.SerializationContext;
 import fr.aresrpg.commons.domain.serialization.factory.SerializationFactory;
 
 import java.io.IOException;
-import java.util.Map;
 
 public class BasicSerializationContext implements SerializationContext {
 	private final SerializationFactory factory;
@@ -16,7 +15,7 @@ public class BasicSerializationContext implements SerializationContext {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public <T , O> void serialize(O stream, T value, Format<? , O> format) throws IOException {
-		factory.createOrGetSerializer((Class<T>)value.getClass()).serialize(stream, value, format);
+	public <T, O> void serialize(O stream, T value, Format<?, O> format) throws IOException {
+		factory.createOrGetSerializer((Class<T>) value.getClass()).serialize(stream, value, format);
 	}
 }
