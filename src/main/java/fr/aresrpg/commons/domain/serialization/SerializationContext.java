@@ -8,6 +8,7 @@ import java.util.Map;
  *
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
+@FunctionalInterface
 public interface SerializationContext {
 	/**
 	 * Serialize this value using the provided format
