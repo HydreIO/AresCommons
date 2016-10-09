@@ -61,7 +61,7 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 			case LONG:
 			case DOUBLE:
 			case FLOAT:
-				writeString(out , value.toString());
+				out.write(value.toString().getBytes(ENCODING));
 				break;
 			case CHAR:
 				writeString(out , Character.toString((Character)value));
