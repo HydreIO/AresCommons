@@ -4,39 +4,40 @@ import static fr.aresrpg.commons.domain.util.Predicates.is;
 import static fr.aresrpg.commons.domain.condition.match.Matcher.match;
 import static fr.aresrpg.commons.domain.condition.match.Matcher.when;
 
-import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.Scope;
-import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 
 @State(Scope.Benchmark)
 public class MatcherBenchmark {
 
+	private static final String HELLO = "Hello";
+
 	@Benchmark
 	public void benchMatcher(Blackhole blackhole) {
-		blackhole.consume(match("Hello", when(is("Red"), "Blue"), when(is("Blue"), "Red"), when(is("Hello"), "A+")));
+		blackhole.consume(match(HELLO, when(is("Red"), "Blue"), when(is("Blue"), "Red"), when(is(HELLO), "A+")));
 	}
 
 	@Benchmark
 	public void benchSwitch(Blackhole blackhole) {
-		switch ("Hello") {
+		switch (HELLO) {
 			case "Red":
 				blackhole.consume("Blue");
 				break;
 			case "Blue":
 				blackhole.consume("Red");
 				break;
-			case "Hello":
+			case HELLO:
 				blackhole.consume("A+");
 				break;
+			default:
+				return;
 		}
 	}
 
 	@Benchmark
 	public void benchIfElse(Blackhole blackhole) {
-		String hello = "Hello";
-		if (hello.equals("Red")) blackhole.consume("Blue");
-		else if (hello.equals("Blue")) blackhole.consume("Red");
-		else if (hello.equals("Hello")) blackhole.consume("A+");
+		if ("Red".equals(HELLO)) blackhole.consume("Blue");
+		else if ("Blue".equals(HELLO)) blackhole.consume("Red");
+		else if ("Hello".equals(HELLO)) blackhole.consume("A+");
 	}
 }

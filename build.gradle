@@ -1,11 +1,3 @@
-import java.util.concurrent.TimeUnit
-import proguard.gradle.ProGuardTask
-
-buildscript {
-	repositories(){ mavenCentral() }
-	dependencies { classpath 'net.sf.proguard:proguard-gradle:5.2.1' }
-}
-
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
@@ -19,14 +11,6 @@ compileJava.options.encoding = 'UTF-8'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-TimeUnit randomizeDictionaryUnit = TimeUnit.DAYS;
-long randomizeDictionaryValue = 7;
-long randomizeReleaseRandomNumber = 5658914;
-long randomizeDevelopRandomNumber = 4658624;
-boolean release = Boolean.valueOf(System.getProperty("release"));
-long randomizeRandomNumber = release ? randomizeReleaseRandomNumber : randomizeDevelopRandomNumber;
-String obfuscationOut = (jar.destinationDir.getPath() + "/" + jar.baseName + "-" + jar.version + "-obfuscated.jar");
-
 sourceSets {
 	jmh
 	shared //Shared between test and jmh
@@ -36,15 +20,12 @@ jar {
 	version = System.getenv("BUILD_NUMBER") == null ? project.version : System.getenv("BUILD_NUMBER");
 }
 
-clean { delete 'proguard.dictionary.random' , 'proguard.map' }
-
 repositories {
 	mavenLocal()
 	mavenCentral()
 }
 
 dependencies {
-
 	compile 'com.getsentry.raven:raven:7.2.3'
 	compile 'org.ow2.asm:asm:5.1'
 
@@ -61,11 +42,8 @@ dependencies {
 
 task shaded(type: Jar) {
 	classifier = 'shaded'
-	from {
-		configurations.compile.collect {
-			it.isDirectory() ? it : zipTree(it)
-		}
-	}
+	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it)
+		} }
 	with jar
 }
 
@@ -106,63 +84,14 @@ eclipse {
 	}
 }
 
-task randomizeDictionary(){
-	File out = file("proguard.dictionary.random");
-	File inf = file("proguard.dictionary");
-	onlyIf{!out.exists()}
-	doLast {
-		Random rdm = new Random(((long)(System.currentTimeMillis()/randomizeDictionaryUnit.toMillis(randomizeDictionaryValue)))*randomizeRandomNumber/*time/unit*stupid number*/);
-		List<String> lines = inf.readLines();
-		def linesMap = [:]
-		lines.each { line -> linesMap.put(line , rdm.nextInt(Integer.MAX_VALUE)) };
-		lines.sort{a,b -> linesMap[a] <=> linesMap[b]}
-		out.createNewFile();
-		lines.each {line -> out.append(line + '\n'); }
-	}
-}
-
-task obfuscate(type: ProGuardTask , dependsOn:[jar, randomizeDictionary]){
-	configuration 'proguard.conf'
-
-	injars jar.archivePath.getPath()
-	outjars obfuscationOut
-}
-
 task javadocJar(type: Jar, dependsOn: javadoc) {
 	classifier = 'javadoc'
 	from javadoc.destinationDir
 }
 
-publish.dependsOn obfuscate
-
 publishing {
 	repositories {
 		maven {
-			name 'main'
-			if(release)
-				url 'https://artifactory.aresrpg.fr/release';
-			else
-				url 'https://artifactory.aresrpg.fr/develop';
-			credentials {
-				username project.hasProperty('aresuser') ? aresuser : System.getenv('aresuser')
-				password project.hasProperty('arespass') ? arespass : System.getenv('arespass')
-			}
-		}
-
-		maven {
-			name 'mapping'
-			if(release)
-				url 'https://artifactory.aresrpg.fr/release-mappings';
-			else
-				url 'https://artifactory.aresrpg.fr/develop-mappings';
-
-			credentials {
-				username project.hasProperty('aresuser') ? aresuser : System.getenv('aresuser')
-				password project.hasProperty('arespass') ? arespass : System.getenv('arespass')
-			}
-		}
-		maven {
-			name 'libraries'
 			url 'https://artifactory.aresrpg.fr/libraries'
 
 			credentials {
@@ -173,29 +102,9 @@ publishing {
 	}
 
 	publications {
-		obf(MavenPublication) {
-			artifact file(obfuscationOut)
-			ext.repo = 'main'
-		}
-
 		lib(MavenPublication) {
 			from components.java
 			artifact javadocJar
-			ext.repo = "libraries"
-		}
-
-		mapping(MavenPublication) {
-			artifact file('proguard.map')
-			ext.repo = 'mapping'
-		}
-	}
-}
-
-afterEvaluate {
-	tasks.withType(PublishToMavenRepository) { task ->
-		if (task.publication.hasProperty('repo') && task.publication.repo != task.repository.name) {
-			task.enabled = false
-			task.group = null
 		}
 	}
 }

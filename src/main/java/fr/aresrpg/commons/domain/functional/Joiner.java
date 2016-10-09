@@ -3,7 +3,7 @@ package fr.aresrpg.commons.domain.functional;
 /**
  * A function interface to merge two objects
  * 
- * @author Duarte David <deltaduartedavid @ gmail.com>
+ * @author Duarte David {@literal <deltaduartedavid @ gmail.com>}
  */
 @FunctionalInterface
 public interface Joiner<T> {

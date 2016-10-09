@@ -50,7 +50,7 @@ public class LoggerBuilder implements Builder<Logger> {
 		if (!use) return this;
 		handlers.add(() -> {
 			ConsoleHandler handler = new ConsoleHandler();
-			Formatter fm = formatter.orElse((colored ? new ColorFormatter(new BasicFormatter()) : new BasicFormatter()));
+			Formatter fm = formatter.orElse(colored ? new ColorFormatter(new BasicFormatter()) : new BasicFormatter());
 			errorFormatter.ifPresent(handler::setErrorFormatter);
 			handler.setFormatter(fm);
 			return handler;
@@ -71,6 +71,7 @@ public class LoggerBuilder implements Builder<Logger> {
 	}
 
 	/**
+	 * <p>
 	 * Add an handler to the logger
 	 * </p>
 	 * we use a supplier to execute actions only in the build method

@@ -47,6 +47,8 @@ public class Consumers {
 	 *            the value to pass to the predicate
 	 * @param <T>
 	 *            the type of the consumer
+	 * @param <R>
+	 *            the the type of the predicate
 	 * @return an ExecutiveConsumer to chain
 	 */
 	public static <T, R> ExecutiveConsumer<T> executeNative(java.util.function.Consumer<T> consumer, T t, Predicate<R> pr, R r) {
@@ -116,6 +118,8 @@ public class Consumers {
 	 *            the value to pass to the predicate
 	 * @param <T>
 	 *            the type of the consumer
+	 * @param <R>
+	 *            the type of the predicate
 	 * @return an ExecutiveConsumer to chain
 	 */
 	public static <T, R> ExecutiveConsumer<T> executeCommon(Consumer<T> consumer, T t, Predicate<R> pr, R r) {
@@ -185,6 +189,8 @@ public class Consumers {
 	 *            the value to pass to the predicate
 	 * @param <T>
 	 *            the type of the consumer
+	 * @param <R>
+	 *            the type of the predicate
 	 * @return an ExecutiveConsumer to chain
 	 */
 	public static <T, R> ExecutiveConsumer<T> execute(ExecutiveConsumer<T> consumer, T t, Predicate<R> pr, R r) {
@@ -250,6 +256,8 @@ public class Consumers {
 	 *            the value to pass to the predicate
 	 * @param <T>
 	 *            the type of the consumer
+	 * @param <R>
+	 *            the type of the predicate
 	 * @return an ExecutiveConsumer to chain
 	 */
 	public static <T, R> ExecutiveConsumer<T> execute(Executable executable, Predicate<R> pr, R r) {

@@ -75,12 +75,13 @@ public class Scheduler {
 	 *            the class instance
 	 */
 	public void register(Scheduled scheduled) {
-		Arrays.stream(scheduled.getClass().getMethods()).filter(m -> m.isAnnotationPresent(Schedule.class)).forEach(m -> {
+		Arrays.stream(scheduled.getClass().getDeclaredMethods()).filter(m -> m.isAnnotationPresent(Schedule.class)).forEach(m -> {
 			Schedule s = m.getAnnotation(Schedule.class);
 			register(() -> {
 				try {
 					m.invoke(scheduled, new Object[m.getParameterCount()]);
 				} catch (Exception e) {
+					e.printStackTrace();
 					// TODO @DeltaEvo
 				}
 			} , s.unit().toNanos(s.rate()));

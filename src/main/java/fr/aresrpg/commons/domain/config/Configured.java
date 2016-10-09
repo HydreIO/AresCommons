@@ -1,19 +1,18 @@
 package fr.aresrpg.commons.domain.config;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * A configured field in {@link Config}
  * 
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
+ * @author Sceat {@literal <sceat@aresrpg.fr>}
  */
-@Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
 public @interface Configured {
 	/**
+	 * <p>
 	 * The path
 	 * </p>
 	 * Use dot for subpath ex : <code>@Configured(foo.bar.config)</code>

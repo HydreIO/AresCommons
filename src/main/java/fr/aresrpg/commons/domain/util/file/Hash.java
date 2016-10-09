@@ -59,7 +59,7 @@ public enum Hash {
 	 * @throws NoSuchAlgorithmException
 	 *             if the Algorithm is not available
 	 */
-	public byte[] checksum(InputStream in) throws IOException, NoSuchAlgorithmException {
+	public byte[] checksum(InputStream in) throws NoSuchAlgorithmException, IOException {
 		return MessageDigest.getInstance(getName()).digest(IO.toByteArray(in));
 	}
 
