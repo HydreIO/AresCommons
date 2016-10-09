@@ -1,16 +1,12 @@
 package fr.aresrpg.commons.infra.serialization.formats;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.util.*;
-
-import fr.aresrpg.commons.domain.io.IO;
 import fr.aresrpg.commons.domain.log.Logger;
-import fr.aresrpg.commons.domain.serialization.SerializationContext;
 import fr.aresrpg.commons.domain.serialization.Format;
+import fr.aresrpg.commons.domain.serialization.SerializationContext;
 import fr.aresrpg.commons.domain.types.TypeEnum;
+
+import java.io.*;
+import java.util.*;
 
 public class JsonFormat implements Format<InputStream, OutputStream> {
 	public static final JsonFormat INSTANCE = new JsonFormat();
@@ -84,7 +80,7 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 				writeCollection(out, (Collection<?>) value, context);
 				break;
 			case OBJECT_ARRAY:
-				writeObjectArray(out, (Object[]) value , context);
+				writeObjectArray(out, (Object[]) value, context);
 				break;
 			case BYTE_ARRAY:
 				writeByteArray(out, (byte[]) value);
@@ -108,12 +104,11 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 				writeDoubleArray(out, (double[]) value);
 				break;
 			case OBJECT:
-				context.serialize(out , value , this);
+				context.serialize(out, value, this);
 			default:
 				break;
 		}
 	}
-
 
 	@Override
 	public void writeBeginObject(OutputStream out) throws IOException {
@@ -152,7 +147,7 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 		out.write(BEGIN_ARRAY);
 		int end = objects.length - 1;
 		for (int i = 0; i < objects.length; i++) {
-			context.serialize(out , objects[i] , this);
+			context.serialize(out, objects[i], this);
 			if (i != end) out.write(ARRAY_SEPARATOR);
 		}
 		out.write(END_ARRAY);
@@ -234,14 +229,14 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 	}
 
 	private Map<String, Object> parseObjectContent(InputStream in) throws IOException {
-		Map<String , Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		assumeToken(in, BEGIN_OBJECT);
-		while(true) {
+		while (true) {
 			String name = readStringContent(in);
-			assumeToken(in , SEPARATOR);
-			map.put(name , parseValue(in));
+			assumeToken(in, SEPARATOR);
+			map.put(name, parseValue(in));
 			char c;
-			switch (( c = nextToken(in , false))){
+			switch ((c = nextToken(in, false))) {
 				case FIELD_SEPARATOR:
 					continue;
 				case END_OBJECT:
@@ -254,10 +249,10 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 
 	private String readStringContent(InputStream in) throws IOException {
 		StringBuilder sb = new StringBuilder();
-		assumeToken(in , STRING_DELIMITER);
-		while(true){
+		assumeToken(in, STRING_DELIMITER);
+		while (true) {
 			char c = (char) in.read();
-			if(c == STRING_DELIMITER)
+			if (c == STRING_DELIMITER)
 				break;
 			else
 				sb.append(c);
@@ -265,10 +260,10 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 		return sb.toString();
 	}
 
-	private Object parseValue(InputStream in) throws  IOException {
+	private Object parseValue(InputStream in) throws IOException {
 		Object value;
 		char c;
-		switch ((c = nextToken(in ,true))) {
+		switch ((c = nextToken(in, true))) {
 			case BEGIN_OBJECT:
 				value = parseObjectContent(in);
 				break;
@@ -279,19 +274,19 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 				value = readStringContent(in);
 				break;
 			case BEGIN_TRUE:
-				checkTokenEq(in , JSON_TRUE);
+				checkTokenEq(in, JSON_TRUE);
 				value = true;
 				break;
 			case BEGIN_FALSE:
-				checkTokenEq(in , JSON_FALSE);
+				checkTokenEq(in, JSON_FALSE);
 				value = true;
 				break;
 			case BEGIN_NULL:
-				checkTokenEq(in , JSON_NULL);
+				checkTokenEq(in, JSON_NULL);
 				value = null;
 				break;
 			default:
-				if(c >= '0' && c <= '9')
+				if (c >= '0' && c <= '9')
 					value = parseNumber(in);
 				else
 					throw new IOException("Found illegal character " + c);
@@ -301,29 +296,29 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 
 	private Object parseNumber(InputStream in) throws IOException {
 		StringBuilder sb = new StringBuilder();
-		while(true){
+		while (true) {
 			in.mark(1);
 			char c = (char) in.read();
-			if(c >= '0' && c <= '9')
+			if (c >= '0' && c <= '9')
 				sb.append(c);
 			else
 				break;
 		}
 		in.reset();
 		long l = Long.parseLong(sb.toString());
-		if(l <= Integer.MAX_VALUE && l >= Integer.MIN_VALUE)
-			return (int)l;
+		if (l <= Integer.MAX_VALUE && l >= Integer.MIN_VALUE)
+			return (int) l;
 		else
 			return l;
 	}
 
 	private Object[] parseArrayContent(InputStream in) throws IOException {
 		List<Object> list = new ArrayList<>();
-		assumeToken(in , BEGIN_ARRAY);
-		while(true) {
+		assumeToken(in, BEGIN_ARRAY);
+		while (true) {
 			list.add(parseValue(in));
 			char c;
-			switch (( c = nextToken(in , false))){
+			switch ((c = nextToken(in, false))) {
 				case ARRAY_SEPARATOR:
 					continue;
 				case END_ARRAY:
@@ -335,26 +330,26 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 
 	}
 
-	private void checkTokenEq(InputStream in, byte[] bytes) throws IOException{
+	private void checkTokenEq(InputStream in, byte[] bytes) throws IOException {
 		int c;
-		for(int i = 0 ; i < bytes.length ; i++)
-			if((c = in.read()) != bytes[i])
-				throw new IOException("Expected " + (char)bytes[i] + " but found " + (char)c);
+		for (int i = 0; i < bytes.length; i++)
+			if ((c = in.read()) != bytes[i])
+				throw new IOException("Expected " + (char) bytes[i] + " but found " + (char) c);
 	}
 
-	private char nextToken(InputStream in , boolean reset) throws IOException {
+	private char nextToken(InputStream in, boolean reset) throws IOException {
 		int c;
 		do {
-			if(reset)in.mark(1);
+			if (reset) in.mark(1);
 			c = in.read();
-		} while (c == '\n' || c == ' '|| c == '\t');
-		if(reset)in.reset();
+		} while (c == '\n' || c == ' ' || c == '\t');
+		if (reset) in.reset();
 		return (char) c;
 	}
 
-	private void assumeToken(InputStream in , char e) throws IOException {
-		char c = nextToken(in , false);
-		if(c != e)
+	private void assumeToken(InputStream in, char e) throws IOException {
+		char c = nextToken(in, false);
+		if (c != e)
 			throw new IOException("Expected " + e + " but found " + c);
 
 	}
