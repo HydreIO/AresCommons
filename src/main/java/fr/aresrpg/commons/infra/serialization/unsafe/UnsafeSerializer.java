@@ -15,6 +15,7 @@ import fr.aresrpg.commons.infra.serialization.BasicSerializationContext;
 import sun.misc.Unsafe;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
@@ -106,10 +107,23 @@ public class UnsafeSerializer<T> implements Serializer<T> {
 	public void deserialize(Map<String, Object> values, T object) throws IOException {
 		for(int i = 0 ; i < names.length ; i++) {
 			Object o = values.get(names[i]);
-			if(o instanceof Map) {
+			if(o != null){
 				Class<?> c = classes[i];
-				if(!Map.class.isAssignableFrom(c))
-					o = factory.createOrGetSerializer(c).deserialize((Map)o);
+
+				if(o instanceof Map) {
+					if(!Map.class.isAssignableFrom(c))
+						o = factory.createOrGetSerializer(c).deserialize((Map)o);
+				} else if (o.getClass().isArray() && c.isArray()){
+					Class<?> type = c.getComponentType();
+					int len = Array.getLength(o);
+					Object arr = Array.newInstance(type , len);
+					for(int y = 0 ; y < len ; y++){
+						Object v = Array.get(o , y);
+						if(v instanceof Map && !Map.class.isAssignableFrom(type))
+							Array.set(arr , y , factory.createOrGetSerializer(type).deserialize((Map)v));
+					}
+					o = arr;
+				}
 			}
 			setters[i].accept(object , o);
 		}
