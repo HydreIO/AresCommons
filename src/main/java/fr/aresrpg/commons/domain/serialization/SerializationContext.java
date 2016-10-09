@@ -1,6 +1,7 @@
 package fr.aresrpg.commons.domain.serialization;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * A serialization context

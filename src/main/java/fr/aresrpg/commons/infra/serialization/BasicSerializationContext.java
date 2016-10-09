@@ -5,6 +5,7 @@ import fr.aresrpg.commons.domain.serialization.SerializationContext;
 import fr.aresrpg.commons.domain.serialization.factory.SerializationFactory;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class BasicSerializationContext implements SerializationContext {
 	private final SerializationFactory factory;

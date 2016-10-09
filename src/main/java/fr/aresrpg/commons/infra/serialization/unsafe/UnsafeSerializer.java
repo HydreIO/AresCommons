@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings("unchecked")
@@ -69,20 +68,26 @@ public class UnsafeSerializer<T> implements Serializer<T> {
 
 	@Override
 	public <I> void deserialize(I input, T object, Format<I, ?> format) throws IOException {
-		Map<String , Object> map = new HashMap<>();
-		format.read(input , map , context);
-		deserialize(map , object);
+		Object o = format.read(input);
+		if(o instanceof Map)
+			deserialize((Map<String, Object>) o, object);
+		else
+			throw new IllegalStateException("Trying to deserialize non object type into object");
 	}
 
 	@Override
 	public <I> T deserialize(I input, Format<I, ?> format) throws IOException {
-		try {
-			T object = (T) UNSAFE.allocateInstance(clazz);
-			deserialize(input , object , format);
-			return object;
-		} catch (InstantiationException e) {
-			throw new IOException(e);
-		}
+		Object o = format.read(input);
+		if(o instanceof Map)
+			try {
+				T object = (T) UNSAFE.allocateInstance(clazz);
+				deserialize((Map<String, Object>) o, object);
+				return object;
+			} catch (InstantiationException e) {
+				throw new IOException(e);
+			}
+		else
+			return (T) o;
 	}
 
 

@@ -42,7 +42,7 @@ public class JsonTest {
 		testObject(s.deserialize(new ByteArrayInputStream(JSON.getBytes("UTF-8")) , JsonFormat.INSTANCE) , true);
 	}
 
-	public void testObject(JsonObjectTest test , boolean deep){
+	private void testObject(JsonObjectTest test , boolean deep){
 		String prefix = deep ? "object." : "";
 		Assert.assertArrayEquals(prefix + "array must be [1 , 2 , 3]" , new Integer[]{1 , 2 , 3} , test.array);
 		Assert.assertEquals(prefix + "string must be \"Hello\"" , "Hello" , test.string);
@@ -51,5 +51,14 @@ public class JsonTest {
 		Assert.assertTrue(prefix + "bool must be true" , test.bool);
 		if(deep)
 			testObject(test.object , false);
+	}
+
+	@Test
+	public void deserialize_array() throws IOException {
+		SerializationFactory factory = new UnsafeSerializationFactory();
+		Serializer<Integer[]> s = factory.createOrGetSerializer(Integer[].class);
+		Assert.assertArrayEquals(new Integer[]{1 , 2 , 3} ,
+				s.deserialize(new ByteArrayInputStream("[1 , 2 , 3]".getBytes("UTF-8")) ,
+						JsonFormat.INSTANCE));
 	}
 }

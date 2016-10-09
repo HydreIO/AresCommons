@@ -57,7 +57,20 @@ public class BasicFormatter implements Formatter {
 
 	@Override
 	public String format(Log log, ErrorFormatter errorFormatter) {
-		return '[' + dateFormat.format(new Date(log.getMillis())) + "][" + log.getThread().getName() + "][" + log.getLevel() + "]" + (log.getChannel() != null ? '[' + log.getChannel() + ']' : "")
-				+ ": " + log.getMessage() + (log.getThrowable() == null ? "" : '\n' + errorFormatter.formatError(log.getLevel(), log.getThrowable()));
+		StringBuilder sb = new StringBuilder()
+						.append('[')
+						.append(dateFormat.format(new Date(log.getMillis())))
+						.append(']').append('[')
+						.append(log.getThread().getName())
+						.append(']').append('[')
+						.append(log.getLevel()).append(']');
+		if(log.getChannel() != null)
+			sb.append('[').append(log.getChannel()).append(']');
+		sb.append(": ").append(log.getMessage());
+		if(!log.getMessage().isEmpty() && log.getThrowable() != null)
+			sb.append('\n');
+		if(log.getThrowable() != null)
+			sb.append(errorFormatter.formatError(log.getLevel(), log.getThrowable()));
+		return sb.toString();
 	}
 }

@@ -15,14 +15,7 @@ import java.io.StringWriter;
 public abstract class BaseHandler implements Handler {
 	private Formatter formatter;
 
-	private ErrorFormatter errorFormatter = (e, l) -> {
-		if (l == null) return "[" + e.name() + "] Exception without cause just throwed !";
-		StringWriter sw = new StringWriter(1024);
-		final PrintWriter pw = new PrintWriter(sw);
-		l.printStackTrace(pw);
-		pw.flush();
-		return "[" + e.name() + "] " + sw.toString();
-	};
+	private ErrorFormatter errorFormatter = ErrorFormatter.DEFAULT;
 
 	/**
 	 * Set the log formatter
