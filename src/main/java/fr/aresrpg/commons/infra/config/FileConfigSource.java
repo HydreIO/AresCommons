@@ -26,15 +26,16 @@ public class FileConfigSource implements ConfigSource {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void load(Config config) throws ConfigNotFoundException{
 		File f = searchFile(config.getName());
 		if(f == null)
 			f = new File(folder , config.getName() + '.' + defaultType);
 		if(!f.exists())
 			save(config);
-		try {
+		try(FileInputStream fis = new FileInputStream(f)) {
 			factory.createOrGetSerializer((Class<Config>)config.getClass())
-					.deserialize(new FileInputStream(f) , config, JsonFormat.INSTANCE); //TODO: Change this
+					.deserialize(fis , config, JsonFormat.INSTANCE); //TODO: Change this
 		} catch (IOException e) {
 			throw new ConfigNotFoundException(config.getName() , this , e);
 		}
@@ -49,8 +50,11 @@ public class FileConfigSource implements ConfigSource {
 		try {
 			if(!f.exists())
 				f.createNewFile(); // NOSONAR Catch later
-			factory.createOrGetSerializer((Class<Config>)config.getClass())
-					.serialize(new FileOutputStream(f) , config , JsonFormat.INSTANCE); //TODO: Change this
+			try(FileOutputStream fos = new FileOutputStream(f)){
+				factory.createOrGetSerializer((Class<Config>)config.getClass())
+						.serialize(fos , config , JsonFormat.INSTANCE); //TODO: Change this
+
+			}
 		} catch (IOException e) {
 			throw new ConfigNotFoundException(config.getName() , this , e);
 		}

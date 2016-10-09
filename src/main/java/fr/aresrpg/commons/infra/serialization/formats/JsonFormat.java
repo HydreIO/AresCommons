@@ -26,6 +26,8 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 	public static final char BEGIN_FALSE = 'f';
 	public static final char BEGIN_NULL = 'n';
 
+	private static final String FOUND_ILLEGAL = "Found illegal character ";
+
 	private JsonFormat() {
 	}
 
@@ -46,9 +48,7 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 	@Override
 	public void writeValue(OutputStream out, String name, TypeEnum type, Object value, SerializationContext context) throws IOException {
 		if (name != null) {
-			out.write(STRING_DELIMITER);
-			out.write(name.getBytes(ENCODING));
-			out.write(STRING_DELIMITER);
+			writeString(out , name);
 			out.write(SEPARATOR);
 		}
 		switch (type) {
@@ -61,20 +61,16 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 			case LONG:
 			case DOUBLE:
 			case FLOAT:
-				out.write(value.toString().getBytes(ENCODING));
+				writeString(out , value.toString());
 				break;
 			case CHAR:
-				out.write(STRING_DELIMITER);
-				out.write((Character) value);
-				out.write(STRING_DELIMITER);
+				writeString(out , Character.toString((Character)value));
 				break;
 			case NULL:
 				out.write(JSON_NULL);
 				break;
 			case STRING:
-				out.write(STRING_DELIMITER);
-				out.write(((String) value).getBytes(ENCODING));
-				out.write(STRING_DELIMITER);
+				writeString(out , (String)value);
 				break;
 			case COLLECTION:
 				writeCollection(out, (Collection<?>) value, context);
@@ -105,6 +101,7 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 				break;
 			case OBJECT:
 				context.serialize(out, value, this);
+				break;
 			default:
 				break;
 		}
@@ -128,6 +125,12 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 	@Override
 	public void writeEnd(OutputStream out) throws IOException {
 		// Ignore
+	}
+
+	public void writeString(OutputStream out, String s) throws IOException {
+		out.write(STRING_DELIMITER);
+		out.write(s.getBytes(ENCODING));
+		out.write(STRING_DELIMITER);
 	}
 
 	public void writeCollection(OutputStream out, Collection<?> collection, SerializationContext context) throws IOException {
@@ -236,14 +239,14 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 			String name = readStringContent(in);
 			assumeToken(in, SEPARATOR);
 			map.put(name, parseValue(in));
-			char c;
-			switch ((c = nextToken(in, false))) {
+			char c = nextToken(in, false);
+			switch (c) {
 				case FIELD_SEPARATOR:
-					continue;
+					break;
 				case END_OBJECT:
 					return map;
 				default:
-					throw new IOException("Found illegal character " + c);
+					throw new IOException(FOUND_ILLEGAL + c);
 			}
 		}
 	}
@@ -263,8 +266,8 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 
 	private Object parseValue(InputStream in) throws IOException {
 		Object value;
-		char c;
-		switch ((c = nextToken(in, true))) {
+		char c = nextToken(in, true);
+		switch (c) {
 			case BEGIN_OBJECT:
 				value = parseObjectContent(in);
 				break;
@@ -290,7 +293,7 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 				if (c >= '0' && c <= '9')
 					value = parseNumber(in);
 				else
-					throw new IOException("Found illegal character " + c);
+					throw new IOException(FOUND_ILLEGAL + c);
 		}
 		return value;
 	}
@@ -318,14 +321,14 @@ public class JsonFormat implements Format<InputStream, OutputStream> {
 		assumeToken(in, BEGIN_ARRAY);
 		while (true) {
 			list.add(parseValue(in));
-			char c;
-			switch ((c = nextToken(in, false))) {
+			char c = nextToken(in, false);
+			switch (c) {
 				case ARRAY_SEPARATOR:
-					continue;
+					break;
 				case END_ARRAY:
 					return list.toArray(new Object[list.size()]);
 				default:
-					throw new IOException("Found illegal character " + c);
+					throw new IOException(FOUND_ILLEGAL + c);
 			}
 		}
 

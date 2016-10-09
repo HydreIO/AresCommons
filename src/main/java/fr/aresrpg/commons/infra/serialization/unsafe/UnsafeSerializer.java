@@ -12,7 +12,7 @@ import fr.aresrpg.commons.domain.serialization.factory.SerializationFactory;
 import fr.aresrpg.commons.domain.types.TypeEnum;
 import fr.aresrpg.commons.domain.unsafe.UnsafeAccessor;
 import fr.aresrpg.commons.infra.serialization.BasicSerializationContext;
-import sun.misc.Unsafe;
+import sun.misc.Unsafe; //NOSONAR: no sun class for this :)
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -23,7 +23,7 @@ import java.util.Map;
 
 @SuppressWarnings("unchecked")
 public class UnsafeSerializer<T> implements Serializer<T> {
-	private static final Unsafe UNSAFE = UnsafeAccessor.getUnsafe();
+	private static final Unsafe UNSAFE = UnsafeAccessor.getUnsafe();//NOSONAR: no sun class for this :)
 	private final String[] names;
 	private final Function<T , Object>[] getters;
 	private final TypeEnum[] types; //For serialization
@@ -174,6 +174,8 @@ public class UnsafeSerializer<T> implements Serializer<T> {
 				case OBJECT:
 					getters[i] = generateObjectGetter(chain , offset , volatileField);
 					setters[i] = generateObjectSetter(chain , offset , volatileField);
+					break;
+				default:
 					break;
 			}
 			if(chain.length == 0){

@@ -84,10 +84,6 @@ public interface Container<E> extends Sized<E>, Value<E> {
 		return (JavaAdapter<E>) () -> this;
 	}
 
-	default java.util.Collection<E> toAdvancedJava() {
-		return null;
-	}
-
 	@Override
 	default boolean isEmpty() {
 		return size() == 0;

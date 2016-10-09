@@ -25,6 +25,7 @@ package fr.aresrpg.commons.domain.config;
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  */
+@FunctionalInterface
 public interface Config {
 
 	/**

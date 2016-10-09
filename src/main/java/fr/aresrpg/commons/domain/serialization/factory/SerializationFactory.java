@@ -25,8 +25,9 @@ public interface SerializationFactory {
 
 	void setFieldNamer(FieldNamer namer);
 
-	default Adapter[] getAdapterChain(ParametrizedClass clazz){
+	default Adapter[] getAdapterChain(ParametrizedClass c){
 		Adapter last;
+		ParametrizedClass clazz = c;
 		List<Adapter> adapters = new ArrayList<>();
 		while ((last = getAdapter(clazz)) != null) {
 			adapters.add(last);
