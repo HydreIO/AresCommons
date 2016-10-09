@@ -20,8 +20,10 @@ public interface SerializationContext {
 	 *            the format to use
 	 * @param <T>
 	 *            the type of the value
+	 * @param <O>
+	 *            the out
 	 * @throws IOException
 	 *             when the output writing fails
 	 */
-	<T , O> void serialize(O out, T value, Format<? , O> format) throws IOException;
+	<T, O> void serialize(O out, T value, Format<?, O> format) throws IOException;
 }
