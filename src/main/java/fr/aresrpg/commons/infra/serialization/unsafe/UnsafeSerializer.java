@@ -121,6 +121,8 @@ public class UnsafeSerializer<T> implements Serializer<T> {
 						Object v = Array.get(o , y);
 						if(v instanceof Map && !Map.class.isAssignableFrom(type))
 							Array.set(arr , y , factory.createOrGetSerializer(type).deserialize((Map)v));
+						else
+							Array.set(arr , y , v);
 					}
 					o = arr;
 				}

@@ -13,9 +13,9 @@ import java.io.IOException;
 public class JsonTest {
 
 	private static class JsonObjectTest {
-		private Long[] array;
+		private int[] array;
 		private String string;
-		private Number number;
+		private int number;
 		private Object nullValue;
 		private boolean bool;
 		private JsonObjectTest object;
@@ -44,7 +44,7 @@ public class JsonTest {
 
 	private void testObject(JsonObjectTest test , boolean deep){
 		String prefix = deep ? "object." : "";
-		Assert.assertArrayEquals(prefix + "array must be [1 , 2 , 3]" , new Integer[]{1 , 2 , 3} , test.array);
+		Assert.assertArrayEquals(prefix + "array must be [1 , 2 , 3]" , new int[]{1 , 2 , 3} , test.array);
 		Assert.assertEquals(prefix + "string must be \"Hello\"" , "Hello" , test.string);
 		Assert.assertEquals(prefix + "number must be 42" , 42 , test.number);
 		Assert.assertNull(prefix + "nullValue must be null" , test.nullValue);
