@@ -22,10 +22,10 @@ public class MongoDBCollection<T> implements Collection<T> {
 	public static final UpdateOptions UPSERT = new UpdateOptions().upsert(true);
 	public static final String FIELD_MONGO = "MongoDBCollection";
 	private final MongoCollection<Document> collection;
-	private Serializer<T, Document, Document> serializer;
+	private Serializer<T> serializer;
 	private Class<T> clazz;
 
-	MongoDBCollection(MongoCollection<Document> collection, Serializer<T, Document, Document> serializer, Class<T> clazz) {
+	MongoDBCollection(MongoCollection<Document> collection, Serializer<T> serializer, Class<T> clazz) {
 		this.collection = collection;
 		this.serializer = serializer;
 		this.clazz = clazz;

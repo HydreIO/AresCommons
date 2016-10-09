@@ -3,34 +3,33 @@ package fr.aresrpg.commons.infra.database.mongodb;
 import fr.aresrpg.commons.domain.database.Collection;
 import fr.aresrpg.commons.domain.database.Database;
 import fr.aresrpg.commons.domain.serialization.factory.SerializationFactory;
-import fr.aresrpg.commons.infra.serialization.factory.BasicSerializationFactory;
 
 import java.io.IOException;
 import java.util.*;
 
 import com.mongodb.*;
 import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
+import fr.aresrpg.commons.infra.serialization.unsafe.UnsafeSerializationFactory;
 
 public class MongoDBDatabase implements Database {
 	private MongoDatabase database;
 	private MongoClient client;
 	private String name;
 	private Map<String, MongoDBCollection> collections;
-	private SerializationFactory<Document, Document> factory;
+	private SerializationFactory factory;
 
 	public MongoDBDatabase(MongoDatabase database, MongoClient client) {
 		this.database = database;
 		this.client = client;
 		this.name = database.getName();
 		this.collections = new HashMap<>();
-		this.factory = new BasicSerializationFactory<>();
+		this.factory = new UnsafeSerializationFactory();
 	}
 
 	public MongoDBDatabase(String name) {
 		this.name = name;
 		this.collections = new HashMap<>();
-		this.factory = new BasicSerializationFactory<>();
+		this.factory = new UnsafeSerializationFactory();
 	}
 
 	@Override

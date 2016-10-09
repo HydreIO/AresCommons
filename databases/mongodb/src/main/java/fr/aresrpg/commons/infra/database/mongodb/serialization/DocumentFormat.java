@@ -1,7 +1,7 @@
 package fr.aresrpg.commons.infra.database.mongodb.serialization;
 
 import fr.aresrpg.commons.domain.serialization.SerializationContext;
-import fr.aresrpg.commons.domain.serialization.formats.Format;
+import fr.aresrpg.commons.domain.serialization.Format;
 import fr.aresrpg.commons.domain.types.TypeEnum;
 
 import java.io.IOException;
@@ -22,13 +22,13 @@ public class DocumentFormat implements Format<Document, Document> {
 	}
 
 	@Override
-	public void writeValue(Document doc, String name, TypeEnum typeEnum, Object o, SerializationContext<Document> serializationContext) throws IOException {
-		if (typeEnum == TypeEnum.OBJECT) {
+	public void writeValue(Document doc, String name, TypeEnum type, Object value, SerializationContext context) throws IOException {
+		if (type == TypeEnum.OBJECT) {
 			Document d = new Document();
-			serializationContext.serialize(d, o, this);
+			context.serialize(d, value, this);
 			doc.put(name, d);
 		}
-		doc.put(name, o);
+		doc.put(name, value);
 	}
 
 	@Override
@@ -52,13 +52,14 @@ public class DocumentFormat implements Format<Document, Document> {
 	}
 
 	@Override
-	public void read(Document document, Map<String, Object> map, SerializationContext<Document> serializationContext) throws IOException {
-		for (Map.Entry<String, Object> e : document.entrySet()) {
+	public void read(Document doc, Map<String, Object> container, SerializationContext context) throws IOException {
+		for (Map.Entry<String, Object> e : doc.entrySet()) {
 			if (e instanceof Document) {
 				Map<String, Object> m = new LinkedHashMap<>();
-				read((Document) e, m, serializationContext);
-				map.put(e.getKey(), m);
-			} else map.put(e.getKey(), e.getValue());
+				read((Document) e, m, context);
+				container.put(e.getKey(), m);
+			} else container.put(e.getKey(), e.getValue());
 		}
 	}
+
 }
