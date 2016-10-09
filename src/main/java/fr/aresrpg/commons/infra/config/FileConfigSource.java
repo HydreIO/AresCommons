@@ -30,9 +30,7 @@ public class FileConfigSource implements ConfigSource {
 	public void load(Config config) throws ConfigNotFoundException{
 		File f = searchFile(config.getName());
 		if(f == null)
-			f = new File(folder , config.getName() + '.' + defaultType);
-		if(!f.exists())
-			save(config);
+			throw new ConfigNotFoundException(config.getName() , this , null);
 		try(FileInputStream fis = new FileInputStream(f)) {
 			factory.createOrGetSerializer((Class<Config>)config.getClass())
 					.deserialize(fis , config, JsonFormat.INSTANCE); //TODO: Change this
