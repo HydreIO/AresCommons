@@ -3,13 +3,13 @@ package fr.aresrpg.commons.infra.database.mongodb;
 import fr.aresrpg.commons.domain.database.Collection;
 import fr.aresrpg.commons.domain.database.Database;
 import fr.aresrpg.commons.domain.serialization.factory.SerializationFactory;
+import fr.aresrpg.commons.infra.serialization.unsafe.UnsafeSerializationFactory;
 
 import java.io.IOException;
 import java.util.*;
 
 import com.mongodb.*;
 import com.mongodb.client.MongoDatabase;
-import fr.aresrpg.commons.infra.serialization.unsafe.UnsafeSerializationFactory;
 
 public class MongoDBDatabase implements Database {
 	private MongoDatabase database;
@@ -30,6 +30,20 @@ public class MongoDBDatabase implements Database {
 		this.name = name;
 		this.collections = new HashMap<>();
 		this.factory = new UnsafeSerializationFactory();
+	}
+
+	/**
+	 * @return the database
+	 */
+	public MongoDatabase getRawDatabase() {
+		return database;
+	}
+
+	/**
+	 * @return the client
+	 */
+	public MongoClient getClient() {
+		return client;
 	}
 
 	@Override
