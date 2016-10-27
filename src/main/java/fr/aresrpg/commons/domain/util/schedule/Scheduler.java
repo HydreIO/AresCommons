@@ -82,7 +82,8 @@ public class Scheduler {
 				try {
 					m.invoke(scheduled, new Object[m.getParameterCount()]);
 				} catch (Exception e) {
-					Logger.MAIN_LOGGER.debug("Error in scheduled execution" , e);
+					e.printStackTrace();
+					Logger.MAIN_LOGGER.debug(e, "Error in scheduled execution");
 				}
 			} , s.unit().toNanos(s.rate()));
 		});
