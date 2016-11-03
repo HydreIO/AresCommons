@@ -43,7 +43,7 @@ public class MongoDBCollection<T> implements Collection<T> {
 		try {
 			Document document = new Document();
 			serializer.serialize(document, t, DocumentFormat.INSTANCE);
-			collection.insertOne(new Document("$set", document));
+			collection.insertOne(document);
 		} catch (IOException e) {
 			Logger.MAIN_LOGGER.severe(FIELD_MONGO, e, "Could'not serialize");
 		}
