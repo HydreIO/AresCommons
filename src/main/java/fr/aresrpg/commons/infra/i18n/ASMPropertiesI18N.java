@@ -1,50 +1,20 @@
 package fr.aresrpg.commons.infra.i18n;
 
-import static org.objectweb.asm.Opcodes.AALOAD;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
-import static org.objectweb.asm.Opcodes.ACC_VARARGS;
-import static org.objectweb.asm.Opcodes.ACONST_NULL;
-import static org.objectweb.asm.Opcodes.ALOAD;
-import static org.objectweb.asm.Opcodes.ARETURN;
-import static org.objectweb.asm.Opcodes.BIPUSH;
-import static org.objectweb.asm.Opcodes.DUP;
-import static org.objectweb.asm.Opcodes.ICONST_0;
-import static org.objectweb.asm.Opcodes.ICONST_1;
-import static org.objectweb.asm.Opcodes.ICONST_2;
-import static org.objectweb.asm.Opcodes.ICONST_3;
-import static org.objectweb.asm.Opcodes.ICONST_4;
-import static org.objectweb.asm.Opcodes.ICONST_5;
-import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
-import static org.objectweb.asm.Opcodes.INVOKEVIRTUAL;
-import static org.objectweb.asm.Opcodes.NEW;
-import static org.objectweb.asm.Opcodes.RETURN;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import static org.objectweb.asm.Opcodes.*;
 
 import fr.aresrpg.commons.domain.i18n.I18N;
 import fr.aresrpg.commons.domain.i18n.L10N;
 import fr.aresrpg.commons.domain.i18n.annotation.LangAnnotation;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Type;
-
 import fr.aresrpg.commons.domain.log.Logger;
+
+import java.io.*;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.objectweb.asm.*;
 
 public class ASMPropertiesI18N implements I18N {
 	public class ByteClassLoader extends ClassLoader {
@@ -69,6 +39,7 @@ public class ASMPropertiesI18N implements I18N {
 	public static final String INIT = "<init>";
 	@SuppressWarnings("rawtypes")
 	private Set<Class> classes = new HashSet<>();
+
 	static {
 		if (!FOLDER.exists() && !FOLDER.mkdir()) throw new IllegalStateException("Could'not create folder i18n");
 	}
@@ -82,14 +53,14 @@ public class ASMPropertiesI18N implements I18N {
 				classes.add(clazz);
 			}
 			String name = "fr.aresrpg.commons.i18n." + clazz.getName().replace('.', '_') + getName(locale) + "Impl";
-			return (T) createOrLoad(new ByteClassLoader(clazz.getClassLoader()) , name, locale, clazz).newInstance();
+			return (T) createOrLoad(new ByteClassLoader(clazz.getClassLoader()), name, locale, clazz).newInstance();
 		} catch (Exception e) {
 			Logger.MAIN_LOGGER.severe(e);
 		}
 		return null;
 	}
 
-	protected Class<?> createOrLoad(ByteClassLoader loader , String name, Locale locale, Class<?> reference) throws Exception {
+	protected Class<?> createOrLoad(ByteClassLoader loader, String name, Locale locale, Class<?> reference) throws Exception {
 		try {
 			return loader.loadClass(name);
 		} catch (ClassNotFoundException e) {// NOSONAR Inform if class not found
