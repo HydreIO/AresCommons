@@ -115,6 +115,23 @@ public class MongoDBCollection<T> implements Collection<T> {
 	}
 
 	@Override
+	public T[] sorted(String fieldname, int limit) {
+		if (limit == 0) return (T[]) Array.newInstance(getClazz(), 0);
+		try {
+			T[] found = (T[]) Array.newInstance(getClazz(), limit);
+			MongoCursor<Document> cursor;
+			cursor = collection.find().sort(Filters.exists(fieldname)).iterator();
+			int i;
+			for (i = 0; cursor.hasNext() && i < limit; i++)
+				found[i] = serializer.deserialize(cursor.next(), DocumentFormat.INSTANCE);
+			return Arrays.copyOf(found, i);
+		} catch (IOException e) {
+			Logger.MAIN_LOGGER.severe(FIELD_MONGO, e, "Could'not deserialize");
+			return (T[]) Array.newInstance(getClazz(), 0);
+		}
+	}
+
+	@Override
 	public int remove(Filter filter, int limit) {
 		MongoCursor<Document> cursor = collection.find(toMongoDBFilter(filter)).iterator();
 		int i;

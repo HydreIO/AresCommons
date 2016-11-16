@@ -32,7 +32,7 @@ public class ArangoDBCollection<T> implements Collection<T> {
 
 	@Override
 	public void update(Filter filter, T value) {
-		
+
 	}
 
 	@Override
@@ -106,5 +106,10 @@ public class ArangoDBCollection<T> implements Collection<T> {
 
 	public CollectionEntity getCollection() {
 		return collection;
+	}
+
+	@Override
+	public T[] sorted(String fieldname, int max) {
+		throw new IllegalAccessError("Not implemented yet");
 	}
 }
