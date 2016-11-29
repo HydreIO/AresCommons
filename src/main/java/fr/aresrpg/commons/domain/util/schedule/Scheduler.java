@@ -16,7 +16,6 @@ public class Scheduler {
 
 	private ScheduledExecutorService pool;
 	private int taskCount;
-	private Map<Integer, ScheduledFuture> tasks = new HashMap<>();
 
 	public Scheduler(ScheduledExecutorService pool) {
 		this.pool = pool;
@@ -24,20 +23,6 @@ public class Scheduler {
 
 	public Scheduler(ThreadPoolBuilder builder) {
 		this.pool = builder.buildAsScheduled();
-	}
-
-	/**
-	 * Unregister a task
-	 * 
-	 * @param id
-	 *            the id retrived while registering the task
-	 * @return true if the task was unregistered, false otherwise
-	 */
-	public boolean unregister(int id) {
-		ScheduledFuture ft = tasks.get(id);
-		boolean found = ft != null;
-		if (found) ft.cancel(false);
-		return found;
 	}
 
 	/**
@@ -65,9 +50,9 @@ public class Scheduler {
 	 *            the interval time in nano second
 	 * @return the id of the task
 	 */
-	public int register(Runnable runnable, long nano) {
-		tasks.put(++taskCount, pool.scheduleAtFixedRate(runnable, nano, nano, TimeUnit.NANOSECONDS));
-		return taskCount;
+	public ScheduledFuture register(Runnable runnable, long nano) {
+		taskCount++;
+		return pool.scheduleAtFixedRate(runnable, nano, nano, TimeUnit.NANOSECONDS);
 	}
 
 	/**
@@ -81,7 +66,7 @@ public class Scheduler {
 	 *            the time unit of the interval time
 	 * @return the id of the task
 	 */
-	public int register(Runnable runnable, long time, TimeUnit unit) {
+	public ScheduledFuture register(Runnable runnable, long time, TimeUnit unit) {
 		return register(runnable, unit.toNanos(time));
 	}
 
@@ -92,7 +77,7 @@ public class Scheduler {
 	 *            the class instance
 	 * @return the ids of all task in the scheduled object
 	 */
-	public List<Integer> register(Scheduled scheduled) {
+	public List<ScheduledFuture> register(Scheduled scheduled) {
 		return Arrays.stream(scheduled.getClass().getDeclaredMethods()).filter(m -> m.isAnnotationPresent(Schedule.class)).collect(ArrayList::new, (a, m) -> {
 			Schedule s = m.getAnnotation(Schedule.class);
 			a.add(register(() -> {
