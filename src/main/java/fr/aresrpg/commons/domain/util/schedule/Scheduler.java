@@ -3,9 +3,8 @@ package fr.aresrpg.commons.domain.util.schedule;
 import fr.aresrpg.commons.domain.concurrent.ThreadPoolBuilder;
 import fr.aresrpg.commons.domain.log.Logger;
 
-import java.util.Arrays;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
+import java.util.concurrent.*;
 
 /**
  * The class to launch {@link Scheduled} instance
@@ -17,6 +16,7 @@ public class Scheduler {
 
 	private ScheduledExecutorService pool;
 	private int taskCount;
+	private Map<Integer, ScheduledFuture> tasks = new HashMap<>();
 
 	public Scheduler(ScheduledExecutorService pool) {
 		this.pool = pool;
@@ -24,6 +24,20 @@ public class Scheduler {
 
 	public Scheduler(ThreadPoolBuilder builder) {
 		this.pool = builder.buildAsScheduled();
+	}
+
+	/**
+	 * Unregister a task
+	 * 
+	 * @param id
+	 *            the id retrived while registering the task
+	 * @return true if the task was unregistered, false otherwise
+	 */
+	public boolean unregister(int id) {
+		ScheduledFuture ft = tasks.get(id);
+		boolean found = ft != null;
+		if (found) ft.cancel(false);
+		return found;
 	}
 
 	/**
@@ -49,10 +63,11 @@ public class Scheduler {
 	 *            the runnable
 	 * @param nano
 	 *            the interval time in nano second
+	 * @return the id of the task
 	 */
-	public void register(Runnable runnable, long nano) {
-		taskCount++;
-		pool.scheduleAtFixedRate(runnable, nano, nano, TimeUnit.NANOSECONDS);
+	public int register(Runnable runnable, long nano) {
+		tasks.put(++taskCount, pool.scheduleAtFixedRate(runnable, nano, nano, TimeUnit.NANOSECONDS));
+		return taskCount;
 	}
 
 	/**
@@ -64,9 +79,10 @@ public class Scheduler {
 	 *            the interval time
 	 * @param unit
 	 *            the time unit of the interval time
+	 * @return the id of the task
 	 */
-	public void register(Runnable runnable, long time, TimeUnit unit) {
-		register(runnable, unit.toNanos(time));
+	public int register(Runnable runnable, long time, TimeUnit unit) {
+		return register(runnable, unit.toNanos(time));
 	}
 
 	/**
@@ -74,18 +90,19 @@ public class Scheduler {
 	 * 
 	 * @param scheduled
 	 *            the class instance
+	 * @return the ids of all task in the scheduled object
 	 */
-	public void register(Scheduled scheduled) {
-		Arrays.stream(scheduled.getClass().getDeclaredMethods()).filter(m -> m.isAnnotationPresent(Schedule.class)).forEach(m -> {
+	public List<Integer> register(Scheduled scheduled) {
+		return Arrays.stream(scheduled.getClass().getDeclaredMethods()).filter(m -> m.isAnnotationPresent(Schedule.class)).collect(ArrayList::new, (a, m) -> {
 			Schedule s = m.getAnnotation(Schedule.class);
-			register(() -> {
+			a.add(register(() -> {
 				try {
 					m.invoke(scheduled, new Object[m.getParameterCount()]);
 				} catch (Exception e) {
 					Logger.MAIN_LOGGER.debug(e, "Error in scheduled execution");
 				}
-			} , s.unit().toNanos(s.rate()));
-		});
+			} , s.unit().toNanos(s.rate())));
+		} , ArrayList::addAll);
 	}
 
 }
