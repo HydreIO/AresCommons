@@ -1,4 +1,4 @@
-package fr.aresrpg.commons.domain.util;
+package fr.aresrpg.commons.domain.util.exception;
 
 /**
  * A runtime exception to avoid illegal construction of util classes

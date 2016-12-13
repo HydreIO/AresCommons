@@ -2,6 +2,7 @@ package fr.aresrpg.commons.domain.util;
 
 import fr.aresrpg.commons.domain.condition.Option;
 import fr.aresrpg.commons.domain.functional.function.Function;
+import fr.aresrpg.commons.domain.util.exception.IllegalConstructionException;
 
 import java.util.*;
 import java.util.stream.Collectors;

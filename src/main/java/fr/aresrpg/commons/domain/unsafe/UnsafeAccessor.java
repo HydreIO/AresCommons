@@ -1,7 +1,7 @@
 package fr.aresrpg.commons.domain.unsafe;
 
 import fr.aresrpg.commons.domain.log.Logger;
-import fr.aresrpg.commons.domain.util.IllegalConstructionException;
+import fr.aresrpg.commons.domain.util.exception.IllegalConstructionException;
 
 import java.lang.reflect.Field;
 
