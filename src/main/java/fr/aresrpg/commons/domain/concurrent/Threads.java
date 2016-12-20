@@ -69,7 +69,7 @@ public final class Threads {
 	 * @param unit
 	 *            the unit for the time
 	 */
-	public static void uSleep(int value, TimeUnit unit) {
+	public static void uSleep(long value, TimeUnit unit) {
 		try {
 			Thread.sleep(unit.toMillis(value));
 		} catch (InterruptedException e) {
