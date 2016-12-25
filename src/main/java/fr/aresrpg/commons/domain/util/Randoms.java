@@ -436,7 +436,7 @@ public class Randoms {
 	 * }}
 	 * </pre>
 	 *
-	 * @implNote This method is implemented to be equivalent to {@code
+	 * This method is implemented to be equivalent to {@code
 	 * ints(Long.MAX_VALUE, randomNumberOrigin, randomNumberBound)}.
 	 *
 	 * @param origin
@@ -481,7 +481,7 @@ public class Randoms {
 	 * A pseudorandom {@code int} value is generated as if it's the result of
 	 * calling the method {@link #nextInt()}.
 	 *
-	 * @implNote This method is implemented to be equivalent to {@code
+	 * This method is implemented to be equivalent to {@code
 	 * ints(Long.MAX_VALUE)}.
 	 *
 	 * @return a stream of pseudorandom {@code int} values
