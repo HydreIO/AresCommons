@@ -27,7 +27,7 @@ public class Events {
 			Subscribe event = m.getAnnotation(Subscribe.class);
 			if (event == null) continue;
 			if (m.getParameterCount() != 1) throw new IllegalArgumentException("The method " + m.toGenericString() + " must have only one parameter");
-			if (!Event.class.isAssignableFrom(m.getParameterTypes()[0].getClass()))
+			if (!Event.class.isAssignableFrom(m.getParameterTypes()[0]))
 				throw new IllegalArgumentException("The parameter of the method " + m.toGenericString() + " must extend Event.class");
 			EventBus.getBus((Class<Event<?>>) m.getParameterTypes()[0]).subscribeMethod(m, listener, event.priority());
 		}
