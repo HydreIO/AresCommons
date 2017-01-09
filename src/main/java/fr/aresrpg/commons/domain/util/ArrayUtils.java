@@ -749,6 +749,37 @@ public class ArrayUtils {
 	}
 
 	/**
+	 * Add a value at the end of the array
+	 * 
+	 * @param value
+	 *            the value
+	 * @param array
+	 *            the array
+	 * @return a new array with values
+	 */
+	public static <T> T[] addLast(T value, T[] array) {
+		T[] result = Arrays.copyOf(array, array.length + 1);
+		result[array.length] = value;
+		return result;
+	}
+
+	/**
+	 * Add a value at the beginning of the array
+	 * 
+	 * @param value
+	 *            the value
+	 * @param array
+	 *            the array
+	 * @return a new array with the values
+	 */
+	public static <T> T[] addFirst(T value, T[] array) {
+		T[] result = Arrays.copyOf(array, array.length + 1);
+		System.arraycopy(array, 0, result, 1, array.length);
+		result[0] = value;
+		return result;
+	}
+
+	/**
 	 * Merge two arrays
 	 * 
 	 * @param first

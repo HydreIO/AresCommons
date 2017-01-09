@@ -48,6 +48,39 @@ public final class Threads {
 	}
 
 	/**
+	 * <p>
+	 * Switch the name of a thread before a submission, useful to know exactly what a thread is actually processing and not spend hours while debuging
+	 * </p>
+	 * The old name is replaced after execution.
+	 * <br>
+	 * Example of use:
+	 * 
+	 * <pre>
+	 * {@literal CompletableFutur.supplyAsync(threadContextSwitch("Processing-$myResultName"), () -> myResult);}
+	 * </pre>
+	 * 
+	 * @param <T>
+	 *            the type of your supplier
+	 * @param newname
+	 *            the new name to indicate what the thread is currently doing
+	 * @param logic
+	 *            the supplier to get your result
+	 * @return your supplier wrapped in another supplier which is changing the name of the thread and replacing it after the execution
+	 */
+	public static Runnable threadContextSwitch(String newname, Runnable logic) {
+		return () -> {
+			final Thread currentThread = Thread.currentThread();
+			final String oldName = currentThread.getName();
+			currentThread.setName(newname);
+			try {
+				logic.run();
+			} finally {
+				currentThread.setName(oldName);
+			}
+		};
+	}
+
+	/**
 	 * Sleep the thread
 	 * 
 	 * @param value
