@@ -1,12 +1,15 @@
 package fr.aresrpg.commons.infra.database.arangodb;
 
-import com.arangodb.*;
 import fr.aresrpg.commons.domain.database.Collection;
 import fr.aresrpg.commons.domain.database.Database;
+import fr.aresrpg.commons.domain.serialization.Serializer;
+import fr.aresrpg.commons.domain.util.exception.NotImplementedException;
 
 import java.io.IOException;
 
-public class ArangoDBDatabase implements Database{
+import com.arangodb.*;
+
+public class ArangoDBDatabase implements Database {
 	private ArangoDriver driver;
 	private String database;
 
@@ -26,28 +29,32 @@ public class ArangoDBDatabase implements Database{
 	@Override
 	public void connect(String host, int port, String user, String password) {
 		ArangoConfigure configure = new ArangoConfigure();
-		configure.setArangoHost(new ArangoHost(host , port));
+		configure.setArangoHost(new ArangoHost(host, port));
 		configure.setUser(user);
 		configure.setPassword(password);
 		configure.init();
 
-		this.driver = new ArangoDriver(configure , database);
+		this.driver = new ArangoDriver(configure, database);
 	}
 
 	@Override
 	public void drop(Collection<?> collection) {
-
+		throw new NotImplementedException();
 	}
-
 
 	@Override
 	public Collection<?>[] getCollections() {
-		return (Collection<?>[])new Object[0];
+		return (Collection<?>[]) new Object[0];
 	}
 
 	@Override
 	public <T> Collection<T> get(String id, Class<T> clazz) {
-		return null;
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public <T> Collection<T> get(String id, Class<T> clazz, Serializer<T> serializer) throws IllegalStateException {
+		throw new NotImplementedException();
 	}
 
 	@Override
@@ -62,4 +69,5 @@ public class ArangoDBDatabase implements Database{
 	public ArangoDriver getDriver() {
 		return driver;
 	}
+
 }
