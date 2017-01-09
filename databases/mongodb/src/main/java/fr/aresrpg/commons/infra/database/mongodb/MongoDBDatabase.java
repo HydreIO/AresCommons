@@ -2,6 +2,7 @@ package fr.aresrpg.commons.infra.database.mongodb;
 
 import fr.aresrpg.commons.domain.database.Collection;
 import fr.aresrpg.commons.domain.database.Database;
+import fr.aresrpg.commons.domain.serialization.Serializer;
 import fr.aresrpg.commons.domain.serialization.factory.SerializationFactory;
 import fr.aresrpg.commons.infra.serialization.unsafe.UnsafeSerializationFactory;
 
@@ -71,10 +72,15 @@ public class MongoDBDatabase implements Database {
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Collection<T> get(String id, Class<T> type) throws IllegalStateException {
+		return get(id, type, factory.createSerializer(type));
+	}
+
+	@Override
+	public <T> Collection<T> get(String id, Class<T> type, Serializer<T> serializer) throws IllegalStateException {
 		if (database == null) throw new IllegalStateException("Unable to get the collection ! The database is not connected.");
 		MongoDBCollection<T> collection = collections.get(id);
 		if (collection != null) return collection;
-		collection = new MongoDBCollection<>(database.getCollection(id), factory.createSerializer(type), type);
+		collection = new MongoDBCollection<>(database.getCollection(id), serializer, type);
 		collections.put(id, collection);
 		return collection;
 	}
