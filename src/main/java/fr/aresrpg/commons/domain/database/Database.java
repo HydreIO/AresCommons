@@ -1,5 +1,7 @@
 package fr.aresrpg.commons.domain.database;
 
+import fr.aresrpg.commons.domain.serialization.Serializer;
+
 import java.io.Closeable;
 import java.io.IOException;
 
@@ -50,4 +52,17 @@ public interface Database extends Closeable {
 	 * @return the collection
 	 */
 	<T> Collection<T> get(String id, Class<T> clazz) throws IllegalStateException;
+
+	/**
+	 * Get or create a collection using the provided id
+	 * 
+	 * @param id
+	 *            the id
+	 * @param serializer
+	 *            the serializer for the collection type
+	 * @param <T>
+	 *            the type of collection
+	 * @return the collection
+	 */
+	<T> Collection<T> get(String id, Class<T> clazz, Serializer<T> serializer) throws IllegalStateException;
 }

@@ -1,12 +1,12 @@
 package fr.aresrpg.commons.infra.database.mongodb.serialization;
 
-import fr.aresrpg.commons.domain.serialization.SerializationContext;
 import fr.aresrpg.commons.domain.serialization.Format;
+import fr.aresrpg.commons.domain.serialization.SerializationContext;
 import fr.aresrpg.commons.domain.types.TypeEnum;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
 
 import org.bson.Document;
 
@@ -27,8 +27,13 @@ public class DocumentFormat implements Format<Document, Document> {
 			Document d = new Document();
 			context.serialize(d, value, this);
 			doc.put(name, d);
-		}
-		doc.put(name, value);
+		} else if (type == TypeEnum.OBJECT_ARRAY) {
+			int length = Array.getLength(value);
+			Document[] d = new Document[length];
+			for (int i = 0; i < length; i++)
+				context.serialize(d[i] = new Document(), Array.get(value, i), this);
+			doc.put(name, Arrays.asList(d));
+		} else doc.put(name, value);
 	}
 
 	@Override
@@ -55,8 +60,14 @@ public class DocumentFormat implements Format<Document, Document> {
 	public Object read(Document doc) throws IOException {
 		Map<String, Object> map = new LinkedHashMap<>();
 		for (Map.Entry<String, Object> e : doc.entrySet()) {
-			if (e instanceof Document) {
-				map.put(e.getKey(), read((Document) e));
+			if (e.getValue() instanceof Document) {
+				map.put(e.getKey(), read((Document) e.getValue()));
+			} else if (e.getValue() instanceof List) {
+				List<Document> dd = (List<Document>) e.getValue();
+				Object[] mmap = new Object[dd.size()];
+				for (int i = 0; i < dd.size(); i++)
+					mmap[i] = read(dd.get(i));
+				map.put(e.getKey(), mmap);
 			} else map.put(e.getKey(), e.getValue());
 		}
 		return map;
