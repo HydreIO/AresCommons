@@ -6,6 +6,6 @@ import fr.aresrpg.commons.domain.serialization.factory.AbstractSerializationFact
 public class UnsafeSerializationFactory extends AbstractSerializationFactory {
 	@Override
 	protected <T> Serializer<T> createSerializerInstance(Class<T> clazz) {
-		return new UnsafeSerializer<>(clazz , this);
+		return new UnsafeSerializer<>(clazz, this);
 	}
 }
