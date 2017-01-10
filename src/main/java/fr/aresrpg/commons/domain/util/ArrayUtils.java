@@ -4,6 +4,7 @@ import fr.aresrpg.commons.domain.condition.Option;
 import fr.aresrpg.commons.domain.functional.function.Function;
 import fr.aresrpg.commons.domain.util.exception.IllegalConstructionException;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -816,4 +817,24 @@ public class ArrayUtils {
 			result = concat(first, t);
 		return result;
 	}
+
+	/**
+	 * Remove all null objects from an array
+	 * 
+	 * @param array
+	 *            the array
+	 * @throws IllegalArgumentException
+	 *             when the array contains differents subtypes elements
+	 * @return a new array w/o nulls
+	 */
+	public static <T> T[] shrinkNulls(T... array) throws IllegalArgumentException {
+		Class<T> clazz = (Class<T>) array[0].getClass();
+		T[] result = (T[]) Array.newInstance(clazz, 0);
+		for (T t : array) {
+			if (!t.getClass().equals(clazz)) throw new IllegalArgumentException("Unable to shrink ! The array contains subtypes elements (" + clazz.getName() + " != " + t.getClass().getName() + ")");
+			if (t != null) result = addLast(t, result);
+		}
+		return result;
+	}
+
 }
