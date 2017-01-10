@@ -59,8 +59,6 @@ public final class Threads {
 	 * {@literal CompletableFutur.supplyAsync(threadContextSwitch("Processing-$myResultName"), () -> myResult);}
 	 * </pre>
 	 * 
-	 * @param <T>
-	 *            the type of your supplier
 	 * @param newname
 	 *            the new name to indicate what the thread is currently doing
 	 * @param logic
