@@ -107,7 +107,8 @@ public class EventBus<E> {
 					Consumers.from(
 							(BiConsumer<Object, E>) LambdaMetafactory.metafactory(lookup, "accept", MethodType.methodType(BiConsumer.class),
 									MethodType.methodType(void.class, Object.class, Object.class), method, MethodType.methodType(void.class, instance.getClass(), owner)).getTarget().invoke(),
-					instance), priority);
+							instance),
+					priority);
 		} catch (Throwable e) { // NOSONAR
 			throw new ReflectiveOperationException(e);
 		}

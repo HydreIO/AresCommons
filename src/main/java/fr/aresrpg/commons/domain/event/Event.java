@@ -1,5 +1,7 @@
 package fr.aresrpg.commons.domain.event;
 
+import fr.aresrpg.commons.domain.concurrent.Threads;
+
 /**
  * A event that can be sent in a {@link EventBus}
  * 
@@ -26,7 +28,7 @@ public interface Event<T extends Event<T>> {
 	@SuppressWarnings("unchecked")
 	default void send() {
 		if (getBus().subscribersSize() != 0) {
-			if (isAsynchronous()) EventBus.EXECUTOR.execute(() -> getBus().send((T) this));
+			if (isAsynchronous()) EventBus.EXECUTOR.execute(Threads.threadContextSwitch("Event::" + getClass().getSimpleName(), () -> getBus().send((T) this)));
 			else getBus().send((T) this);
 		}
 	}

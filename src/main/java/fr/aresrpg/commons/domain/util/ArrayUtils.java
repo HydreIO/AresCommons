@@ -32,8 +32,13 @@ public class ArrayUtils {
 	 */
 	public static <T> boolean contains(T value, T... array) {
 		if (array == null) return false;
-		for (T t : array)
+		for (T t : array) {
+			if (t == null) {
+				if (value == null) return true;
+				continue;
+			}
 			if (t.equals(value)) return true;
+		}
 		return false;
 	}
 
@@ -765,6 +770,21 @@ public class ArrayUtils {
 	}
 
 	/**
+	 * Add a value at the end of the array
+	 * 
+	 * @param value
+	 *            the value
+	 * @param array
+	 *            the array
+	 * @return a new array with values
+	 */
+	public static int[] addLast(int value, int[] array) {
+		int[] result = Arrays.copyOf(array, array.length + 1);
+		result[array.length] = value;
+		return result;
+	}
+
+	/**
 	 * Add a value at the beginning of the array
 	 * 
 	 * @param value
@@ -828,11 +848,12 @@ public class ArrayUtils {
 	 * @return a new array w/o nulls
 	 */
 	public static <T> T[] shrinkNulls(T... array) throws IllegalArgumentException {
-		Class<T> clazz = (Class<T>) array[0].getClass();
+		Class<T> clazz = (Class<T>) array.getClass().getComponentType().getComponentType();
 		T[] result = (T[]) Array.newInstance(clazz, 0);
 		for (T t : array) {
+			if (t == null) continue;
 			if (!t.getClass().equals(clazz)) throw new IllegalArgumentException("Unable to shrink ! The array contains subtypes elements (" + clazz.getName() + " != " + t.getClass().getName() + ")");
-			if (t != null) result = addLast(t, result);
+			result = addLast(t, result);
 		}
 		return result;
 	}
