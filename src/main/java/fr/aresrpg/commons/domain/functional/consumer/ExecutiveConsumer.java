@@ -21,6 +21,13 @@ public interface ExecutiveConsumer<T> {
 	void accept(T t);
 
 	/**
+	 * Functional empty method to use ::toNothing at the end of a chaining to retrieve a runnable or whatever functionalInterface with no arguments
+	 */
+	default void toNothing() {
+		;
+	}
+
+	/**
 	 * Execute the passed consumer with the passed value !<br>
 	 * Used in chaining actions
 	 * 

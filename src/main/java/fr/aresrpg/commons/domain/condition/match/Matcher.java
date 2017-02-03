@@ -1,10 +1,10 @@
 package fr.aresrpg.commons.domain.condition.match;
 
+import fr.aresrpg.commons.domain.functional.Executable;
+import fr.aresrpg.commons.domain.util.Predicates;
+
 import java.util.function.Function;
 import java.util.function.Predicate;
-
-import fr.aresrpg.commons.domain.util.Predicates;
-import fr.aresrpg.commons.domain.functional.Executable;
 
 public class Matcher<T, R> {
 	private Case<T, R>[] cases;
@@ -46,7 +46,7 @@ public class Matcher<T, R> {
 	}
 
 	public static <T, R> Case<T, R> def(Function<T, R> function) {
-		return when(Predicates.<T> alwaysTrue(), function);
+		return when(Predicates.<T>alwaysTrue(), function);
 	}
 
 	public static <T, R> Case<T, R> def(R result) {

@@ -45,6 +45,18 @@ public interface RawOption<T, O extends RawOption<T, ?>> extends Value<T>, Suppl
 	}
 
 	/**
+	 * Execute the consumer if he is absent
+	 * 
+	 * @param consumer
+	 *            the consumer to execute
+	 * @return the option
+	 */
+	default O ifAbsent(Executable executable) {
+		if (isEmpty()) executable.execute();
+		return (O) this;
+	}
+
+	/**
 	 * <p>
 	 * Provide the wrapped value if the condition is valid, return the @param value otherwise
 	 * </p>

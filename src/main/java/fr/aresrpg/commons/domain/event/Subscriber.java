@@ -8,6 +8,7 @@ import fr.aresrpg.commons.domain.functional.consumer.Consumer;
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public class Subscriber<E> {
+	private Class<E> clazz;
 	private Consumer<E> consumer;
 	private int priority;
 
@@ -19,9 +20,17 @@ public class Subscriber<E> {
 	 * @param priority
 	 *            the priority of this subscriber in the event bus
 	 */
-	public Subscriber(Consumer<E> consumer, int priority) {
+	public Subscriber(Consumer<E> consumer, int priority, Class<E> clazz) {
 		this.consumer = consumer;
 		this.priority = priority;
+		this.clazz = clazz;
+	}
+
+	/**
+	 * @return the clazz
+	 */
+	public Class<E> getClazz() {
+		return clazz;
 	}
 
 	/**

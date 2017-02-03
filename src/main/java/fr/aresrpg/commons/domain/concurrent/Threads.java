@@ -5,7 +5,7 @@ import java.util.function.*;
 
 /**
  * An util class to use with threads
- * 
+ *
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  */
@@ -21,11 +21,12 @@ public final class Threads {
 	 * The old name is replaced after execution.
 	 * <br>
 	 * Example of use:
+	 * <p>
 	 * 
 	 * <pre>
 	 * {@literal CompletableFutur.supplyAsync(threadContextSwitch("Processing-$myResultName"), () -> myResult);}
 	 * </pre>
-	 * 
+	 *
 	 * @param <T>
 	 *            the type input type
 	 * @param <U>
@@ -56,11 +57,12 @@ public final class Threads {
 	 * The old name is replaced after execution.
 	 * <br>
 	 * Example of use:
+	 * <p>
 	 * 
 	 * <pre>
 	 * {@literal CompletableFutur.supplyAsync(threadContextSwitch("Processing-$myResultName"), () -> myResult);}
 	 * </pre>
-	 * 
+	 *
 	 * @param <T>
 	 *            the type of your Consumer
 	 * @param newname
@@ -89,11 +91,12 @@ public final class Threads {
 	 * The old name is replaced after execution.
 	 * <br>
 	 * Example of use:
+	 * <p>
 	 * 
 	 * <pre>
 	 * {@literal CompletableFutur.supplyAsync(threadContextSwitch("Processing-$myResultName"), () -> myResult);}
 	 * </pre>
-	 * 
+	 *
 	 * @param <T>
 	 *            the type of your supplier
 	 * @param newname
@@ -122,11 +125,12 @@ public final class Threads {
 	 * The old name is replaced after execution.
 	 * <br>
 	 * Example of use:
+	 * <p>
 	 * 
 	 * <pre>
 	 * {@literal CompletableFutur.supplyAsync(threadContextSwitch("Processing-$myResultName"), () -> myResult);}
 	 * </pre>
-	 * 
+	 *
 	 * @param newname
 	 *            the new name to indicate what the thread is currently doing
 	 * @param logic
@@ -148,7 +152,7 @@ public final class Threads {
 
 	/**
 	 * Sleep the thread
-	 * 
+	 *
 	 * @param value
 	 *            the time to sleep
 	 * @param unit
@@ -160,9 +164,13 @@ public final class Threads {
 		Thread.sleep(unit.toMillis(value));
 	}
 
+	public static void uSleep(long millis) {
+		uSleep(millis, TimeUnit.MILLISECONDS);
+	}
+
 	/**
 	 * Sleep the thread or interrupt if it's fail
-	 * 
+	 *
 	 * @param value
 	 *            the time to sleep
 	 * @param unit
