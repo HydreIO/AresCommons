@@ -63,10 +63,14 @@ public class DocumentFormat implements Format<Document, Document> {
 			if (e.getValue() instanceof Document) {
 				map.put(e.getKey(), read((Document) e.getValue()));
 			} else if (e.getValue() instanceof List) {
-				List<Document> dd = (List<Document>) e.getValue();
+				List<Object> dd = (List<Object>) e.getValue();
 				Object[] mmap = new Object[dd.size()];
-				for (int i = 0; i < dd.size(); i++)
-					mmap[i] = read(dd.get(i));
+				if (!dd.isEmpty()) {
+					boolean isdoc = dd.iterator().next() instanceof Document;
+					for (int i = 0; i < dd.size(); i++)
+						if (isdoc) mmap[i] = read((Document) dd.get(i));
+						else mmap[i] = dd.get(i);
+				}
 				map.put(e.getKey(), mmap);
 			} else map.put(e.getKey(), e.getValue());
 		}
