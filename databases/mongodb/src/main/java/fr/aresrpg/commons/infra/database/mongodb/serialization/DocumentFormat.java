@@ -33,6 +33,12 @@ public class DocumentFormat implements Format<Document, Document> {
 			for (int i = 0; i < length; i++)
 				context.serialize(d[i] = new Document(), Array.get(value, i), this);
 			doc.put(name, Arrays.asList(d));
+		} else if (type.isArray()) {
+			int length = Array.getLength(value);
+			Object[] d = new Object[length];
+			for (int i = 0; i < length; i++)
+				d[i] = Array.get(value, i);
+			doc.put(name, Arrays.asList(d));
 		} else doc.put(name, value);
 	}
 

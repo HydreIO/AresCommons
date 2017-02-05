@@ -8,6 +8,7 @@ package fr.aresrpg.commons.domain.functional.consumer;
  * @param <B>
  *            the second argument type
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
+ * @author Sceat {@literal <sceat@aresrpg.fr>}
  */
 @FunctionalInterface
 public interface BiConsumer<A, B> {

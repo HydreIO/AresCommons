@@ -34,6 +34,13 @@ public class MongoDBDatabase implements Database {
 	}
 
 	/**
+	 * @return the factory
+	 */
+	public SerializationFactory getFactory() {
+		return factory;
+	}
+
+	/**
 	 * @return the database
 	 */
 	public MongoDatabase getRawDatabase() {
