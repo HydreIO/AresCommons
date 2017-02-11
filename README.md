@@ -1,5 +1,6 @@
 # AresCommons
-![Build](https://ci.aresrpg.fr/app/rest/builds/buildType:AresRPG_AresCommons/statusIcon.svg)
+![](http://forthebadge.com/images/badges/certified-cousin-terio.svg)
+![](http://forthebadge.com/images/badges/powered-by-netflix.svg)
+![](http://forthebadge.com/images/badges/winter-is-coming.svg)
 
-Javadoc: Soon
-Teamcity: [TeamCity](https://ci.aresrpg.fr/viewType.html?buildTypeId=AresRPG_AresCommons)
+Doc: Soon
