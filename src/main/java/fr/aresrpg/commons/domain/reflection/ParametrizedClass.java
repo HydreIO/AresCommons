@@ -11,7 +11,9 @@ import java.util.Objects;
 
 /**
  * A class with type parameters
- * @param <T> the class
+ * 
+ * @param <T>
+ *            the class
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
 public class ParametrizedClass<T> implements Value<Class<T>> {
@@ -32,7 +34,9 @@ public class ParametrizedClass<T> implements Value<Class<T>> {
 
 	/**
 	 * Create a new ParametrizedClass with the specifier type
-	 * @param type the type represented by the parameterized class
+	 * 
+	 * @param type
+	 *            the type represented by the parameterized class
 	 */
 	public ParametrizedClass(Type type) {
 		this.type = type;
@@ -41,6 +45,7 @@ public class ParametrizedClass<T> implements Value<Class<T>> {
 
 	/**
 	 * Get the type hold by this parameterized class
+	 * 
 	 * @return the type
 	 */
 	public final Type getType() {
@@ -52,7 +57,7 @@ public class ParametrizedClass<T> implements Value<Class<T>> {
 	 * 
 	 * @return the raw class
 	 */
-	public final Class<T> getRaw(){
+	public final Class<T> getRaw() {
 		return raw;
 	}
 
@@ -61,7 +66,7 @@ public class ParametrizedClass<T> implements Value<Class<T>> {
 		if (this == o) return true;
 		if (o == null || !(o instanceof ParametrizedClass)) return false;
 		ParametrizedClass<?> that = (ParametrizedClass<?>) o;
-		return Objects.equals(raw, that.raw);//Fix that
+		return Objects.equals(raw, that.raw);//FIXME that
 	}
 
 	@Override

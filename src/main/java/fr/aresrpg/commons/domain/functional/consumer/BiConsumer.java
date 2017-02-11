@@ -8,6 +8,7 @@ package fr.aresrpg.commons.domain.functional.consumer;
  * @param <B>
  *            the second argument type
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
+ * @author Sceat {@literal <sceat@aresrpg.fr>}
  */
 @FunctionalInterface
 public interface BiConsumer<A, B> {
@@ -36,7 +37,7 @@ public interface BiConsumer<A, B> {
 	}
 
 	/**
-	 * Create a new consumer with reversed arguments</br>
+	 * Create a new consumer with reversed arguments<br>
 	 * (first type take the place of second type and vice versa)
 	 * 
 	 * @return a new consumer

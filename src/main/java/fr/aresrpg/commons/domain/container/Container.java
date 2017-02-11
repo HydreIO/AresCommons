@@ -1,64 +1,62 @@
 package fr.aresrpg.commons.domain.container;
 
+import fr.aresrpg.commons.domain.Sized;
+import fr.aresrpg.commons.domain.Value;
 import fr.aresrpg.commons.domain.container.empty.EmptyContainer;
 import fr.aresrpg.commons.domain.container.immutable.LambdaImmutableContainer;
 import fr.aresrpg.commons.domain.container.singleton.LambdaSingletonContainer;
-import fr.aresrpg.commons.domain.Sized;
-import fr.aresrpg.commons.domain.Value;
 import fr.aresrpg.commons.domain.functional.suplier.Supplier;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.stream.Collector;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import java.util.stream.*;
 
-public interface Container<E> extends Sized<E> , Value<E>{
+public interface Container<E> extends Sized<E>, Value<E> {
 
-	default boolean remove(E o){
+	default boolean remove(E o) {
 		return unsafeRemove(o);
 	}
 
 	boolean unsafeRemove(Object o);
 
-	default boolean removeAll(Iterable<E> o){
+	default boolean removeAll(Iterable<E> o) {
 		return unsafeRemove(o);
 	}
 
 	boolean unsafeRemoveAll(Iterable o);
 
-	default boolean add(E o){
+	default boolean add(E o) {
 		return unsafeAdd(o);
 	}
 
 	boolean unsafeAdd(Object o);
 
-	default boolean addAll(Iterable<E> o){
+	default boolean addAll(Iterable<E> o) {
 		return unsafeAddAll(o);
 	}
 
 	boolean unsafeAddAll(Iterable o);
 
-	default boolean contains(E o){
+	default boolean contains(E o) {
 		return unsafeContains(o);
 	}
 
 	boolean unsafeContains(Object o);
 
-	default boolean containsAll(Iterable<E> o){
+	default boolean containsAll(Iterable<E> o) {
 		return unsafeContainsAll(o);
 	}
 
 	@SuppressWarnings("unchecked")
 	default boolean unsafeContainsAll(Iterable o) {
 		Iterator it = o.iterator();
-		while(it.hasNext())
-			if(!unsafeContains(it.next()))
+		while (it.hasNext())
+			if (!unsafeContains(it.next()))
 				return false;
 		return true;
 	}
 
-	default int containsCount(Iterable<E> o){
+	default int containsCount(Iterable<E> o) {
 		return unsafeContainsCount(o);
 	}
 
@@ -66,8 +64,8 @@ public interface Container<E> extends Sized<E> , Value<E>{
 	default int unsafeContainsCount(Iterable o) {
 		Iterator it = o.iterator();
 		int i = 0;
-		while(it.hasNext())
-			if(unsafeContains(it.next()))
+		while (it.hasNext())
+			if (unsafeContains(it.next()))
 				i++;
 		return i;
 	}
@@ -75,23 +73,19 @@ public interface Container<E> extends Sized<E> , Value<E>{
 	void clear();
 
 	default Stream<E> stream() {
-		return StreamSupport.stream(spliterator() , false);
+		return StreamSupport.stream(spliterator(), false);
 	}
 
 	default Stream<E> parallelStream() {
-		return StreamSupport.stream(spliterator() , true);
+		return StreamSupport.stream(spliterator(), true);
 	}
 
 	default java.util.Collection<E> toJava() {
 		return (JavaAdapter<E>) () -> this;
 	}
 
-	default java.util.Collection<E> toAdvancedJava() {
-		return null;
-	}
-
 	@Override
-	default boolean isEmpty(){
+	default boolean isEmpty() {
 		return size() == 0;
 	}
 
@@ -99,19 +93,17 @@ public interface Container<E> extends Sized<E> , Value<E>{
 
 	boolean isConcurrent();
 
-	default Container<E> toImmutable(){
+	default Container<E> toImmutable() {
 		return isImmutable() ? this : immutable(toArray());
 	}
 
-	default Collector<E , ? , Container<E>> collector(){
-		return Collector.of(() -> this , Container::add, Container::combine,
-				isConcurrent() ?
-						new Collector.Characteristics[]{Collector.Characteristics.CONCURRENT} :
-						new Collector.Characteristics[0]);
+	default Collector<E, ?, Container<E>> collector() {
+		return Collector.of(() -> this, Container::add, Container::combine,
+				isConcurrent() ? new Collector.Characteristics[] { Collector.Characteristics.CONCURRENT } : new Collector.Characteristics[0]);
 	}
 
 	@FunctionalInterface
-	interface JavaAdapter<E> extends Collection<E> , Supplier<Container<E>> {
+	interface JavaAdapter<E> extends Collection<E>, Supplier<Container<E>> {
 		@Override
 		default int size() {
 			return (int) get().size();
@@ -178,21 +170,21 @@ public interface Container<E> extends Sized<E> , Value<E>{
 		}
 	}
 
-	static <T> Container<T> singleton(T value){
+	static <T> Container<T> singleton(T value) { // NOSONAR value is used (squid:S1172)
 		return (LambdaSingletonContainer<T>) () -> value;
 	}
 
 	@SafeVarargs
-	static <T> Container<T> immutable(T... values){
+	static <T> Container<T> immutable(T... values) { // NOSONAR values is used (squid:S1172)
 		return (LambdaImmutableContainer<T>) () -> values;
 	}
 
 	@SuppressWarnings("unchecked")
-	static <T> Container<T> empty(){
+	static <T> Container<T> empty() {
 		return EmptyContainer.INSTANCE;
 	}
 
-	static <T> Container<T> combine(Container<T> first , Container<T> second){
+	static <T> Container<T> combine(Container<T> first, Container<T> second) {
 		first.addAll(second);
 		return first;
 	}

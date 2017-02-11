@@ -49,11 +49,11 @@ public class Tuple<F, S, T> extends Pair<F, S> {
 	/**
 	 * Construct a copy of the Tuple passed in argument
 	 * 
-	 * @param Tuple
+	 * @param tuple
 	 *            the Tuple to copy
 	 */
-	public Tuple(Tuple<F, S, T> Tuple) {
-		super(Tuple);
+	public Tuple(Tuple<F, S, T> tuple) {
+		super(tuple);
 		this.third = third;
 	}
 
@@ -80,8 +80,8 @@ public class Tuple<F, S, T> extends Pair<F, S> {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		if (!super.equals(o)) return false;
-		Tuple<?, ?, ?> Tuple = (Tuple<?, ?, ?>) o;
-		return Objects.equals(third, Tuple.third);
+		Tuple<?, ?, ?> tuple = (Tuple<?, ?, ?>) o;
+		return Objects.equals(third, tuple.third);
 	}
 
 	@Override

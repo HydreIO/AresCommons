@@ -20,11 +20,14 @@ public interface Sized<T> extends Iterable<T> {
 	long size();
 
 	/**
+	 * <p>
 	 * Fill the given array with this object
 	 * </p>
+	 * <p>
 	 * If the length of the array is smaller than the size of the object hold, then
 	 * the array is filled with the maximum of elements
 	 * </p>
+	 * <p>
 	 * If the length of the array is bigger than the size of the object hold, then
 	 * the array is filled with all the elements
 	 * </p>
@@ -43,11 +46,14 @@ public interface Sized<T> extends Iterable<T> {
 	}
 
 	/**
+	 * <p>
 	 * Create an array with a given size which contains this object
 	 * </p>
+	 * <p>
 	 * If the length of the array is smaller than the size of the object hold, then
 	 * the array is filled with the maximum of elements
 	 * </p>
+	 * <p>
 	 * If the length of the array is bigger than the size of the object hold, then
 	 * the array is filled with all the elements
 	 * </p>

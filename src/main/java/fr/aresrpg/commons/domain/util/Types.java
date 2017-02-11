@@ -1,5 +1,7 @@
 package fr.aresrpg.commons.domain.util;
 
+import fr.aresrpg.commons.domain.util.exception.IllegalConstructionException;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 

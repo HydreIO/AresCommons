@@ -7,6 +7,13 @@ import fr.aresrpg.commons.domain.util.Or;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * An option which can handle exceptions
+ * 
+ * @since 0.5
+ * @param <T>
+ *            the value type
+ */
 public interface Try<T> extends RawOption<T, Try<T>> {
 
 	/**
@@ -30,6 +37,8 @@ public interface Try<T> extends RawOption<T, Try<T>> {
 	 * 
 	 * @param supplier
 	 *            the supplier to test
+	 * @param <T>
+	 *            the type of value
 	 * @return a Try representing the state of the execution
 	 */
 	@SuppressWarnings("unchecked")

@@ -1,6 +1,6 @@
 package fr.aresrpg.commons.domain.io;
 
-import fr.aresrpg.commons.domain.util.IllegalConstructionException;
+import fr.aresrpg.commons.domain.util.exception.IllegalConstructionException;
 
 import java.io.*;
 import java.nio.charset.Charset;

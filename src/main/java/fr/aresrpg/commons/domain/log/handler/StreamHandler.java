@@ -57,9 +57,11 @@ public class StreamHandler extends BaseHandler {
 	public void handle(Log log) throws IOException {
 		if (log.getLevel().isError()) {
 			errorStream.write(format(log).getBytes(charset));
+			errorStream.write('\n');
 			errorStream.flush();
 		} else {
 			outStream.write(format(log).getBytes(charset));
+			outStream.write('\n');
 			outStream.flush();
 		}
 	}

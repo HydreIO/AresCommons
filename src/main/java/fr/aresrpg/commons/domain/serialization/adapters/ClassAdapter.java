@@ -37,7 +37,7 @@ public class ClassAdapter implements Adapter<Class<?>, String> {
 		try {
 			return Class.forName(out);
 		} catch (ClassNotFoundException e) {
-			Logger.MAIN_LOGGER.severe("ClassAdapter", "Class " + out + " not found");
+			Logger.MAIN_LOGGER.severe("ClassAdapter", e , "Class " + out + " not found");
 			return null;
 		}
 	}

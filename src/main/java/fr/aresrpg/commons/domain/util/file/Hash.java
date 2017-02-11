@@ -56,11 +56,13 @@ public enum Hash {
 	 * @return the checksum calculated
 	 * @throws IOException
 	 *             if an io error occur
-	 * @throws NoSuchAlgorithmException
-	 *             if the Algorithm is not available
 	 */
-	public byte[] checksum(InputStream in) throws IOException, NoSuchAlgorithmException {
-		return MessageDigest.getInstance(getName()).digest(IO.toByteArray(in));
+	public byte[] checksum(InputStream in) throws IOException {
+		try {
+			return MessageDigest.getInstance(getName()).digest(IO.toByteArray(in));
+		} catch (NoSuchAlgorithmException e) {
+			throw new IllegalStateException("Algorithm not present on java installation" ,e);
+		}
 	}
 
 	/**
@@ -71,10 +73,8 @@ public enum Hash {
 	 * @return the checksum calculated
 	 * @throws IOException
 	 *             if an io error occur
-	 * @throws NoSuchAlgorithmException
-	 *             if the Algorithm is not available
 	 */
-	public byte[] checksum(File input) throws IOException, NoSuchAlgorithmException {
+	public byte[] checksum(File input) throws IOException {
 		return checksum(new FileInputStream(input));
 	}
 

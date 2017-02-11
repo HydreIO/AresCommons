@@ -83,7 +83,7 @@ public class Filter {
 	 * is equivalent to
 	 * 
 	 * <pre>
-	 * return Object if Object.name.equals("ororo munroe") && Object.husband.equals("blackpanther")
+	 * {@literal return Object if Object.name.equals("ororo munroe") && Object.husband.equals("blackpanther")}
 	 * </pre>
 	 * 
 	 * @param filters
@@ -125,7 +125,7 @@ public class Filter {
 	 * is equivalent to
 	 * 
 	 * <pre>
-	 * return Object if !Object.name.equals("ororo munroe") && !Object.husband.equals("blackpanther")
+	 * {@literal return Object if !Object.name.equals("ororo munroe") && !Object.husband.equals("blackpanther")}
 	 * </pre>
 	 * 
 	 * @param filters
@@ -167,6 +167,8 @@ public class Filter {
 	 * 
 	 * @param fieldName
 	 *            the name of the fields
+	 * @param value
+	 *            the value expected
 	 * @return the created filter
 	 */
 	public static Filter eq(String fieldName, Object value) {

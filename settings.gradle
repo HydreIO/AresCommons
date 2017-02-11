@@ -1,1 +1,6 @@
+include 'databases:arangodb' , 'databases:mongodb'
+
 rootProject.name = 'AresCommons'
+
+project(":databases:arangodb").name = "AresCommons-ArangoDB"
+project(":databases:mongodb").name = "AresCommons-MongoDB"

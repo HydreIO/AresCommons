@@ -8,8 +8,7 @@ import fr.aresrpg.commons.domain.util.Consumers;
 import java.lang.invoke.*;
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 /**
  * A event bus that dispatch event to subscribers
@@ -22,7 +21,7 @@ public class EventBus<E> {
 	public static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(40);
 	public static final Comparator<Subscriber> PRIORITY_COMPARATOR = (s1, s2) -> Integer.compare(s1.getPriority(), s2.getPriority());
 
-	private final PriorityQueue<Subscriber<E>> subscribers;
+	private final PriorityBlockingQueue<Subscriber<E>> subscribers;
 	private final Class<E> owner;
 
 	/**
@@ -34,7 +33,7 @@ public class EventBus<E> {
 	public EventBus(Class<E> owner) {
 		registerBus(owner, this);
 		this.owner = owner;
-		this.subscribers = new PriorityQueue<>(PRIORITY_COMPARATOR);
+		this.subscribers = new PriorityBlockingQueue<>(11, PRIORITY_COMPARATOR);
 	}
 
 	/**
@@ -58,7 +57,20 @@ public class EventBus<E> {
 	 * @return a Subscriber instance to use with {@link #unsubscribe(Subscriber)}
 	 */
 	public Subscriber<E> subscribe(Consumer<E> consumer, int priority) {
-		Subscriber<E> subscriber = new Subscriber<>(consumer, priority);
+		Subscriber<E> subscriber = new Subscriber<>(consumer, priority, owner);
+		this.subscribers.add(subscriber);
+		return subscriber;
+	}
+
+	/**
+	 * Subscribe to this bus using a consumer
+	 * 
+	 * @param consumer
+	 *            the consumer to consume the event
+	 * @return a Subscriber instance to use with {@link #unsubscribe(Subscriber)}
+	 */
+	public Subscriber<E> subscribe(Consumer<E> consumer) {
+		Subscriber<E> subscriber = new Subscriber<>(consumer, 0, owner);
 		this.subscribers.add(subscriber);
 		return subscriber;
 	}
@@ -107,7 +119,8 @@ public class EventBus<E> {
 					Consumers.from(
 							(BiConsumer<Object, E>) LambdaMetafactory.metafactory(lookup, "accept", MethodType.methodType(BiConsumer.class),
 									MethodType.methodType(void.class, Object.class, Object.class), method, MethodType.methodType(void.class, instance.getClass(), owner)).getTarget().invoke(),
-					instance), priority);
+							instance),
+					priority);
 		} catch (Throwable e) { // NOSONAR
 			throw new ReflectiveOperationException(e);
 		}
@@ -166,6 +179,10 @@ public class EventBus<E> {
 	public static <T> EventBus<T> getBus(Class<T> owner) {
 		UnsafeAccessor.getUnsafe().ensureClassInitialized(owner);
 		return (EventBus<T>) buses.get(owner);
+	}
+
+	public static <T> void unsubscribing(Subscriber<T> sub) {
+		getBus(sub.getClazz()).unsubscribe(sub);
 	}
 
 	/**

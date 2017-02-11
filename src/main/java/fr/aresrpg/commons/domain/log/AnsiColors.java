@@ -4,6 +4,7 @@ package fr.aresrpg.commons.domain.log;
  * An class to generate ansi color character combination
  * 
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
+ * @author Sceat {@literal <sceat@aresrpg.fr>}
  */
 public class AnsiColors {
 	/**
@@ -13,12 +14,13 @@ public class AnsiColors {
 	/**
 	 * The ansi color reset char
 	 */
-	public static final String ANSI_RESET = ANSI_CHAR + "B[0m";
+	public static final String ANSI_RESET = ANSI_CHAR + "[0m";
 
 	/**
 	 * An ansi available colors enum
 	 * 
 	 * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
+	 * @author Sceat {@literal <sceat@aresrpg.fr>}
 	 */
 	public enum AnsiColor {
 		BLACK(30),
@@ -37,6 +39,11 @@ public class AnsiColors {
 
 		public int getCode() {
 			return code;
+		}
+
+		@Override
+		public String toString() {
+			return AnsiColors.getCode(this, AnsiColor.BLACK, false);
 		}
 	}
 
@@ -57,4 +64,5 @@ public class AnsiColors {
 	public static String getCode(AnsiColor color, AnsiColor background, boolean bright) {
 		return ANSI_CHAR + "[" + Integer.toString(color.getCode()) + (background == null ? "" : ";" + Integer.toString(10 + background.getCode())) + (bright ? ";1" : "") + "m";
 	}
+
 }

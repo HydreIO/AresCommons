@@ -18,6 +18,7 @@ package fr.aresrpg.commons.domain.functional.consumer;
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  * @author Sceat {@literal <sceat@aresrpg.fr>}
  */
+@FunctionalInterface
 public interface HexaConsumer<A, B, C, D, E, F> {
 	/**
 	 * Execute an action

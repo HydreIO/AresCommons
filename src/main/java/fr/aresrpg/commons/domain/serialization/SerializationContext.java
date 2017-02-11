@@ -1,22 +1,17 @@
 package fr.aresrpg.commons.domain.serialization;
 
-import fr.aresrpg.commons.domain.serialization.formats.Format;
-
 import java.io.IOException;
 
 /**
  * A serialization context
- * 
- * @param <I>
- *            the input type
- * @param <O>
- *            the output type
+ *
  * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
  */
-public interface SerializationContext<I, O> {
+@FunctionalInterface
+public interface SerializationContext {
 	/**
 	 * Serialize this value using the provided format
-	 * 
+	 *
 	 * @param out
 	 *            the output
 	 * @param value
@@ -25,9 +20,10 @@ public interface SerializationContext<I, O> {
 	 *            the format to use
 	 * @param <T>
 	 *            the type of the value
+	 * @param <O>
+	 *            the out
 	 * @throws IOException
 	 *             when the output writing fails
 	 */
-	@SuppressWarnings("rawtypes")
-	<T> void serialize(O out, T value, Format format) throws IOException;
+	<T, O> void serialize(O out, T value, Format<?, O> format) throws IOException;
 }
