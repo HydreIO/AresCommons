@@ -1,0 +1,48 @@
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+group = 'fr.aresrpg'
+version = '0.6'
+
+compileJava.options.encoding = 'UTF-8'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+
+dependencies {
+    compile project.rootProject
+    compile 'com.arangodb:arangodb-java-driver:3.0.0'
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+publishing {
+    repositories {
+        maven {
+			url 'https://artifacts.aresrpg.fr/repository/maven-releases/'
+
+            credentials {
+                username project.hasProperty('aresuser') ? aresuser : System.getenv('aresuser')
+                password project.hasProperty('arespass') ? arespass : System.getenv('arespass')
+            }
+        }
+
+    }
+
+    publications {
+        lib(MavenPublication) {
+            from components.java
+            artifact javadocJar
+        }
+    }
+}
+

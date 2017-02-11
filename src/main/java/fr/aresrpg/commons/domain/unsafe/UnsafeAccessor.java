@@ -1,14 +1,17 @@
 package fr.aresrpg.commons.domain.unsafe;
 
+import fr.aresrpg.commons.domain.log.Logger;
+import fr.aresrpg.commons.domain.util.exception.IllegalConstructionException;
+
 import java.lang.reflect.Field;
 
 import sun.misc.Unsafe;// NOSONAR
-import fr.aresrpg.commons.domain.log.Logger;
 
 public class UnsafeAccessor {
 	private static final Unsafe unsafe = stealUnsafe();
 
 	private UnsafeAccessor() {
+		throw new IllegalConstructionException();
 	}
 
 	private static Unsafe stealUnsafe() {
@@ -22,6 +25,12 @@ public class UnsafeAccessor {
 		}
 	}
 
+	/**
+	 * Get the unsafe instance
+	 * 
+	 * @return unsafe
+	 * @see Unsafe
+	 */
 	public static Unsafe getUnsafe() {
 		return unsafe;
 	}

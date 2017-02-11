@@ -1,32 +1,23 @@
 package fr.aresrpg.commons.domain.util.stream.bistream;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Optional;
-import java.util.Spliterator;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.BiPredicate;
-import java.util.function.BinaryOperator;
-import java.util.function.IntFunction;
-import java.util.function.Supplier;
-import java.util.function.ToDoubleBiFunction;
-import java.util.function.ToIntBiFunction;
-import java.util.function.ToLongBiFunction;
-import java.util.stream.BaseStream;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
+/**
+ * Represent a bi stream
+ * 
+ * @author Sceat {@literal <sceat@aresrpg.fr>}
+ * @since 0.5
+ * @param <T>
+ *            The type of the first value
+ * @param <U>
+ *            The type of the second value
+ */
 public interface BiStream<T, U> extends BaseStream<BiStream.BiValue<T, U>, BiStream<T, U>> {
 
 	/**
-	 * A Value in a BiStream
+	 * A BiValue in a BiStream
 	 * 
 	 * @param <T>
 	 *            The First value of BiStream
@@ -96,6 +87,7 @@ public interface BiStream<T, U> extends BaseStream<BiStream.BiValue<T, U>, BiStr
 	 *            The element type of the new stream
 	 * @param mapper
 	 *            a <a href="package-summary.html#NonInterference">non-interfering</a>, <a href="package-summary.html#Statelessness">stateless</a> function to apply to each element
+	 *            The Second value of BiStream
 	 * @return the new stream
 	 */
 	<R> Stream<R> map(BiFunction<? super T, ? super U, ? extends R> mapper);
@@ -232,7 +224,7 @@ public interface BiStream<T, U> extends BaseStream<BiStream.BiValue<T, U>, BiStr
 	 * Preserving stability for {@code distinct()} in parallel pipelines is relatively expensive (requires that the operation act as a full barrier, with substantial buffering overhead), and stability is often not needed. Using an unordered stream source (such as {@link #wrap(Stream)}) or removing
 	 * the ordering constraint with {@link #unordered()} may result in significantly more efficient execution for {@code distinct()} in parallel pipelines, if the semantics of your situation permit. If consistency with encounter order is required, and you are experiencing poor performance or memory
 	 * utilization with {@code distinct()} in parallel pipelines, switching to sequential execution with {@link #sequential()} may improve performance.
-	 *
+	 * 
 	 * @return the new stream
 	 */
 	BiStream<T, U> distinct();
@@ -245,7 +237,7 @@ public interface BiStream<T, U> extends BaseStream<BiStream.BiValue<T, U>, BiStr
 	 *
 	 * <p>
 	 * This is a <a href="package-summary.html#StreamOps">stateful intermediate operation</a>.
-	 *
+	 * 
 	 * @return the new stream
 	 */
 	BiStream<T, U> sorted();
@@ -751,9 +743,16 @@ public interface BiStream<T, U> extends BaseStream<BiStream.BiValue<T, U>, BiStr
 	/**
 	 * Create an {@link BiStream} with the two Arrays , this BiStream contains all elements of the two array
 	 *
-	 *
+	 * @param <T>
+	 *            The First value of BiStream
+	 * @param <U>
+	 *            The Second value of BiStream
+	 * @param t
+	 *            the first array
+	 * @param u
+	 *            the second array
 	 * @return an {@code BiStream} with the elements of the two arrays
-	 *
+	 * 
 	 * @see #wrap(Stream, Stream)
 	 */
 	static <T, U> BiStream<T, U> wrap(T[] t, U[] u) {
@@ -763,9 +762,16 @@ public interface BiStream<T, U> extends BaseStream<BiStream.BiValue<T, U>, BiStr
 	/**
 	 * Create an {@link BiStream} with the two Collections , this BiStream contains all elements of the two streams
 	 *
-	 *
+	 * @param <T>
+	 *            The First value of BiStream
+	 * @param <U>
+	 *            The Second value of BiStream
+	 * @param t
+	 *            the first collection
+	 * @param u
+	 *            the second collection
 	 * @return an {@code BiStream} with the elements of the two collections
-	 *
+	 * 
 	 * @see #wrap(Stream , Stream)
 	 */
 	static <T, U> BiStream<T, U> wrap(Collection<T> t, Collection<U> u) {
@@ -775,7 +781,14 @@ public interface BiStream<T, U> extends BaseStream<BiStream.BiValue<T, U>, BiStr
 	/**
 	 * Create an {@link BiStream} with the two Streams , this BiStream contains all elements of the two streams
 	 *
-	 *
+	 * @param <T>
+	 *            The First value of BiStream
+	 * @param <U>
+	 *            The Second value of BiStream
+	 * @param t
+	 *            the first stream
+	 * @param u
+	 *            the second stream
 	 * @return an {@code BiStream} with the elements of the two arrays
 	 *
 	 * @see #wrap(Spliterator , Spliterator)
@@ -788,7 +801,14 @@ public interface BiStream<T, U> extends BaseStream<BiStream.BiValue<T, U>, BiStr
 	/**
 	 * Create an {@link BiStream} with the two Streams , this BiStream contains all elements of the two streams
 	 *
-	 *
+	 * @param <T>
+	 *            The First value of BiStream
+	 * @param <U>
+	 *            The Second value of BiStream
+	 * @param t
+	 *            the first spliterator
+	 * @param u
+	 *            the second spliterator
 	 * @return an {@code BiStream} with the elements of the two arrays
 	 *
 	 * @see #wrap(Stream)
@@ -800,7 +820,12 @@ public interface BiStream<T, U> extends BaseStream<BiStream.BiValue<T, U>, BiStr
 	/**
 	 * Returns an {@link BiStream} with the stream
 	 *
-	 *
+	 * @param <T>
+	 *            The First value of BiStream
+	 * @param <U>
+	 *            The Second value of BiStream
+	 * @param stream
+	 *            the stream
 	 * @return an {@code BiStream} with the stream
 	 *
 	 * @see #wrap(Object[], Object[])

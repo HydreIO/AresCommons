@@ -1,7 +1,12 @@
 package fr.aresrpg.commons.domain.types;
 
-import java.util.Collection;
+import java.util.*;
 
+/**
+ * A enum to represent commons types
+ * 
+ * @author Duarte David {@literal <deltaduartedavid@gmail.com>}
+ */
 public enum TypeEnum {
 	//Primitive
 	BOOLEAN,
@@ -17,121 +22,150 @@ public enum TypeEnum {
 	//Base
 	STRING,
 	COLLECTION,
+	MAP,
 
 	//Arrays
-	OBJECT_ARRAY,
-	BOOLEAN_ARRAY,
-	BYTE_ARRAY,
-	SHORT_ARRAY,
-	CHAR_ARRAY,
-	INT_ARRAY,
-	LONG_ARRAY,
-	FLOAT_ARRAY,
-	DOUBLE_ARRAY,
+	OBJECT_ARRAY(true),
+	BOOLEAN_ARRAY(true),
+	BYTE_ARRAY(true),
+	SHORT_ARRAY(true),
+	CHAR_ARRAY(true),
+	INT_ARRAY(true),
+	LONG_ARRAY(true),
+	FLOAT_ARRAY(true),
+	DOUBLE_ARRAY(true),
 
 	//Last
 	OBJECT;
 
-	public static TypeEnum getType(Class<?> clazz){
-		TypeEnum value = null;
-		if(clazz.isPrimitive())
-			value = getPrimitiveType(clazz);
-		else if(clazz.isArray()){
-			if(clazz.getComponentType().isPrimitive())
-				switch (getPrimitiveType(clazz.getComponentType())){
-					case BOOLEAN:
-						value = BOOLEAN_ARRAY;
-						break;
-					case BYTE:
-						value = BYTE_ARRAY;
-						break;
-					case SHORT:
-						value = SHORT_ARRAY;
-						break;
-					case CHAR:
-						value = CHAR_ARRAY;
-						break;
-					case INT:
-						value = INT_ARRAY;
-						break;
-					case LONG:
-						value = LONG_ARRAY;
-						break;
-					case FLOAT:
-						value = FLOAT_ARRAY;
-						break;
-					case DOUBLE:
-						value = DOUBLE_ARRAY;
-						break;
-					default:
-						break;
+	private boolean array;
+
+	private TypeEnum() {
+		this(false);
+	}
+
+	private TypeEnum(boolean array) {
+		this.array = array;
+	}
+
+	/**
+	 * @return the array
+	 */
+	public boolean isArray() {
+		return array;
+	}
+
+	/**
+	 * Get the type enum for this class
+	 * 
+	 * @param clazz
+	 *            the class
+	 * @return the type enum for the class
+	 */
+	public static TypeEnum getType(Class<?> clazz) {
+		String name = clazz.getName();
+		TypeEnum type = getType(name);
+		if (type != null)
+			return type;
+		else if (clazz.isArray()) {
+			if (clazz.getComponentType().isPrimitive())
+				switch (getPrimitiveType(clazz.getComponentType().getName())) {
+				case BOOLEAN:
+				return BOOLEAN_ARRAY;
+				case BYTE:
+				return BYTE_ARRAY;
+				case SHORT:
+				return SHORT_ARRAY;
+				case CHAR:
+				return CHAR_ARRAY;
+				case INT:
+				return INT_ARRAY;
+				case LONG:
+				return LONG_ARRAY;
+				case FLOAT:
+				return FLOAT_ARRAY;
+				case DOUBLE:
+				return DOUBLE_ARRAY;
+				default:
+				throw new IllegalStateException("Unreachable");
 				}
 			else
-				value = OBJECT_ARRAY;
-		} else {
-			if(clazz.getName().startsWith("java.i18n")){
-				if(String.class.equals(clazz))
-					value = STRING;
-				else
-					value = getWrapperType(clazz);
-			} else if(clazz.getName().startsWith("java.util"))
-				if(Collection.class.isAssignableFrom(clazz))
-					value = COLLECTION;
+				return OBJECT_ARRAY;
+		} else if (name.startsWith("java.util"))
+			if (Collection.class.isAssignableFrom(clazz))
+				return COLLECTION;
+			else if (Map.class.isAssignableFrom(clazz))
+				return MAP;
+			else return OBJECT;
+		else
+			return OBJECT;
+	}
+
+	/**
+	 * Get the type enum for this class name
+	 * 
+	 * @param name
+	 *            the name of the class
+	 * @return the type enum for the class
+	 */
+	public static TypeEnum getType(String name) {
+		switch (name) {
+			case "java.lang.String":
+				return STRING;
+			case "java.lang.Boolean":
+				return BOOLEAN;
+			case "java.lang.Byte":
+				return BYTE;
+			case "java.lang.Short":
+				return SHORT;
+			case "java.lang.Character":
+				return CHAR;
+			case "java.lang.Integer":
+				return INT;
+			case "java.lang.Long":
+				return LONG;
+			case "java.lang.Float":
+				return FLOAT;
+			case "java.lang.Double":
+				return DOUBLE;
+			default:
+				return getPrimitiveType(name);
 		}
+	}
+
+	public static TypeEnum getPrimitiveType(Class clazz) {
+		Objects.requireNonNull(clazz);
+		TypeEnum value = getPrimitiveType(clazz.getName());
 		return value == null ? OBJECT : value;
 	}
 
-	public static TypeEnum getType(Object object){
-		if(object == null)
+	public static TypeEnum getPrimitiveType(String name) {
+		switch (name) {
+			case "boolean":
+				return BOOLEAN;
+			case "byte":
+				return BYTE;
+			case "short":
+				return SHORT;
+			case "char":
+				return CHAR;
+			case "int":
+				return INT;
+			case "long":
+				return LONG;
+			case "float":
+				return FLOAT;
+			case "double":
+				return DOUBLE;
+			default:
+				return null;
+		}
+	}
+
+	public static TypeEnum getType(Object object) {
+		if (object == null)
 			return NULL;
 		else
 			return getType(object.getClass());
 	}
-
-	public static TypeEnum getPrimitiveType(Class<?> clazz){
-		TypeEnum value = null;
-		if(boolean.class.equals(clazz))
-			value = BOOLEAN;
-		else if(byte.class.equals(clazz))
-			value = BYTE;
-		else if(short.class.equals(clazz))
-			value = SHORT;
-		else if(char.class.equals(clazz))
-			value = CHAR;
-		else if(int.class.equals(clazz))
-			value = INT;
-		else if(long.class.equals(clazz))
-			value = LONG;
-		else if(float.class.equals(clazz))
-			value = FLOAT;
-		else if(double.class.equals(clazz))
-			value = DOUBLE;
-		return value;
-
-	}
-
-	public static TypeEnum getWrapperType(Class<?> clazz){
-		TypeEnum value = null;
-		if(Boolean.class.equals(clazz))
-			value = BOOLEAN;
-		else if(Byte.class.equals(clazz))
-			value = BYTE;
-		else if(Short.class.equals(clazz))
-			value = SHORT;
-		else if(Character.class.equals(clazz))
-			value = CHAR;
-		else if(Integer.class.equals(clazz))
-			value = INT;
-		else if(Long.class.equals(clazz))
-			value = LONG;
-		else if(Float.class.equals(clazz))
-			value = FLOAT;
-		else if(Double.class.equals(clazz))
-			value = DOUBLE;
-		return value;
-
-	}
-
-
-
 }

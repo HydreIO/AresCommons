@@ -1,31 +1,68 @@
 package fr.aresrpg.commons.domain.database;
 
-import java.io.Closeable;
+import fr.aresrpg.commons.domain.serialization.Serializer;
 
-import fr.aresrpg.commons.domain.database.user.Credential;
+import java.io.Closeable;
+import java.io.IOException;
 
 public interface Database extends Closeable {
 
 	/**
-	 * Connect to db
+	 * Connect to database
 	 * 
 	 * @param host
+	 *            host to connect
 	 * @param port
+	 *            the port to use
 	 * @param user
+	 *            the user to use
 	 * @param password
-	 *
+	 *            the password to use
+	 * @throws IOException
+	 *             if the database isn't reachable for whatever reason
 	 */
-	void connect(String host, int port, String user, String password);
+	void connect(String host, int port, String user, String password) throws IOException;
 
-	default void connect(Credential credential) {
-		connect(credential.getHostAdress(), credential.getPort(), credential.getUser(), credential.getPass());
-	}
-
+	/**
+	 * Delete the provided collection
+	 * 
+	 * @param collection
+	 *            the collection to delete
+	 */
 	void drop(Collection<?> collection);
 
-	<T> Collection<T> create(String id, Class<T> clazz);
+	/**
+	 * Get the collections in the database
+	 * 
+	 * @return the collections in the database
+	 */
+	Collection<?>[] getCollections();
 
-	<T> Collection<T>[] getCollections();
+	/**
+	 * <p>
+	 * Get the a collection using the provided id and create it if there is no collection for the id
+	 * </p>
+	 * 
+	 * @param id
+	 *            the name of the collection
+	 * @param clazz
+	 *            the type of the documents in collection
+	 * @param <T>
+	 *            the type of the collection
+	 * @return the collection
+	 */
+	<T> Collection<T> get(String id, Class<T> clazz) throws IllegalStateException;
 
-	<T> Collection<T> get(String id, Class<T> clazz);
+	/**
+	 * Get or create a collection using the provided id
+	 * 
+	 * @param id
+	 *            the id
+	 * @param serializer
+	 *            the serializer for the collection type
+	 * @param <T>
+	 *            the type of collection
+	 * @return the collection
+	 */
+	<T> Collection<T> get(String id, Class<T> clazz, Serializer<T> serializer) throws IllegalStateException;
 }
