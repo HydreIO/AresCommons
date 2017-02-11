@@ -28,7 +28,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 publishing {
     repositories {
         maven {
-            url 'https://artifactory.aresrpg.fr/libraries'
+			url 'https://artifacts.aresrpg.fr/repository/maven-releases/'
 
             credentials {
                 username project.hasProperty('aresuser') ? aresuser : System.getenv('aresuser')

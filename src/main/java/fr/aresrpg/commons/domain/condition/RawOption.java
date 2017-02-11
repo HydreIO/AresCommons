@@ -47,7 +47,7 @@ public interface RawOption<T, O extends RawOption<T, ?>> extends Value<T>, Suppl
 	/**
 	 * Execute the consumer if he is absent
 	 * 
-	 * @param consumer
+	 * @param executable
 	 *            the consumer to execute
 	 * @return the option
 	 */

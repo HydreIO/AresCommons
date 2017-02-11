@@ -67,8 +67,6 @@ public class EventBus<E> {
 	 * 
 	 * @param consumer
 	 *            the consumer to consume the event
-	 * @param priority
-	 *            the priority of this consumer
 	 * @return a Subscriber instance to use with {@link #unsubscribe(Subscriber)}
 	 */
 	public Subscriber<E> subscribe(Consumer<E> consumer) {
