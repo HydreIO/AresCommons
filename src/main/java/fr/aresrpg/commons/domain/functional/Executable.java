@@ -21,4 +21,9 @@ public interface Executable extends TryExecutable {
 	default Runnable toRunnnable() {
 		return this::execute;
 	}
+
+	default void whileTrue() {
+		while (true)
+			execute();
+	}
 }
