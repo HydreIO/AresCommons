@@ -1,5 +1,9 @@
 package fr.aresrpg.commons.domain.functional;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+
 /**
  * A functional executable
  * 
@@ -22,8 +26,23 @@ public interface Executable extends TryExecutable {
 		return this::execute;
 	}
 
-	default void whileTrue() {
-		while (true)
+	default void whileValid(Predicate<Void> pred) {
+		whileValid(pred::test);
+	}
+
+	default void whileValid(Supplier<Boolean> supp) {
+		while (supp.get())
 			execute();
+	}
+
+	default void whileValidAsync(Predicate<Void> pred) {
+		whileValidAsync(() -> pred.test(null));
+	}
+
+	default void whileValidAsync(Supplier<Boolean> supp) {
+		CompletableFuture.runAsync(() -> {
+			while (supp.get())
+				execute();
+		});
 	}
 }
